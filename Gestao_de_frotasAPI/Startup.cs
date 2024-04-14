@@ -33,6 +33,13 @@ namespace Gestao_de_frotasAPI
                 app.UseSwaggerUI();
             }
 
+            app.UseCors(options =>
+            {
+                options.WithOrigins("https://localhost:3000");
+                options.AllowAnyMethod();
+                options.AllowAnyHeader();
+            });
+
             app.UseHttpsRedirection();
 
             app.UseAuthorization();

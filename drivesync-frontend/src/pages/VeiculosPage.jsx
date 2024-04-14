@@ -1,10 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ModalComponent } from "../components/ModalCriarVeiculos";
 import { ModalDetailsVeiculo } from "../components/ModalDetailsVeiculo";
+
+import  axios  from "axios";
 
 export function Veiculos() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalDetailsIsOpen, setModalDetailsIsOpen] = useState(false);
+
+  const baseUrl = "https://localhost:7298/api/veiculos";
+
+  const [data, setData] = useState([]);
+
+  const pedidoGet = async () => {
+    await axios.get(baseUrl)
+      .then(response => {
+        setData(response.data)
+      }).catch(error => {
+        console.log(error);
+      })
+  }
+
+  useEffect(() => {
+    pedidoGet();
+  })
 
   return (
     <div id="main-content" class="h-full w-full bg-gray-50 relative overflow-y-auto ">
@@ -91,35 +110,37 @@ export function Veiculos() {
               </thead>
 
               <tbody>
-                <tr className="bg-white border-b">
-                  <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                    RKL6549
-                  </th>
-                  <td className="px-6 py-4">
-                    Fiat
-                  </td>
-                  <td className="px-6 py-4">
-                    Strada
-                  </td>
-                  <td className="px-6 py-4">
-                    2019
-                  </td>
-                  <td className="px-6 py-4">
-                    50.000
-                  </td>
-                  <td className="px-6 py-4">
-                    05/01/2023
-                  </td>
-                  <td className="px-6 py-4">
-                    Flex
-                  </td>
-                  <td className="px-6 py-4">
-                    Disponível
-                  </td>
-                  <td className="px-6 py-4 text-right">
-                    <button onClick={() => setModalDetailsIsOpen(true)} type="button" class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-1 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none">Visualizar</button>
-                  </td>
-                </tr>
+                {data.map(veiculo => (
+                  <tr key={veiculo.id} className="bg-white border-b">
+                    <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                      {veiculo.marca}
+                    </th>
+                    <td className="px-6 py-4">
+                      {veiculo.modelo}
+                    </td>
+                    <td className="px-6 py-4">
+                      {veiculo.ano}
+                    </td>
+                    <td className="px-6 py-4">
+                      {veiculo.placa}
+                    </td>
+                    <td className="px-6 py-4">
+                      {veiculo.quilometragem}
+                    </td>
+                    <td className="px-6 py-4">
+                      {veiculo.tp_combustivel}
+                    </td>
+                    <td className="px-6 py-4">
+                      {veiculo.dt_aquisicao}
+                    </td>
+                    <td className="px-6 py-4">
+                      {veiculo.status}
+                    </td>
+                    <td className="px-6 py-4 text-right">
+                      <button onClick={() => setModalDetailsIsOpen(true)} type="button" class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-1 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none">Visualizar</button>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
