@@ -1,6 +1,5 @@
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import ReactDOM from 'react-dom';
 import React from 'react';
 
 import { Sidebar } from './components/Sidebar';
@@ -9,7 +8,6 @@ import { Footer } from './components/Footer';
 
 import LoginPage from './pages/LoginPage';
 import { Veiculos } from './pages/VeiculosPage';
-import { LandingPage } from './pages/LandingPage';
 import { Home } from './pages/HomePage';
 
 export default function App() {
@@ -24,11 +22,6 @@ export default function App() {
         </Routes>
 
       </div>
-
-
-
-      {/*<LandingPage/>*/}
-
     </div>
   );
 }

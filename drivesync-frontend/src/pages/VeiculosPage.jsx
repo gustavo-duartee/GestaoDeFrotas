@@ -26,7 +26,7 @@ export function Veiculos() {
   })
 
   return (
-    <div id="main-content" class="h-full w-full bg-gray-50 relative overflow-y-auto ">
+    <div id="main-content" className="h-full w-full bg-gray-50 relative overflow-y-auto ">
       <main>
         <div className="pt-6 px-4">
           <div className="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4">
@@ -46,7 +46,7 @@ export function Veiculos() {
 
           <div className="relative overflow-x-auto shadow-md sm:rounded-lg bg-white" style={{ maxHeight: "40rem", overflow: "auto" }}>
 
-            <table className="w-full text-sm text-left rtl:text-right text-gray-500">
+            <table className="w-full text-sm text-left rtl:text-right text-gray-500" style={{height: "40rem"}}>
 
               <thead className="text-xs text-gray-700 uppercase bg-gray-50 border">
                 <tr>
