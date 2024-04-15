@@ -2,27 +2,27 @@ import Logo from '../imgs/logo.png';
 
 export function Footer() {
     return (
-        <footer className="fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 py-4">
+        <footer className=" left-0 w-full bg-white border-t border-gray-200 py-4">
             <div className="container mx-auto px-4">
                 <div className="flex justify-between items-center">
                     <div>
-                        <a href="https://flowbite.com/" className="flex items-center space-x-3 rtl:space-x-reverse">
-                            <img src={Logo} className="h-8" alt="Flowbite Logo" />
-                            <span className="text-xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span>
+                        <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
+                            <img src={Logo} className="h-12" alt="Flowbite Logo" />
+                            <span className="text-xl font-semibold whitespace-nowrap dark:text-white">Drive Sync</span>
                         </a>
                     </div>
                     <ul className="flex flex-wrap items-center text-sm font-medium text-gray-500 dark:text-gray-400">
                         <li>
-                            <a href="#" className="hover:underline me-4 md:me-6">About</a>
+                            <a href="#" className="hover:underline me-4 md:me-6">Sobre nós</a>
                         </li>
                         <li>
-                            <a href="#" className="hover:underline me-4 md:me-6">Privacy Policy</a>
+                            <a href="#" className="hover:underline me-4 md:me-6">Políticas de Privacidade</a>
                         </li>
                         <li>
-                            <a href="#" className="hover:underline me-4 md:me-6">Licensing</a>
+                            <a href="#" className="hover:underline me-4 md:me-6">Licença</a>
                         </li>
                         <li>
-                            <a href="#" className="hover:underline">Contact</a>
+                            <a href="#" className="hover:underline">Contatos</a>
                         </li>
                     </ul>
                 </div>
