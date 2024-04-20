@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { ModalComponent } from "../components/ModalCriarVeiculos";
 import { ModalDetailsVeiculo } from "../components/ModalDetailsVeiculo";
 
-import  axios  from "axios";
+import axios from "axios";
 
 export function Veiculos() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -26,12 +26,14 @@ export function Veiculos() {
   })
 
   return (
-    <div id="main-content" className="h-full w-full bg-gray-50 relative overflow-y-auto ">
+    <div id="main-content" className="h-full w-full bg-gray-100 relative overflow-y-auto ">
       <main>
         <div className="pt-6 px-4">
+
+          {/* Título e Botão */}
           <div className="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4">
             <h1 class="text-2xl font-medium tracking-tight text-gray-900">Veículos</h1>
-            <button onClick={() => setModalIsOpen(true)} type="button" class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-1 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none">Novo Veículo +</button>
+            <button onClick={() => setModalIsOpen(true)} type="button" class="text-white bg-gray-900 hover:bg-gray-700 focus:ring-1 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none">Novo Veículo +</button>
           </div>
 
           <ModalComponent
@@ -45,8 +47,7 @@ export function Veiculos() {
           />
 
           <div className="relative overflow-x-auto shadow-md sm:rounded-lg bg-white" style={{ maxHeight: "40rem", overflow: "auto" }}>
-
-            <table className="w-full text-sm text-left rtl:text-right text-gray-500" style={{height: "40rem"}}>
+            <table className="w-full text-sm text-left rtl:text-right text-gray-500" style={{ height: "40rem" }}>
 
               <thead className="text-xs text-gray-700 uppercase bg-gray-50 border">
                 <tr>
@@ -145,38 +146,39 @@ export function Veiculos() {
 
 
               <tbody>
-                  <tr className="bg-white border-b">
-                    <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                      Teste
-                    </th>
-                    <td scope="row" className="px-6 py-4">
+                <tr className="bg-white border-b">
+                  <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                     Teste
-                    </td>
-                    <td scope="row" className="px-6 py-4">
+                  </th>
+                  <td scope="row" className="px-6 py-4">
                     Teste
-                    </td>
-                    <td scope="row" className="px-6 py-4">
+                  </td>
+                  <td scope="row" className="px-6 py-4">
                     Teste
-                    </td>
-                    <td scope="row" className="px-6 py-4">
+                  </td>
+                  <td scope="row" className="px-6 py-4">
                     Teste
-                    </td>
-                    <td scope="row" className="px-6 py-4">
+                  </td>
+                  <td scope="row" className="px-6 py-4">
                     Teste
-                    </td>
-                    <td scope="row" className="px-6 py-4">
+                  </td>
+                  <td scope="row" className="px-6 py-4">
                     Teste
-                    </td>
-                    <td scope="row" className="px-6 py-4">
+                  </td>
+                  <td scope="row" className="px-6 py-4">
                     Teste
-                    </td>
-                    <td scope="row" className="px-6 py-4 text-right">
-                      <button onClick={() => setModalDetailsIsOpen(true)} type="button" class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-1 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none">Visualizar</button>
-                    </td>
-                  </tr>
+                  </td>
+                  <td scope="row" className="px-6 py-4">
+                    Teste
+                  </td>
+                  <td scope="row" className="px-6 py-4 text-right">
+                    <button onClick={() => setModalDetailsIsOpen(true)} type="button" class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-1 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none">Visualizar</button>
+                  </td>
+                </tr>
               </tbody>
             </table>
           </div>
+
         </div>
       </main>
     </div>
