@@ -8,6 +8,7 @@ export function Veiculos() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalDetailsIsOpen, setModalDetailsIsOpen] = useState(false);
 
+
   const baseUrl = "https://localhost:7298/api/veiculos";
 
   const [data, setData] = useState([]);
@@ -45,6 +46,8 @@ export function Veiculos() {
             isOpen={modalDetailsIsOpen}
             onRequestClose={() => setModalDetailsIsOpen(false)}
           />
+
+
 
           <div className="relative overflow-x-auto shadow-md sm:rounded-lg bg-white" style={{ maxHeight: "40rem", overflow: "auto" }}>
             <table className="w-full text-sm text-left rtl:text-right text-gray-500" style={{ height: "40rem" }}>

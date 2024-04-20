@@ -16,7 +16,7 @@ export function ModalDetailsVeiculo({ isOpen, onRequestClose }) {
                     <div className="absolute inset-0 overflow-hidden">
                         <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
                             <div className="pointer-events-auto relative w-screen max-w-md mt-20 mb-2">
-                                <div className="flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-xl rounded-md">
+                                <div className="flex h-full flex-col bg-white py-6 shadow-xl rounded-md">
                                     
                                     {/* Header */}
                                     <div className="px-4 sm:px-6 flex justify-items-center">
