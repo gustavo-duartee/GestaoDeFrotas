@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import React from 'react';
 
 import { Sidebar } from './components/Sidebar';
-import { Footer } from './components/Footer';
 
 
 import LoginPage from './pages/LoginPage';
