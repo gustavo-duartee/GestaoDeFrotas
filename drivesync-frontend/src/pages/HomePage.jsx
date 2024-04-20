@@ -1,15 +1,68 @@
 export function Home() {
     return (
         <div>
-            <div id="main-content" class="h-full w-full bg-gray-50 relative overflow-y-auto ">
+            <div id="main-content" class="h-full w-full bg-gray-100 relative overflow-y-auto ">
                 <main>
                     <div class="pt-6 px-4">
 
+                        {/* Nível 2 */}
+                        <div class="mt-2 w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+
+                            {/* Consumo total de díesel */}
+                            <div class="bg-white shadow-md  rounded-lg p-4 sm:p-6 xl:p-8 ">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0">
+                                        <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">0,00</span>
+                                        <h3 class="text-base font-normal text-gray-500">Consumo total de díesel</h3>
+                                    </div>
+                                    <div class="ml-5 w-0 flex items-center justify-end flex-1 text-green-500 text-base font-bold">
+                                        0.0%
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Consumo total de etanol */}
+                            <div class="bg-white shadow-md  rounded-lg p-4 sm:p-6 xl:p-8 ">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0">
+                                        <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">0,00</span>
+                                        <h3 class="text-base font-normal text-gray-500">Consumo total de etanol</h3>
+                                    </div>
+                                    <div class="ml-5 w-0 flex items-center justify-end flex-1 text-green-500 text-base font-bold">
+                                        0.0%
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Consumo total de gasolina comum */}
+                            <div class="bg-white shadow-md  rounded-lg p-4 sm:p-6 xl:p-8 ">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0">
+                                        <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">0,00</span>
+                                        <h3 class="text-base font-normal text-gray-500">Consumo total de gasolina comum</h3>
+                                    </div>
+                                    <div class="ml-5 w-0 flex items-center justify-end flex-1 text-red-500 text-base font-bold">
+                                        -0.0%
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" d="M14.707 12.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 14.586V3a1 1 0 012 0v11.586l2.293-2.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
                         {/* Nível 1 */}
-                        <div class="w-full grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-4">
+                        <div class="mt-4 w-full grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-4">
 
                             {/* Gráfico de consumo de combustível por mês */}
-                            <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8  2xl:col-span-2">
+                            <div class="bg-white shadow-md rounded-lg p-4 sm:p-6 xl:p-8  2xl:col-span-2">
                                 <div class="flex items-center justify-between mb-4">
                                     <div class="flex-shrink-0">
                                         <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">$00,00</span>
@@ -20,7 +73,7 @@ export function Home() {
                             </div>
 
                             {/* Tabela com lista de últimas viagens */}
-                            <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
+                            <div class="bg-white shadow-md rounded-lg p-4 sm:p-6 xl:p-8 ">
                                 <div class="mb-4 flex items-center justify-between">
                                     <div>
                                         <h3 class="text-xl font-bold text-gray-900 mb-2">Últimas viagens</h3>
@@ -116,64 +169,13 @@ export function Home() {
 
                         </div>
 
-                        {/* Nível 2 */}
-                        <div class="mt-4 w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
 
-                            {/* Consumo total de díesel */}
-                            <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
-                                <div class="flex items-center">
-                                    <div class="flex-shrink-0">
-                                        <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">0,00</span>
-                                        <h3 class="text-base font-normal text-gray-500">Consumo total de díesel</h3>
-                                    </div>
-                                    <div class="ml-5 w-0 flex items-center justify-end flex-1 text-green-500 text-base font-bold">
-                                        0.0%
-                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
-                                        </svg>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Consumo total de etanol */}
-                            <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
-                                <div class="flex items-center">
-                                    <div class="flex-shrink-0">
-                                        <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">0,00</span>
-                                        <h3 class="text-base font-normal text-gray-500">Consumo total de etanol</h3>
-                                    </div>
-                                    <div class="ml-5 w-0 flex items-center justify-end flex-1 text-green-500 text-base font-bold">
-                                        0.0%
-                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
-                                        </svg>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Consumo total de gasolina comum */}
-                            <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
-                                <div class="flex items-center">
-                                    <div class="flex-shrink-0">
-                                        <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">0,00</span>
-                                        <h3 class="text-base font-normal text-gray-500">Consumo total de gasolina comum</h3>
-                                    </div>
-                                    <div class="ml-5 w-0 flex items-center justify-end flex-1 text-red-500 text-base font-bold">
-                                        -0.0%
-                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" d="M14.707 12.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 14.586V3a1 1 0 012 0v11.586l2.293-2.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                        </svg>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
 
                         {/* Nível 3 */}
                         <div class="grid grid-cols-1 2xl:grid-cols-2 xl:gap-4 my-4">
 
                             {/* Total de viagens por veículo */}
-                            <div class="bg-white shadow rounded-lg mb-4 p-4 sm:p-6 h-full">
+                            <div class="bg-white shadow-md  rounded-lg mb-4 p-4 sm:p-6 h-full">
                                 <div class="flex items-center justify-between mb-4">
                                     <h3 class="text-xl font-bold leading-none text-gray-900">Total de viagens por veículo</h3>
                                     <a href="#" class="text-sm font-medium text-cyan-600 hover:bg-gray-100 rounded-lg inline-flex items-center p-2">
@@ -277,7 +279,7 @@ export function Home() {
                             </div>
 
                             {/* A definir */}
-                            <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
+                            <div class="bg-white shadow-md  rounded-lg p-4 sm:p-6 xl:p-8 ">
                                 <h3 class="text-xl leading-none font-bold text-gray-900 mb-10">Espaço para definir</h3>
                                 <div class="block w-full overflow-x-auto">
                                     <table class="items-center w-full bg-transparent border-collapse">
