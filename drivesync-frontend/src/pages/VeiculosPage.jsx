@@ -52,6 +52,7 @@ export function Veiculos() {
           <div className="relative overflow-x-auto shadow-md sm:rounded-lg bg-white" style={{ maxHeight: "40rem", overflow: "auto" }}>
             <table className="w-full text-sm text-left rtl:text-right text-gray-500" style={{ height: "40rem" }}>
 
+              {/* Cabeçalho da tabela */}
               <thead className="text-xs text-gray-700 uppercase bg-gray-50 border">
                 <tr>
                   <th scope="col" className="px-6 py-3">
@@ -113,6 +114,7 @@ export function Veiculos() {
                 </tr>
               </thead>
 
+              {/* Linha da tabela */}
               <tbody>
                 {data.map(veiculos => (
                   <tr key={veiculos.id} className="bg-white border-b">
@@ -146,42 +148,8 @@ export function Veiculos() {
                   </tr>
                 ))}
               </tbody>
-
-
-              {/*<tbody>
-                <tr className="bg-white border-b">
-                  <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                    Teste
-                  </th>
-                  <td scope="row" className="px-6 py-4">
-                    Teste
-                  </td>
-                  <td scope="row" className="px-6 py-4">
-                    Teste
-                  </td>
-                  <td scope="row" className="px-6 py-4">
-                    Teste
-                  </td>
-                  <td scope="row" className="px-6 py-4">
-                    Teste
-                  </td>
-                  <td scope="row" className="px-6 py-4">
-                    Teste
-                  </td>
-                  <td scope="row" className="px-6 py-4">
-                    Teste
-                  </td>
-                  <td scope="row" className="px-6 py-4">
-                    Teste
-                  </td>
-                  <td scope="row" className="px-6 py-4 text-right">
-                    <button onClick={() => setModalDetailsIsOpen(true)} type="button" class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-1 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none">Visualizar</button>
-                  </td>
-                </tr>
-              </tbody>*/}
             </table>
           </div>
-
         </div>
       </main>
     </div>
