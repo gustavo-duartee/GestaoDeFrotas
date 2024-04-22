@@ -9,7 +9,7 @@ export function Veiculos() {
   const [modalDetailsIsOpen, setModalDetailsIsOpen] = useState(false);
 
 
-  const baseUrl = "https://localhost:7298/api/veiculos";
+  const baseUrl = "https://localhost:7022/api/Veiculos";
 
   const [data, setData] = useState([]);
 
@@ -113,42 +113,42 @@ export function Veiculos() {
                 </tr>
               </thead>
 
-              {/*<tbody>
-                {data.map(veiculo => (
-                  <tr key={veiculo.id} className="bg-white border-b">
+              <tbody>
+                {data.map(veiculos => (
+                  <tr key={veiculos.id} className="bg-white border-b">
                     <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                      {veiculo.marca}
+                      {veiculos.marca}
                     </th>
                     <td className="px-6 py-4">
-                      {veiculo.modelo}
+                      {veiculos.modelo}
                     </td>
                     <td className="px-6 py-4">
-                      {veiculo.ano}
+                      {veiculos.ano}
                     </td>
                     <td className="px-6 py-4">
-                      {veiculo.placa}
+                      {veiculos.placa}
                     </td>
                     <td className="px-6 py-4">
-                      {veiculo.quilometragem}
+                      {veiculos.quilometragem}
                     </td>
                     <td className="px-6 py-4">
-                      {veiculo.tp_combustivel}
+                      {veiculos.tp_combustivel}
                     </td>
                     <td className="px-6 py-4">
-                      {veiculo.dt_aquisicao}
+                      {veiculos.dt_aquisicao}
                     </td>
                     <td className="px-6 py-4">
-                      {veiculo.status}
+                      {veiculos.status}
                     </td>
                     <td className="px-6 py-4 text-right">
                       <button onClick={() => setModalDetailsIsOpen(true)} type="button" class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-1 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none">Visualizar</button>
                     </td>
                   </tr>
                 ))}
-              </tbody>*/}
+              </tbody>
 
 
-              <tbody>
+              {/*<tbody>
                 <tr className="bg-white border-b">
                   <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                     Teste
@@ -178,7 +178,7 @@ export function Veiculos() {
                     <button onClick={() => setModalDetailsIsOpen(true)} type="button" class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-1 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none">Visualizar</button>
                   </td>
                 </tr>
-              </tbody>
+              </tbody>*/}
             </table>
           </div>
 

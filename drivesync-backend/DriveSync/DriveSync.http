@@ -1,0 +1,6 @@
+@DriveSync_HostAddress = http://localhost:5249
+
+GET {{DriveSync_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
