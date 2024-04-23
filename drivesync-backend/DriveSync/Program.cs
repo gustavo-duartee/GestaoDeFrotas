@@ -52,9 +52,30 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 
-builder.Services.AddScoped<IAuthenticate, AuthenticateService>();
+static IHostBuilder CreateHostBuilder(string[] args) =>
+    Host.CreateDefaultBuilder(args)
+        .ConfigureWebHostDefaults(webBuilder =>
+        {
+            webBuilder.UseStartup<Program>();
+            webBuilder.ConfigureServices(services =>
+            {
+                services.AddCors(options =>
+                {
+                    options.AddPolicy("MyPolicy", policy =>
+                    {
+                        policy.AllowAnyOrigin();
+                        policy.AllowAnyMethod();
+                        policy.AllowAnyHeader();
+                    });
+                });
+            });
+        });
 
-builder.Services.AddScoped<VeiculosService>();
+
+builder.Services.AddScoped<IAuthenticate, AuthenticateService>();
+builder.Services.AddScoped<IVeiculoService, VeiculosService>();
+
+
 builder.Services.AddCors();
 
 
