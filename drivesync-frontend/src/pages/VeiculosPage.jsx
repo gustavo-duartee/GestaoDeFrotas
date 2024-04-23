@@ -2,29 +2,32 @@ import React, { useState, useEffect } from "react";
 import { ModalComponent } from "../components/ModalCriarVeiculos";
 import { ModalDetailsVeiculo } from "../components/ModalDetailsVeiculo";
 
-import axios from "axios";
+import api from '../services/api';
+import {useNavigate} from 'react-router-dom';
 
 export function Veiculos() {
+  
+  const[placa, setPlaca] = useState('');
+  const[veiculos, setVeiculos] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalDetailsIsOpen, setModalDetailsIsOpen] = useState(false);
 
+  const email = localStorage.getItem('email');
+  const token = localStorage.getItem('token');
 
-  const baseUrl = "https://localhost:7022/api/Veiculos";
-
-  const [data, setData] = useState([]);
-
-  const pedidoGet = async () => {
-    await axios.get(baseUrl)
-      .then(response => {
-        setData(response.data)
-      }).catch(error => {
-        console.log(error);
-      })
+  const authorization = {
+    headers : {
+      Authorization : `Bearer ${token}`
+    }
   }
 
-  useEffect(() => {
-    pedidoGet();
-  })
+  useEffect( ()=> {
+    api.get('api/veiculos', authorization).then(
+      response => {setVeiculos(response.data);
+      }).catch(error => {
+        console.error('Erro ao obter veículo: ', error);
+      });
+  }, []);
 
   return (
     <div id="main-content" className="h-full w-full bg-gray-100 relative overflow-y-auto ">
@@ -116,31 +119,31 @@ export function Veiculos() {
 
               {/* Linha da tabela */}
               <tbody>
-                {data.map(veiculos => (
-                  <tr key={veiculos.id} className="bg-white border-b">
+                {veiculos.map(veiculo => (
+                  <tr key={veiculo.id} className="bg-white border-b">
                     <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                      {veiculos.marca}
+                      {veiculo.marca}
                     </th>
                     <td className="px-6 py-4">
-                      {veiculos.modelo}
+                      {veiculo.modelo}
                     </td>
                     <td className="px-6 py-4">
-                      {veiculos.ano}
+                      {veiculo.ano}
                     </td>
                     <td className="px-6 py-4">
-                      {veiculos.placa}
+                      {veiculo.placa}
                     </td>
                     <td className="px-6 py-4">
-                      {veiculos.quilometragem}
+                      {veiculo.quilometragem}
                     </td>
                     <td className="px-6 py-4">
-                      {veiculos.tp_combustivel}
+                      {veiculo.tp_combustivel}
                     </td>
                     <td className="px-6 py-4">
-                      {veiculos.dt_aquisicao}
+                      {veiculo.dt_aquisicao}
                     </td>
                     <td className="px-6 py-4">
-                      {veiculos.status}
+                      {veiculo.status}
                     </td>
                     <td className="px-6 py-4 text-right">
                       <button onClick={() => setModalDetailsIsOpen(true)} type="button" class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-1 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none">Visualizar</button>
