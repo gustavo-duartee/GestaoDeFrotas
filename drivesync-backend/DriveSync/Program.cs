@@ -52,31 +52,21 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 
-static IHostBuilder CreateHostBuilder(string[] args) =>
-    Host.CreateDefaultBuilder(args)
-        .ConfigureWebHostDefaults(webBuilder =>
-        {
-            webBuilder.UseStartup<Program>();
-            webBuilder.ConfigureServices(services =>
-            {
-                services.AddCors(options =>
-                {
-                    options.AddPolicy("MyPolicy", policy =>
-                    {
-                        policy.AllowAnyOrigin();
-                        policy.AllowAnyMethod();
-                        policy.AllowAnyHeader();
-                    });
-                });
-            });
-        });
-
 
 builder.Services.AddScoped<IAuthenticate, AuthenticateService>();
 builder.Services.AddScoped<IVeiculoService, VeiculosService>();
 
 
-builder.Services.AddCors();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("DefaultPolicy", builder =>
+    {
+        builder.WithOrigins("http://localhost:3000") // Allow requests from this origin
+               .WithMethods("GET", "POST", "PUT", "DELETE") // Allow these HTTP methods
+               .WithHeaders("Content-Type", "Authorization"); // Allow these headers
+    });
+});
+
 
 
 builder.Services.AddSwaggerGen(c =>
@@ -121,6 +111,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseRouting();
+
+app.UseCors("DefaultPolicy");
 
 app.UseAuthentication();
 app.UseAuthorization();
