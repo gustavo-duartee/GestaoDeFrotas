@@ -13,7 +13,6 @@ export function Veiculos() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalDetailsIsOpen, setModalDetailsIsOpen] = useState(false);
 
-  const email = localStorage.getItem('email');
   const token = localStorage.getItem('token');
 
 const authorization = {
@@ -30,6 +29,14 @@ useEffect(() => {
       console.error('Erro ao obter veículo: ', error);
     });
 }, []);
+
+async function editVeiculo(id){
+  try{
+    history(`veiculo/novo/${id}`)
+  }catch(error){
+    alert("Não foi possível editar o veículo")
+  }
+}
 
 return (
   <div>
@@ -162,7 +169,10 @@ return (
                         {veiculo.status}
                       </td>
                       <td className="px-6 py-4 text-right">
-                        <button onClick={() => setModalDetailsIsOpen(true)} type="button" class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-1 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none">Visualizar</button>
+                        <button type="button" class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-1 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none">Excluir</button>
+                      </td>
+                      <td className="px-6 py-4 text-right">
+                        <button type="button" onClick={()=> editVeiculo(veiculo.id)} class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-1 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none">Editar</button>
                       </td>
                     </tr>
                   ))}

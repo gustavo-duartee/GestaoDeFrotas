@@ -6,6 +6,8 @@ import { Header } from './HeaderBar';
 
 export function Sidebar() {
 
+  const token = localStorage.getItem('token');
+
   const authorization = {
     headers: {
       Authorization: `Bearer ${token}`

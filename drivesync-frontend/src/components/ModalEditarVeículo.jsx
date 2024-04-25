@@ -1,64 +1,80 @@
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactModal from "react-modal";
 
-import axios from "axios";
+import api from "../services/api";
+import { useHistory, useParams } from "react-router-dom";
 
 export function ModalEditarVeiculo() {
+    const [id, setId] = useState(null);
+    const [marca, setMarca] = useState('');
+    const [modelo, setModelo] = useState('');
+    const [ano, setAno] = useState('');
+    const [placa, setPlaca] = useState('');
+    const [quilometragem, setQuilometragem] = useState('');
+    const [tp_combustivel, setTpCombustivel] = useState('');
+    const [dt_aquisicao, setDtAquisicao] = useState('');
+    const [status, setStatus] = useState('');
 
-    const baseUrl = "https://localhost:7298/api/veiculos";
-    const [modalEditar, setModalEditar] = useState (false);
+    const { veiculoId } = useParams();
+    const history = useHistory();
 
-    const [veiculoSelecionado, setVeiculoSelecionado] = useState({
-        id: '',
-        marca: '',
-        modelo: '',
-        ano: '',
-        placa: '',
-        quilometragem: '',
-        tp_combustivel: '',
-        dt_aquisicao: '',
-        status: ''
-    })
-
-    const abrirFecharModalEditar=()=>{
-        setModalEditar(!modalEditar);
+    const token = localStorage.getItem('token');
+    const authorization = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
     }
 
-    const handleChange = e => {
-        const { name, value } = e.target;
-        setVeiculoSelecionado({
-            ...veiculoSelecionado, [name]: value
-        });
-        console.log(veiculoSelecionado);
+    useEffect(() => {
+        if(veiculoId === '0'){
+            return;
+        }
+        else{
+            loadVeiculo();
+        }
+    }, veiculoId)
+    
+    
+    async function loadVeiculo() {
+        try {
+            const response = await api.get(`api/veiculos/${veiculoId}`, authorization);
+
+            setId(response.data.id);
+            setMarca(response.data.marca);
+            setModelo(response.data.modelo);
+            setAno(response.data.ano);
+            setPlaca(response.data.placa);
+            setQuilometragem(response.data.quilometragem);
+            setTpCombustivel(response.data.tp_combustivel);
+            setDtAquisicao(response.data.dt_aquisicao);
+            setStatus(response.data.status);
+        } catch {
+            alert('Erro ao recuperar o veículo ' + error);
+            history('/veiculos');
+        }
     }
 
-    const selecionarVeiculo=(veiculo, opcao)=>{
-        setVeiculoSelecionado(veiculo);
-            (opcao==="Editar") &&
-                abrirFecharModalEditar();
-    }
+    async function Update(event){
+        event.preventDefault();
 
-    const pedidoPut=async() =>{
-        await axios.put(baseUrl+"/"+veiculoSelecionado.id, veiculoSelecionado)
-        .then(response =>{
-            var resposta=response.data;
-            var dadosAuxiliar = data;
-            dadosAuxiliar.map(veiculo=>{
-                if(veiculo.id===veiculoSelecionado.id){
-                    veiculo.modelo=resposta.modelo;
-                    veiculo.ano=resposta.ano;
-                    veiculo.marca=resposta.marca;
-                    veiculo.dt_aquisicao=resposta.dt_aquisicao;
-                    veiculo.quilometragem=resposta.quilometragem;
-                    veiculo.placa=resposta.placa;
-                    veiculo.tp_combustivel=resposta.tp_combustivel;
-                    veiculo.status=resposta.status;
-                }
-            });
-            abrirFecharModalEditar();
-        }).catch(error=>{
-            console.log(error);
-        })
+        const data = {
+            marca,
+            modelo,
+            ano,
+            placa,
+            quilometragem,
+            tp_combustivel,
+            dt_aquisicao,
+            status
+        }
+
+        try {
+            data.id = id;
+            await api.put(`api/veiculos/${id}`, data, authorization);
+        } catch (error) {
+            alert('Erro ao editar veículo. ' + err);
+        }
+        history('/veiculos');
     }
 
     return (
@@ -84,28 +100,28 @@ export function ModalEditarVeiculo() {
                 <hr></hr>
 
                 <div className="modal-body px-5 py-0 ">
-                    <form class="p-4 md:p-5 ">
+                    <form class="p-4 md:p-5" onSubmit={Update}>
                         <div class="grid mb-1 w-full">
 
                             <div class="col-span-2 mb-2">
                                 <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Modelo</label>
                                 <div class="relative mt-1 rounded-md shadow-sm">
-                                    <input type="text" name="price" id="name" onChange={handleChange} class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite o modelo"
-                                    value={veiculoSelecionado && veiculoSelecionado.modelo}/>
+                                    <input type="text" name="price" id="name" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite o modelo"
+                                     value={modelo} onChange={e => setModelo(e.target.value)} />
                                 </div>
                             </div>
 
                             <div class="col-span-2 mb-2">
                                 <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Placa</label>
                                 <div class="relative mt-1 rounded-md shadow-sm">
-                                    <input type="text" name="price" id="name" onChange={handleChange} class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite a placa"
-                                    value={veiculoSelecionado && veiculoSelecionado.placa}/>
+                                    <input type="text" name="price" id="name" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite a placa"
+                                    value={placa} onChange={e => setPlaca(e.target.value)} />
                                 </div>
                             </div>
 
                             <div class="col-span-2 mb-2">
                                 <label for="category" class="block text-sm font-medium leading-6 text-gray-900">Tipo do Combustível</label>
-                                <select id="category" name="tp_combustivel" onChange={handleChange} class="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value={veiculoSelecionado && veiculoSelecionado.tp_combustivel}>
+                                <select id="category" name="tp_combustivel" value={tp_combustivel} onChange={e => setTpCombustivel(e.target.value)}  class="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                                     <option selected="">Selecione um tipo</option>
                                     <option value="Gasolina Comum">Gasolina Comum</option>
                                     <option value="Etanol">Etanol</option>
@@ -117,32 +133,32 @@ export function ModalEditarVeiculo() {
                             <div class="col-span-2 mb-2">
                                 <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Marca</label>
                                 <div class="relative mt-1 rounded-md shadow-sm">
-                                    <input type="text" name="price" id="name" onChange={handleChange} class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite a marca"
-                                    value={veiculoSelecionado && veiculoSelecionado.marca}/>
+                                    <input type="text" name="price" id="name" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite a marca"
+                                    value={marca} onChange={e => setMarca(e.target.value)} />
                                 </div>
                             </div>
 
                             <div class="col-span-2 mb-2">
                                 <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Ano</label>
                                 <div class="relative mt-1 rounded-md shadow-sm">
-                                    <input type="number" name="price" id="name" onChange={handleChange} class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite o ano"
-                                    value={veiculoSelecionado && veiculoSelecionado.ano}/>
+                                    <input type="number" name="price" id="name" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite o ano"
+                                    value={ano} onChange={e => setAno(e.target.value)} />
                                 </div>
                             </div>
 
                             <div class="col-span-2 mb-2">
                                 <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Quilometragem</label>
                                 <div class="relative mt-1 rounded-md shadow-sm">
-                                    <input type="number" name="price" id="name" onChange={handleChange} class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite a quilometragem"
-                                    value={veiculoSelecionado && veiculoSelecionado.quilometragem}/>
+                                    <input type="number" name="price" id="name" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite a quilometragem"
+                                    value={quilometragem} onChange={e => setQuilometragem(e.target.value)} />
                                 </div>
                             </div>
 
                             <div class="col-span-2 mb-2">
                                 <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Data de Aquisição</label>
                                 <div class="relative mt-1 rounded-md shadow-sm">
-                                    <input type="date" name="price" id="name" onChange={handleChange} class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite a data"
-                                    value={veiculoSelecionado && veiculoSelecionado.dt_aquisicao}/>
+                                    <input type="date" name="price" id="name" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite a data"
+                                    value={dt_aquisicao} onChange={e => setDtAquisicao(e.target.value)} />
                                 </div>
                             </div>
 

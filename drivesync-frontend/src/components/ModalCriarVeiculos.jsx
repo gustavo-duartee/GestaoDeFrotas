@@ -1,44 +1,13 @@
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactModal from "react-modal";
+import api from "../services/api";
 
 import axios from "axios";
+import { useHistory, useParams } from "react-router-dom";
 
-export function ModalComponent({ isOpen, onRequestClose }) {
+export function ModalComponent() {
 
-    const baseUrl = "https://localhost:7298/api/veiculos";
-    const [data, setData] = useState([]);
 
-    const [veiculoSelecionado, setVeiculoSelecionado] = useState({
-        id: '',
-        marca: '',
-        modelo: '',
-        ano: '',
-        placa: '',
-        quilometragem: '',
-        tp_combustivel: '',
-        dt_aquisicao: '',
-        status: ''
-    })
-
-    const handleChange = e => {
-        const { name, value } = e.target;
-        setVeiculoSelecionado({
-            ...veiculoSelecionado, [name]: value
-        });
-        console.log(veiculoSelecionado);
-    }
-
-    const pedidoPost = async () => {
-        delete veiculoSelecionado.id;
-        veiculoSelecionado.idade = parseInt(veiculoSelecionado.placa);
-        await axios.post(baseUrl, veiculoSelecionado)
-            .then(response => {
-                setData(data.concat(response.data));
-                onRequestClose();
-            }).catch(error => {
-                console.log(error);
-            })
-    }
 
     return (
         <ReactModal
@@ -70,20 +39,20 @@ export function ModalComponent({ isOpen, onRequestClose }) {
                             <div class="col-span-2 mb-2">
                                 <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Modelo</label>
                                 <div class="relative mt-1 rounded-md shadow-sm">
-                                    <input type="text" name="price" id="name" onChange={handleChange} class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite o modelo"/>
+                                    <input type="text" name="price" id="name"  class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite o modelo" />
                                 </div>
                             </div>
 
                             <div class="col-span-2 mb-2">
                                 <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Placa</label>
                                 <div class="relative mt-1 rounded-md shadow-sm">
-                                    <input type="text" name="price" id="name" onChange={handleChange} class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite a placa"/>
+                                    <input type="text" name="price" id="name" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite a placa" />
                                 </div>
                             </div>
 
                             <div class="col-span-2 mb-2">
                                 <label for="category" class="block text-sm font-medium leading-6 text-gray-900">Tipo do Combustível</label>
-                                <select id="category" name="tp_combustivel" onChange={handleChange} class="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                <select id="category" name="tp_combustivel"  class="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                                     <option selected="">Selecione um tipo</option>
                                     <option value="Gasolina Comum">Gasolina Comum</option>
                                     <option value="Etanol">Etanol</option>
@@ -95,28 +64,28 @@ export function ModalComponent({ isOpen, onRequestClose }) {
                             <div class="col-span-2 mb-2">
                                 <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Marca</label>
                                 <div class="relative mt-1 rounded-md shadow-sm">
-                                    <input type="text" name="price" id="name" onChange={handleChange} class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite a marca"/>
+                                    <input type="text" name="price" id="name" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite a marca" />
                                 </div>
                             </div>
 
                             <div class="col-span-2 mb-2">
                                 <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Ano</label>
                                 <div class="relative mt-1 rounded-md shadow-sm">
-                                    <input type="number" name="price" id="name" onChange={handleChange} class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite o ano"/>
+                                    <input type="number" name="price" id="name" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite o ano" />
                                 </div>
                             </div>
 
                             <div class="col-span-2 mb-2">
                                 <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Quilometragem</label>
                                 <div class="relative mt-1 rounded-md shadow-sm">
-                                    <input type="number" name="price" id="name" onChange={handleChange} class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite a quilometragem"/>
+                                    <input type="number" name="price" id="name" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite a quilometragem" />
                                 </div>
                             </div>
 
                             <div class="col-span-2 mb-2">
                                 <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Data de Aquisição</label>
                                 <div class="relative mt-1 rounded-md shadow-sm">
-                                    <input type="date" name="price" id="name" onChange={handleChange} class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite a data"/>
+                                    <input type="date" name="price" id="name" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite a data" />
                                 </div>
                             </div>
 
