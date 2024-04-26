@@ -1,6 +1,0 @@
-@Gestao_de_frotasAPI_HostAddress = http://localhost:5248
-
-GET {{Gestao_de_frotasAPI_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
