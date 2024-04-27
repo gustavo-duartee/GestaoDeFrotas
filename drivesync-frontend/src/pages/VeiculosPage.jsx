@@ -51,6 +51,7 @@ export function Veiculos() {
     try{
       await api.delete(`api/veiculos/${id}`, authorization);
       alert("Veiculo excluído com sucesso!");
+      window.location.reload();
 
     } catch (error){
       let errorMessage = "Não foi possível deletar o veículo";
