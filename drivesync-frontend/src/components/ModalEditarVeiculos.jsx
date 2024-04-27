@@ -50,6 +50,7 @@ export function ModalEditarVeiculo({ isOpen, onRequestClose, veiculoId, editVeic
 
     async function updateVeiculo(event) {
         event.preventDefault();
+        
 
         const data = {
             marca,
@@ -65,7 +66,9 @@ export function ModalEditarVeiculo({ isOpen, onRequestClose, veiculoId, editVeic
         try {
             data.id = id;
             await api.put(`api/veiculos/${id}`, data, authorization);
-            editVeiculo(id); // Chamando a função passada como prop para informar que o veículo foi editado
+            editVeiculo(id);
+            alert("Veiculo atualizado com sucesso!");
+            window.location.reload();
         } catch (error) {
             alert('Erro ao editar veículo. ');
         }
