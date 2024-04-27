@@ -1,5 +1,5 @@
 import { MapPinned, ReceiptText, LayoutDashboard, BadgeInfo, UserRound, Settings, CarFront, LogOut } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { useNavigate, useParams, Link } from "react-router-dom";
 
 import { Header } from './HeaderBar';
 
@@ -7,6 +7,7 @@ import { Header } from './HeaderBar';
 export function Sidebar() {
 
   const token = localStorage.getItem('token');
+  const history = useNavigate();
 
   const authorization = {
     headers: {

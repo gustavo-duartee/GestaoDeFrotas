@@ -107,7 +107,7 @@ export function ModalEditarVeiculo() {
                                 <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Modelo</label>
                                 <div class="relative mt-1 rounded-md shadow-sm">
                                     <input type="text" name="price" id="name" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite o modelo"
-                                     value={modelo} onChange={e => setModelo(e.target.value)} />
+                                     onChange={e => setModelo(e.target.value)} />
                                 </div>
                             </div>
 
@@ -115,13 +115,13 @@ export function ModalEditarVeiculo() {
                                 <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Placa</label>
                                 <div class="relative mt-1 rounded-md shadow-sm">
                                     <input type="text" name="price" id="name" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite a placa"
-                                    value={placa} onChange={e => setPlaca(e.target.value)} />
+                                    onChange={e => setPlaca(e.target.value)} />
                                 </div>
                             </div>
 
                             <div class="col-span-2 mb-2">
                                 <label for="category" class="block text-sm font-medium leading-6 text-gray-900">Tipo do Combustível</label>
-                                <select id="category" name="tp_combustivel" value={tp_combustivel} onChange={e => setTpCombustivel(e.target.value)}  class="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                <select id="category" name="tp_combustivel" onChange={e => setTpCombustivel(e.target.value)}  class="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                                     <option selected="">Selecione um tipo</option>
                                     <option value="Gasolina Comum">Gasolina Comum</option>
                                     <option value="Etanol">Etanol</option>
@@ -134,7 +134,7 @@ export function ModalEditarVeiculo() {
                                 <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Marca</label>
                                 <div class="relative mt-1 rounded-md shadow-sm">
                                     <input type="text" name="price" id="name" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite a marca"
-                                    value={marca} onChange={e => setMarca(e.target.value)} />
+                                    onChange={e => setMarca(e.target.value)} />
                                 </div>
                             </div>
 
@@ -142,7 +142,7 @@ export function ModalEditarVeiculo() {
                                 <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Ano</label>
                                 <div class="relative mt-1 rounded-md shadow-sm">
                                     <input type="number" name="price" id="name" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite o ano"
-                                    value={ano} onChange={e => setAno(e.target.value)} />
+                                    onChange={e => setAno(e.target.value)} />
                                 </div>
                             </div>
 
@@ -150,7 +150,7 @@ export function ModalEditarVeiculo() {
                                 <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Quilometragem</label>
                                 <div class="relative mt-1 rounded-md shadow-sm">
                                     <input type="number" name="price" id="name" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite a quilometragem"
-                                    value={quilometragem} onChange={e => setQuilometragem(e.target.value)} />
+                                    onChange={e => setQuilometragem(e.target.value)} />
                                 </div>
                             </div>
 
@@ -158,7 +158,7 @@ export function ModalEditarVeiculo() {
                                 <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Data de Aquisição</label>
                                 <div class="relative mt-1 rounded-md shadow-sm">
                                     <input type="date" name="price" id="name" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite a data"
-                                    value={dt_aquisicao} onChange={e => setDtAquisicao(e.target.value)} />
+                                    onChange={e => setDtAquisicao(e.target.value)} />
                                 </div>
                             </div>
 
