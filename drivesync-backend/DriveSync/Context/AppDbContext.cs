@@ -14,5 +14,6 @@ namespace DriveSync.Context
         public DbSet<Veiculo> Veiculos { get; set; }
 
 
+
     }
 }

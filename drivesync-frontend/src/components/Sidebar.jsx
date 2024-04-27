@@ -1,5 +1,5 @@
 import { MapPinned, ReceiptText, LayoutDashboard, BadgeInfo, UserRound, Settings, CarFront, LogOut } from 'lucide-react';
-import { useNavigate, useParams, Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 import { Header } from './HeaderBar';
 

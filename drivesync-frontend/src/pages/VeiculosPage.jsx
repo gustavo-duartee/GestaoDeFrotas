@@ -1,21 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { ModalComponent } from "../components/ModalCriarVeiculos";
-import { ModalDetailsVeiculo } from "../components/ModalDetailsVeiculo";
-import { useNavigate} from "react-router-dom";
+import { ModalEditarVeiculo } from "../components/ModalEditarVeículo";
+import { useNavigate } from "react-router-dom";
 
 import api from '../services/api';
 
 import { Sidebar } from "../components/Sidebar";
 
 export function Veiculos() {
-
-  const [placa, setPlaca] = useState('');
   const [veiculos, setVeiculos] = useState([]);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [modalDetailsIsOpen, setModalDetailsIsOpen] = useState(false);
+  const [modalCriarIsOpen, setModalCriarIsOpen] = useState(false);
+  const [selectedVeiculoId, setSelectedVeiculoId] = useState(null);
+  const [modalEditarIsOpen, setModalEditarIsOpen] = useState(false);
 
   const history = useNavigate();
-
   const token = localStorage.getItem('token');
 
   const authorization = {
@@ -35,7 +33,8 @@ export function Veiculos() {
 
   async function editVeiculo(id) {
     try {
-      history(`veiculo/novo/${id}`)
+      setSelectedVeiculoId(id);
+      setModalEditarIsOpen(true);
     } catch (error) {
       alert("Não foi possível editar o veículo")
     }
@@ -63,20 +62,19 @@ export function Veiculos() {
                   <input type="text" id="table-search-users" class="block pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-white focus:ring-blue-500 focus:border-blue-500" placeholder="Pesquisar pela placa" />
                 </div>
 
-                <button onClick={() => setModalIsOpen(true)} type="button" class="text-white bg-gray-900 hover:bg-gray-700 focus:ring-1 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none">Novo Veículo +</button>
+                <button onClick={() => setModalCriarIsOpen(true)} type="button" class="text-white bg-gray-900 hover:bg-gray-700 focus:ring-1 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none">Novo Veículo +</button>
               </div>
 
               <ModalComponent
-                isOpen={modalIsOpen}
-                onRequestClose={() => setModalIsOpen(false)}
+                isOpen={modalCriarIsOpen}
+                onRequestClose={() => setModalCriarIsOpen(false)}
               />
 
-              <ModalDetailsVeiculo
-                isOpen={modalDetailsIsOpen}
-                onRequestClose={() => setModalDetailsIsOpen(false)}
+              <ModalEditarVeiculo
+                isOpen={modalEditarIsOpen}
+                selectedVeiculoId={selectedVeiculoId}
+                onRequestClose={() => setModalEditarIsOpen(false)}
               />
-
-
 
               <div className="relative overflow-x-auto shadow-md sm:rounded-lg bg-white" style={{ maxHeight: "40rem", overflow: "auto" }}>
                 <table className="w-full text-sm text-left rtl:text-right text-gray-500" style={{ height: "40rem" }}>
@@ -148,25 +146,29 @@ export function Veiculos() {
                     {veiculos.map(veiculo => (
                       <tr key={veiculo.id} className="bg-white border-b">
                         <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                          {veiculo.marca}
+                          {veiculo.placa}
                         </th>
                         <td className="px-6 py-4">
+                          {veiculo.marca}
+
+                        </td>
+                        <td className="px-6 py-4">
                           {veiculo.modelo}
+
                         </td>
                         <td className="px-6 py-4">
                           {veiculo.ano}
-                        </td>
-                        <td className="px-6 py-4">
-                          {veiculo.placa}
+
                         </td>
                         <td className="px-6 py-4">
                           {veiculo.quilometragem}
                         </td>
                         <td className="px-6 py-4">
-                          {veiculo.tp_combustivel}
+                          {veiculo.dt_aquisicao}
+
                         </td>
                         <td className="px-6 py-4">
-                          {veiculo.dt_aquisicao}
+                          {veiculo.tp_combustivel}
                         </td>
                         <td className="px-6 py-4">
                           {veiculo.status}
@@ -175,7 +177,7 @@ export function Veiculos() {
                           <button type="button" class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-1 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none">Excluir</button>
                         </td>
                         <td className="px-6 py-4 text-right">
-                          <button type="button" onClick={() => editVeiculo(veiculo.id)} class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-1 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none">Editar</button>
+                          <button type="button" onClick={() => setModalEditarIsOpen(veiculo.id)} class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-1 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none">Editar</button>
                         </td>
                       </tr>
                     ))}
