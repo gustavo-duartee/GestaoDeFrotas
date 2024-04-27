@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ReactModal from "react-modal";
 import api from "../services/api";
-import { useParams, useNavigate } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 
 export function ModalCriarVeiculo() {
 
@@ -15,7 +15,6 @@ export function ModalCriarVeiculo() {
     const [dt_aquisicao, setDtAquisicao] = useState('');
     const [status, setStatus] = useState('Disponivel');
 
-    const { veiculoId } = useParams();
     const history = useNavigate();
 
     const token = localStorage.getItem('token');
@@ -24,7 +23,6 @@ export function ModalCriarVeiculo() {
             Authorization: `Bearer ${token}`
         }
     }
-
 
     async function saveOrUpdate(event) {
         event.preventDefault();
@@ -41,20 +39,12 @@ export function ModalCriarVeiculo() {
         }
 
         try {
-            if (veiculoId === '0') {
-                await api.post('api/veiculos', data, authorization);
-            }
-            else {
-                data.id = id;
-                await api.put(`api/veiculos/${id}`, data, authorization)
-            }
+            await api.post('api/veiculos', data, authorization);
         } catch (error) {
             alert('Erro ao gravar veiculo ' + error);
             history('/veiculos');
         }
     }
-
-
 
     return (
         <ReactModal
