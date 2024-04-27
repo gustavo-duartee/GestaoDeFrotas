@@ -1,35 +1,63 @@
 import React, { useEffect, useState } from "react";
 import ReactModal from "react-modal";
 import api from "../services/api";
+import { useParams, useNavigate } from "react-router-dom";
 
-import { useNavigate, useParams } from "react-router-dom";
-
-export function ModalComponent() {
+export function ModalCriarVeiculo() {
 
     const [id, setId] = useState(null);
     const [marca, setMarca] = useState('');
     const [modelo, setModelo] = useState('');
-    const [ano, setAno] = useState('');
+    const [ano, setAno] = useState(0);
     const [placa, setPlaca] = useState('');
-    const [quilometragem, setQuilometragem] = useState('');
+    const [quilometragem, setQuilometragem] = useState(0);
     const [tp_combustivel, setTpCombustivel] = useState('');
     const [dt_aquisicao, setDtAquisicao] = useState('');
-    const [status, setStatus] = useState('');
+    const [status, setStatus] = useState('Disponivel');
 
-    const {veiculoId} = useParams();
+    const { veiculoId } = useParams();
     const history = useNavigate();
 
     const token = localStorage.getItem('token');
-
-    const authorization ={
-        headers : {
-            Authorization : `Bearer ${token}`
+    const authorization = {
+        headers: {
+            Authorization: `Bearer ${token}`
         }
-    }    
+    }
+
+
+    async function saveOrUpdate(event) {
+        event.preventDefault();
+
+        const data = {
+            marca,
+            modelo,
+            ano,
+            placa,
+            quilometragem,
+            tp_combustivel,
+            dt_aquisicao,
+            status
+        }
+
+        try {
+            if (veiculoId === '0') {
+                await api.post('api/veiculos', data, authorization);
+            }
+            else {
+                data.id = id;
+                await api.put(`api/veiculos/${id}`, data, authorization)
+            }
+        } catch (error) {
+            alert('Erro ao gravar veiculo ' + error);
+            history('/veiculos');
+        }
+    }
+
+
 
     return (
         <ReactModal
-            
             contentLabel="Example Modal"
             className="modal fixed inset-0 flex items-center justify-center overflow-auto"
             overlayClassName="modal-overlay fixed inset-0 z-40 bg-black bg-opacity-40"
@@ -50,26 +78,26 @@ export function ModalComponent() {
                 <hr></hr>
 
                 <div className="modal-body px-5 py-0 ">
-                    <form class="p-4 md:p-5 ">
+                    <form class="p-4 md:p-5" onSubmit={saveOrUpdate}>
                         <div class="grid mb-1 w-full">
 
                             <div class="col-span-2 mb-2">
                                 <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Modelo</label>
                                 <div class="relative mt-1 rounded-md shadow-sm">
-                                    <input type="text" name="price" id="name"  class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite o modelo" />
+                                    <input type="text" onChange={e => setModelo(e.target.value)} name="modelo" id="name" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite o modelo" />
                                 </div>
                             </div>
 
                             <div class="col-span-2 mb-2">
                                 <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Placa</label>
                                 <div class="relative mt-1 rounded-md shadow-sm">
-                                    <input type="text" name="price" id="name" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite a placa" />
+                                    <input type="text" onChange={e => setPlaca(e.target.value)} name="placa" id="name" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite a placa" />
                                 </div>
                             </div>
 
                             <div class="col-span-2 mb-2">
                                 <label for="category" class="block text-sm font-medium leading-6 text-gray-900">Tipo do Combustível</label>
-                                <select id="category" name="tp_combustivel"  class="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                <select id="category" onChange={e => setTpCombustivel(e.target.value)} name="tp_combustivel" class="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                                     <option selected="">Selecione um tipo</option>
                                     <option value="Gasolina Comum">Gasolina Comum</option>
                                     <option value="Etanol">Etanol</option>
@@ -81,28 +109,28 @@ export function ModalComponent() {
                             <div class="col-span-2 mb-2">
                                 <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Marca</label>
                                 <div class="relative mt-1 rounded-md shadow-sm">
-                                    <input type="text" name="price" id="name" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite a marca" />
+                                    <input type="text" onChange={e => setMarca(e.target.value)} name="marca" id="name" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite a marca" />
                                 </div>
                             </div>
 
                             <div class="col-span-2 mb-2">
                                 <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Ano</label>
                                 <div class="relative mt-1 rounded-md shadow-sm">
-                                    <input type="number" name="price" id="name" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite o ano" />
+                                    <input type="number" onChange={e => setAno(e.target.value)} name="ano" id="name" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite o ano" />
                                 </div>
                             </div>
 
                             <div class="col-span-2 mb-2">
                                 <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Quilometragem</label>
                                 <div class="relative mt-1 rounded-md shadow-sm">
-                                    <input type="number" name="price" id="name" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite a quilometragem" />
+                                    <input type="number" onChange={e => setQuilometragem(e.target.value)} name="quilometragem" id="name" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite a quilometragem" />
                                 </div>
                             </div>
 
                             <div class="col-span-2 mb-2">
                                 <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Data de Aquisição</label>
                                 <div class="relative mt-1 rounded-md shadow-sm">
-                                    <input type="date" name="price" id="name" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite a data" />
+                                    <input type="date" onChange={e => setDtAquisicao(e.target.value)} name="dt_aquisicao" id="name" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite a data" />
                                 </div>
                             </div>
 
@@ -113,14 +141,13 @@ export function ModalComponent() {
                                 Cancelar
                             </button>
 
-                            <button type="submit"  className="w-1/2 flex justify-center items-center text-white border bg-blue-700 hover:bg-blue-800 focus:ring-2 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5">
+                            <button type="submit" className="w-1/2 flex justify-center items-center text-white border bg-blue-700 hover:bg-blue-800 focus:ring-2 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5">
                                 <svg className="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                     <path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd"></path>
                                 </svg>
                                 Adicionar
                             </button>
                         </div>
-
 
                     </form>
                 </div>

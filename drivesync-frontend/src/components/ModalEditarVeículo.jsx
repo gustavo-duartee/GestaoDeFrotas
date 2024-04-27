@@ -107,7 +107,7 @@ export function ModalEditarVeiculo({ isOpen, veiculo, onRequestClose }) {
                             <div class="col-span-2 mb-2">
                                 <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Modelo</label>
                                 <div class="relative mt-1 rounded-md shadow-sm">
-                                    <input type="text" name="price" id="name" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite o modelo"
+                                    <input disabled type="text" name="price" id="name" class="w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
                                         value={modelo} onChange={e => setModelo(e.target.value)} />
                                 </div>
                             </div>
@@ -115,26 +115,21 @@ export function ModalEditarVeiculo({ isOpen, veiculo, onRequestClose }) {
                             <div class="col-span-2 mb-2">
                                 <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Placa</label>
                                 <div class="relative mt-1 rounded-md shadow-sm">
-                                    <input type="text" name="price" id="name" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite a placa"
+                                    <input disabled type="text" name="price" id="name" class=" w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
                                         value={placa} onChange={e => setPlaca(e.target.value)} />
                                 </div>
                             </div>
 
                             <div class="col-span-2 mb-2">
                                 <label for="category" class="block text-sm font-medium leading-6 text-gray-900">Tipo do Combustível</label>
-                                <select id="category" name="tp_combustivel" value={tp_combustivel} onChange={e => setTpCombustivel(e.target.value)} class="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                                    <option selected="">Selecione um tipo</option>
-                                    <option value="Gasolina Comum">Gasolina Comum</option>
-                                    <option value="Etanol">Etanol</option>
-                                    <option value="Diesel">Diesel</option>
-                                    <option value="Flex">Flex</option>
-                                </select>
+                                <input disabled type="text" name="price" id="name" class=" w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                        value={tp_combustivel} onChange={e => setTpCombustivel(e.target.value)} />
                             </div>
 
                             <div class="col-span-2 mb-2">
                                 <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Marca</label>
                                 <div class="relative mt-1 rounded-md shadow-sm">
-                                    <input type="text" name="price" id="name" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite a marca"
+                                    <input disabled type="text" name="price" id="name" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
                                         value={marca} onChange={e => setMarca(e.target.value)} />
                                 </div>
                             </div>
@@ -142,7 +137,7 @@ export function ModalEditarVeiculo({ isOpen, veiculo, onRequestClose }) {
                             <div class="col-span-2 mb-2">
                                 <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Ano</label>
                                 <div class="relative mt-1 rounded-md shadow-sm">
-                                    <input type="number" name="price" id="name" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite o ano"
+                                    <input disabled type="number" name="price" id="name" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
                                         value={ano} onChange={e => setAno(e.target.value)} />
                                 </div>
                             </div>
@@ -150,7 +145,7 @@ export function ModalEditarVeiculo({ isOpen, veiculo, onRequestClose }) {
                             <div class="col-span-2 mb-2">
                                 <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Quilometragem</label>
                                 <div class="relative mt-1 rounded-md shadow-sm">
-                                    <input type="number" name="price" id="name" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite a quilometragem"
+                                    <input disabled type="number" name="price" id="name" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
                                         value={quilometragem} onChange={e => setQuilometragem(e.target.value)} />
                                 </div>
                             </div>
@@ -158,7 +153,7 @@ export function ModalEditarVeiculo({ isOpen, veiculo, onRequestClose }) {
                             <div class="col-span-2 mb-2">
                                 <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Data de Aquisição</label>
                                 <div class="relative mt-1 rounded-md shadow-sm">
-                                    <input type="date" name="price" id="name" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite a data"
+                                    <input disabled type="date" name="price" id="name" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
                                         value={dt_aquisicao} onChange={e => setDtAquisicao(e.target.value)} />
                                 </div>
                             </div>
@@ -171,9 +166,6 @@ export function ModalEditarVeiculo({ isOpen, veiculo, onRequestClose }) {
                             </button>
 
                             <button type="submit" onClick={updateVeiculo} className="w-1/2 flex justify-center items-center text-white border bg-blue-700 hover:bg-blue-800 focus:ring-2 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5">
-                                <svg className="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                    <path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd"></path>
-                                </svg>
                                 Salvar
                             </button>
                         </div>

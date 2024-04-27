@@ -1,25 +1,41 @@
 import React, { useState, useEffect } from "react";
-import { ModalComponent } from "../components/ModalCriarVeiculos";
+import { ModalCriarVeiculo } from "../components/ModalCriarVeiculos";
 import { ModalEditarVeiculo } from "../components/ModalEditarVeículo";
-import { useNavigate } from "react-router-dom";
 
 import api from '../services/api';
 
 import { Sidebar } from "../components/Sidebar";
 
 export function Veiculos() {
+  const [searchInput, setSearchInput] = useState('');
+  const [filtro, setFiltro] = useState([]);
+
   const [veiculos, setVeiculos] = useState([]);
+
   const [modalCriarIsOpen, setModalCriarIsOpen] = useState(false);
   const [modalEditarIsOpen, setModalEditarIsOpen] = useState(false);
   const [editingVeiculoId, setEditingVeiculoId] = useState(null);
   const [selectedVeiculo, setSelectedVeiculo] = useState(null);
 
-  const history = useNavigate();
   const token = localStorage.getItem('token');
 
   const authorization = {
     headers: {
       Authorization: `Bearer ${token}`
+    }
+  }
+
+  const searchVeiculos = (searchValue) => {
+    setSearchInput(searchValue);
+    if (searchInput !== '') {
+      const dadosFiltrados = veiculos.filter((item) => {
+        return Object.values(item).join('').toLocaleLowerCase()
+          .includes(searchInput.toLocaleLowerCase())
+      });
+      setFiltro(dadosFiltrados);
+    }
+    else {
+      setFiltro(veiculos);
     }
   }
 
@@ -32,10 +48,11 @@ export function Veiculos() {
       });
   }, []);
 
+
   async function editVeiculo(id) {
     try {
       setEditingVeiculoId(id);
-      const response = await api.get(`api/veiculos/${id}`, authorization);
+      const response = await api.get(`api/veiculos/${id}`);
       setSelectedVeiculo(response.data);
       setModalEditarIsOpen(true);
     } catch (error) {
@@ -43,24 +60,24 @@ export function Veiculos() {
     }
   }
 
-  async function excluirVeiculo(id){
-    if(!window.confirm(`Deseja realmente excluir o veículo ${id}?`)) {
+  async function excluirVeiculo(id) {
+    if (!window.confirm(`Deseja realmente excluir o veículo ${id}?`)) {
       return;
     }
 
-    try{
+    try {
       await api.delete(`api/veiculos/${id}`, authorization);
       alert("Veiculo excluído com sucesso!");
       window.location.reload();
 
-    } catch (error){
+    } catch (error) {
       let errorMessage = "Não foi possível deletar o veículo";
 
-      if(error.response){
-        const {data, status} = error.response;
-        if(status === 400) {
+      if (error.response) {
+        const { data, status } = error.response;
+        if (status === 400) {
           errorMessage = "Veículo não encontrado";
-        } else if (status >= 500){
+        } else if (status >= 500) {
           errorMessage = "Falha na comunicação com o servidor";
         } else {
           errorMessage = data.message || errorMessage;
@@ -68,7 +85,7 @@ export function Veiculos() {
       }
 
       alert(errorMessage);
-      
+
     }
   }
 
@@ -91,13 +108,13 @@ export function Veiculos() {
                       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                     </svg>
                   </div>
-                  <input type="text" id="table-search-users" class="block pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-white focus:ring-blue-500 focus:border-blue-500" placeholder="Pesquisar pela placa" />
+                  <input type="text" onChange={(e) => searchVeiculos(e.target.value)} id="table-search-users" class="pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-white focus:ring-blue-500 focus:border-blue-500" placeholder="Pesquisar pela placa" />
                 </div>
 
                 <button onClick={() => setModalCriarIsOpen(true)} type="button" class="text-white bg-gray-900 hover:bg-gray-700 focus:ring-1 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none">Novo Veículo +</button>
               </div>
 
-              <ModalComponent
+              <ModalCriarVeiculo
                 isOpen={modalCriarIsOpen}
                 onRequestClose={() => setModalCriarIsOpen(false)}
               />
@@ -174,6 +191,44 @@ export function Veiculos() {
                   </thead>
 
                   {/* Linha da tabela */}
+                  <tbody>
+                    {searchInput.length > 1 && filtro.map(veiculo => (
+                      <tr key={veiculo.id} className="bg-white border-b">
+                        <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                          {veiculo.placa}
+                        </th>
+                        <td className="px-6 py-4">
+                          {veiculo.marca}
+                        </td>
+                        <td className="px-6 py-4">
+                          {veiculo.modelo}
+                        </td>
+                        <td className="px-6 py-4">
+                          {veiculo.ano}
+                        </td>
+                        <td className="px-6 py-4">
+                          {veiculo.quilometragem}
+                        </td>
+                        <td className="px-6 py-4">
+                          {veiculo.dt_aquisicao}
+                        </td>
+                        <td className="px-6 py-4">
+                          {veiculo.tp_combustivel}
+                        </td>
+                        <td className="px-6 py-4">
+                          {veiculo.status}
+                        </td>
+                        <td className="px-6 py-4 text-right">
+                          <button type="button" onClick={() => excluirVeiculo(veiculo.id)} className="text-white bg-blue-600 hover:bg-blue-800 focus:ring-1 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none">Excluir</button>
+                        </td>
+                        <td className="px-6 py-4 text-right">
+                          <button type="button" onClick={() => editVeiculo(veiculo.id)} className="text-white bg-blue-600 hover:bg-blue-800 focus:ring-1 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none">Editar</button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+
+
                   <tbody>
                     {veiculos.map(veiculo => (
                       <tr key={veiculo.id} className="bg-white border-b">
