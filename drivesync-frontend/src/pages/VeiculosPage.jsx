@@ -10,8 +10,9 @@ import { Sidebar } from "../components/Sidebar";
 export function Veiculos() {
   const [veiculos, setVeiculos] = useState([]);
   const [modalCriarIsOpen, setModalCriarIsOpen] = useState(false);
-  const [selectedVeiculoId, setSelectedVeiculoId] = useState(null);
   const [modalEditarIsOpen, setModalEditarIsOpen] = useState(false);
+  const [editingVeiculoId, setEditingVeiculoId] = useState(null);
+  const [selectedVeiculo, setSelectedVeiculo] = useState(null);
 
   const history = useNavigate();
   const token = localStorage.getItem('token');
@@ -33,10 +34,40 @@ export function Veiculos() {
 
   async function editVeiculo(id) {
     try {
-      setSelectedVeiculoId(id);
+      setEditingVeiculoId(id);
+      const response = await api.get(`api/veiculos/${id}`, authorization);
+      setSelectedVeiculo(response.data);
       setModalEditarIsOpen(true);
     } catch (error) {
       alert("Não foi possível editar o veículo")
+    }
+  }
+
+  async function excluirVeiculo(id){
+    if(!window.confirm(`Deseja realmente excluir o veículo ${id}?`)) {
+      return;
+    }
+
+    try{
+      await api.delete(`api/veiculos/${id}`, authorization);
+      alert("Veiculo excluído com sucesso!");
+
+    } catch (error){
+      let errorMessage = "Não foi possível deletar o veículo";
+
+      if(error.response){
+        const {data, status} = error.response;
+        if(status === 400) {
+          errorMessage = "Veículo não encontrado";
+        } else if (status >= 500){
+          errorMessage = "Falha na comunicação com o servidor";
+        } else {
+          errorMessage = data.message || errorMessage;
+        }
+      }
+
+      alert(errorMessage);
+      
     }
   }
 
@@ -72,7 +103,7 @@ export function Veiculos() {
 
               <ModalEditarVeiculo
                 isOpen={modalEditarIsOpen}
-                selectedVeiculoId={selectedVeiculoId}
+                veiculoId={selectedVeiculo}
                 onRequestClose={() => setModalEditarIsOpen(false)}
               />
 
@@ -174,10 +205,10 @@ export function Veiculos() {
                           {veiculo.status}
                         </td>
                         <td className="px-6 py-4 text-right">
-                          <button type="button" class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-1 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none">Excluir</button>
+                          <button type="button" onClick={() => excluirVeiculo(veiculo.id)} class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-1 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none">Excluir</button>
                         </td>
                         <td className="px-6 py-4 text-right">
-                          <button type="button" onClick={() => setModalEditarIsOpen(veiculo.id)} class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-1 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none">Editar</button>
+                          <button type="button" onClick={() => editVeiculo(veiculo.id)} class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-1 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none">Editar</button>
                         </td>
                       </tr>
                     ))}
