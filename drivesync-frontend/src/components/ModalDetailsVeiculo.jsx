@@ -35,44 +35,44 @@ export function ModalDetailsVeiculo({ isOpen, onRequestClose }) {
 
                                     {/* Conteúdo */}                                    
                                     <div className="relative mt-6 flex-1 px-4 sm:px-6">
-                                        <div class="col-span-2 mb-3 mt-3">
-                                            <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Modelo</label>
-                                            <input name="modelo" id="name" class="placeholder-gray-500 bg-white border border-gray-200 text-sm rounded-lg w-full p-2.5" placeholder="Siena" disabled/>
+                                        <div className="col-span-2 mb-3 mt-3">
+                                            <label for="name" className="block mb-2 text-sm font-medium text-gray-900">Modelo</label>
+                                            <input name="modelo" id="name" className="placeholder-gray-500 bg-white border border-gray-200 text-sm rounded-lg w-full p-2.5" placeholder="Siena" disabled/>
                                         </div>
 
-                                        <div class="col-span-2 sm:col-span-1 mb-3">
-                                            <label for="price" class="block mb-2 text-sm font-medium text-gray-900">Placa</label>
-                                            <input name="modelo" id="name" class="placeholder-gray-500 bg-white border border-gray-200 text-sm rounded-lg w-full p-2.5" placeholder="RKL9587" disabled/>
+                                        <div className="col-span-2 sm:col-span-1 mb-3">
+                                            <label for="price" className="block mb-2 text-sm font-medium text-gray-900">Placa</label>
+                                            <input name="modelo" id="name" className="placeholder-gray-500 bg-white border border-gray-200 text-sm rounded-lg w-full p-2.5" placeholder="RKL9587" disabled/>
                                         </div>
 
-                                        <div class="col-span-2 sm:col-span-1 mb-3">
-                                            <label for="price" class="block mb-2 text-sm font-medium text-gray-900">Tipo do Combustível</label>
-                                            <input name="modelo" id="name" class="placeholder-gray-500 bg-white border border-gray-200 text-sm rounded-lg w-full p-2.5" placeholder="Flex" disabled/>
+                                        <div className="col-span-2 sm:col-span-1 mb-3">
+                                            <label for="price" className="block mb-2 text-sm font-medium text-gray-900">Tipo do Combustível</label>
+                                            <input name="modelo" id="name" className="placeholder-gray-500 bg-white border border-gray-200 text-sm rounded-lg w-full p-2.5" placeholder="Flex" disabled/>
                                         </div>
 
-                                        <div class="col-span-2 sm:col-span-1 mb-3">
-                                            <label for="price" class="block mb-2 text-sm font-medium text-gray-900">Marca</label>
-                                            <input name="modelo" id="name" class="placeholder-gray-500 bg-white border border-gray-200 text-sm rounded-lg w-full p-2.5" placeholder="Fiat" disabled/>
+                                        <div className="col-span-2 sm:col-span-1 mb-3">
+                                            <label for="price" className="block mb-2 text-sm font-medium text-gray-900">Marca</label>
+                                            <input name="modelo" id="name" className="placeholder-gray-500 bg-white border border-gray-200 text-sm rounded-lg w-full p-2.5" placeholder="Fiat" disabled/>
                                         </div>
 
-                                        <div class="col-span-2 sm:col-span-1 mb-3">
-                                            <label for="price" class="block mb-2 text-sm font-medium text-gray-900">Ano</label>
-                                            <input name="modelo" id="name" class="placeholder-gray-500 bg-white border border-gray-200 text-sm rounded-lg w-full p-2.5" placeholder="2018" disabled/>
+                                        <div className="col-span-2 sm:col-span-1 mb-3">
+                                            <label for="price" className="block mb-2 text-sm font-medium text-gray-900">Ano</label>
+                                            <input name="modelo" id="name" className="placeholder-gray-500 bg-white border border-gray-200 text-sm rounded-lg w-full p-2.5" placeholder="2018" disabled/>
                                         </div>
 
-                                        <div class="col-span-2 sm:col-span-1 mb-3">
-                                            <label for="price" class="block mb-2 text-sm font-medium text-gray-900">Quilometragem</label>
-                                            <input name="modelo" id="name" class="placeholder-gray-500 bg-white border border-gray-200 text-sm rounded-lg w-full p-2.5" placeholder="15.000" disabled/>
+                                        <div className="col-span-2 sm:col-span-1 mb-3">
+                                            <label for="price" className="block mb-2 text-sm font-medium text-gray-900">Quilometragem</label>
+                                            <input name="modelo" id="name" className="placeholder-gray-500 bg-white border border-gray-200 text-sm rounded-lg w-full p-2.5" placeholder="15.000" disabled/>
                                         </div>
 
-                                        <div class="col-span-2 sm:col-span-1 mb-3">
-                                            <label for="price" class="block mb-2 text-sm font-medium text-gray-900">Aquisição</label>
-                                            <input name="modelo" id="name" class="placeholder-gray-500 bg-white border border-gray-200 text-sm rounded-lg w-full p-2.5" placeholder="18/05/2020" disabled/>
+                                        <div className="col-span-2 sm:col-span-1 mb-3">
+                                            <label for="price" className="block mb-2 text-sm font-medium text-gray-900">Aquisição</label>
+                                            <input name="modelo" id="name" className="placeholder-gray-500 bg-white border border-gray-200 text-sm rounded-lg w-full p-2.5" placeholder="18/05/2020" disabled/>
                                         </div>
 
-                                        <div class="col-span-2 sm:col-span-1 mb-3">
-                                            <label for="price" class="block mb-2 text-sm font-medium text-gray-900">Status</label>
-                                            <input name="modelo" id="name" class="placeholder-gray-500 bg-white border border-gray-200 text-sm rounded-lg w-full p-2.5" placeholder="Disponível" disabled/>
+                                        <div className="col-span-2 sm:col-span-1 mb-3">
+                                            <label for="price" className="block mb-2 text-sm font-medium text-gray-900">Status</label>
+                                            <input name="modelo" id="name" className="placeholder-gray-500 bg-white border border-gray-200 text-sm rounded-lg w-full p-2.5" placeholder="Disponível" disabled/>
                                         </div>
                                     </div>
 
