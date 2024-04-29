@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Sidebar } from "../components/Sidebar";
-import {ModalEditarVeiculo} from '../components/ModalEditarVeiculos'; // Importe o componente do modal
+import { ModalCriarVeiculo } from '../components/ModalCriarVeiculos'; // Importe o componente do modal de criação
+import { ModalEditarVeiculo } from '../components/ModalEditarVeiculos'; // Importe o componente do modal de edição
 import api from '../services/api';
 
 export function Veiculos() {
   const [searchInput, setSearchInput] = useState('');
   const [filtro, setFiltro] = useState([]);
   const [veiculos, setVeiculos] = useState([]);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [modalCreateIsOpen, setModalCreateIsOpen] = useState(false); // Estado para controlar a abertura do modal de criação
+  const [modalEditIsOpen, setModalEditIsOpen] = useState(false); // Estado para controlar a abertura do modal de edição
   const [veiculoId, setVeiculoId] = useState(null);
 
   const token = localStorage.getItem('token');
@@ -43,11 +45,16 @@ export function Veiculos() {
 
   const openEditModal = (id) => {
     setVeiculoId(id);
-    setModalIsOpen(true);
+    setModalEditIsOpen(true); // Abre o modal de edição
+  }
+
+  const openCreateModal = () => {
+    setModalCreateIsOpen(true); // Abre o modal de criação
   }
 
   const closeModal = () => {
-    setModalIsOpen(false);
+    setModalCreateIsOpen(false); // Fecha o modal de criação
+    setModalEditIsOpen(false); // Fecha o modal de edição
     setVeiculoId(null);
   }
 
@@ -104,7 +111,7 @@ export function Veiculos() {
                   </div>
                   <input type="text" onChange={(e) => searchVeiculos(e.target.value)} id="table-search-users" class="pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-white focus:ring-blue-500 focus:border-blue-500" placeholder="Pesquisar pela placa" />
                 </div>
-                <button type="button" class="text-white bg-gray-900 hover:bg-gray-700 focus:ring-1 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none">Novo Veículo +</button>
+                <button type="button" onClick={openCreateModal} class="text-white bg-gray-900 hover:bg-gray-700 focus:ring-1 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none">Novo Veículo +</button>
               </div>
               <div className="relative overflow-x-auto shadow-md sm:rounded-lg bg-white mb-20" style={{ maxHeight: "40rem", overflow: "auto" }}>
                 <table className="w-full text-sm text-left rtl:text-right text-gray-500">
@@ -169,10 +176,14 @@ export function Veiculos() {
         </div>
       </div>
       <ModalEditarVeiculo
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
+        isOpen={modalEditIsOpen} // Passa o estado de abertura do modal de edição
+        onRequestClose={closeModal} // Passa a função para fechar o modal de edição
         veiculoId={veiculoId}
         editVeiculo={editVeiculo}
+      />
+      <ModalCriarVeiculo
+        isOpen={modalCreateIsOpen} // Passa o estado de abertura do modal de criação
+        onRequestClose={closeModal} // Passa a função para fechar o modal de criação
       />
     </div>
   );

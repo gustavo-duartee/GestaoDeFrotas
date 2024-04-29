@@ -1,19 +1,17 @@
 import React, { useState } from "react";
 import ReactModal from "react-modal";
 import api from "../services/api";
-import {useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-export function ModalCriarVeiculo() {
+export function ModalCriarVeiculo({ isOpen, onRequestClose }) {
 
-    const [id, setId] = useState(null);
     const [marca, setMarca] = useState('');
     const [modelo, setModelo] = useState('');
-    const [ano, setAno] = useState(0);
+    const [ano, setAno] = useState('');
     const [placa, setPlaca] = useState('');
-    const [quilometragem, setQuilometragem] = useState(0);
+    const [quilometragem, setQuilometragem] = useState('');
     const [tp_combustivel, setTpCombustivel] = useState('');
     const [dt_aquisicao, setDtAquisicao] = useState('');
-    const [status, setStatus] = useState('Disponivel');
 
     const history = useNavigate();
 
@@ -24,8 +22,10 @@ export function ModalCriarVeiculo() {
         }
     }
 
-    async function saveOrUpdate(event) {
+    async function saveVeiculo(event) {
         event.preventDefault();
+
+        const status = "Disponível";
 
         const data = {
             marca,
@@ -40,14 +40,18 @@ export function ModalCriarVeiculo() {
 
         try {
             await api.post('api/veiculos', data, authorization);
-        } catch (error) {
-            alert('Erro ao gravar veiculo ' + error);
+            alert('Veículo adicionado com sucesso!');
             history('/veiculos');
+            window.location.reload();
+        } catch (error) {
+            alert('Erro ao adicionar veículo: ' + error);
         }
     }
 
     return (
         <ReactModal
+            isOpen={isOpen}
+            onRequestClose={onRequestClose}
             contentLabel="Example Modal"
             className="modal fixed inset-0 flex items-center justify-center overflow-auto"
             overlayClassName="modal-overlay fixed inset-0 z-40 bg-black bg-opacity-40"
@@ -57,7 +61,7 @@ export function ModalCriarVeiculo() {
 
                 <div className="modal-header flex justify-between items-center px-6 py-4 bg-gray-50 rounded-t-lg">
                     <h3 className="modal-title text-lg font-semibold text-gray-900">Adicionar novo veículo</h3>
-                    <button className="modal-close text-gray-500 hover:text-gray-700" >
+                    <button onClick={onRequestClose} className="modal-close text-gray-500 hover:text-gray-700" >
                         <span className="sr-only">Fechar</span>
                         <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -68,27 +72,26 @@ export function ModalCriarVeiculo() {
                 <hr></hr>
 
                 <div className="modal-body px-5 py-0 ">
-                    <form class="p-4 md:p-5" onSubmit={saveOrUpdate}>
-                        <div class="grid mb-1 w-full">
+                <form className="p-4 md:p-5" onSubmit={saveVeiculo}>
+                        <div className="grid mb-1 w-full">
 
-                            <div class="col-span-2 mb-2">
-                                <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Modelo</label>
-                                <div class="relative mt-1 rounded-md shadow-sm">
-                                    <input type="text" onChange={e => setModelo(e.target.value)} name="modelo" id="name" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite o modelo" />
+                            <div className="col-span-2 mb-2">
+                                <label htmlFor="modelo" className="block text-sm font-medium leading-6 text-gray-900">Modelo</label>
+                                <div className="relative mt-1 rounded-md shadow-sm">
+                                    <input type="text" onChange={e => setModelo(e.target.value)} name="modelo" id="modelo" className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite o modelo" />
                                 </div>
                             </div>
 
-                            <div class="col-span-2 mb-2">
-                                <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Placa</label>
-                                <div class="relative mt-1 rounded-md shadow-sm">
-                                    <input type="text" onChange={e => setPlaca(e.target.value)} name="placa" id="name" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite a placa" />
+                            <div className="col-span-2 mb-2">
+                                <label htmlFor="placa" className="block text-sm font-medium leading-6 text-gray-900">Placa</label>
+                                <div className="relative mt-1 rounded-md shadow-sm">
+                                    <input type="text" onChange={e => setPlaca(e.target.value)} name="placa" id="placa" className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite a placa" />
                                 </div>
                             </div>
 
-                            <div class="col-span-2 mb-2">
-                                <label for="category" class="block text-sm font-medium leading-6 text-gray-900">Tipo do Combustível</label>
-                                <select id="category" onChange={e => setTpCombustivel(e.target.value)} name="tp_combustivel" class="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                                    <option selected="">Selecione um tipo</option>
+                            <div className="col-span-2 mb-2">
+                                <label htmlFor="tp_combustivel" className="block text-sm font-medium leading-6 text-gray-900">Tipo do Combustível</label>
+                                <select id="tp_combustivel" onChange={e => setTpCombustivel(e.target.value)} name="tp_combustivel" className="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                                     <option value="Gasolina Comum">Gasolina Comum</option>
                                     <option value="Etanol">Etanol</option>
                                     <option value="Diesel">Diesel</option>
@@ -96,31 +99,31 @@ export function ModalCriarVeiculo() {
                                 </select>
                             </div>
 
-                            <div class="col-span-2 mb-2">
-                                <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Marca</label>
-                                <div class="relative mt-1 rounded-md shadow-sm">
-                                    <input type="text" onChange={e => setMarca(e.target.value)} name="marca" id="name" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite a marca" />
+                            <div className="col-span-2 mb-2">
+                                <label htmlFor="marca" className="block text-sm font-medium leading-6 text-gray-900">Marca</label>
+                                <div className="relative mt-1 rounded-md shadow-sm">
+                                    <input type="text" onChange={e => setMarca(e.target.value)} name="marca" id="marca" className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite a marca" />
                                 </div>
                             </div>
 
-                            <div class="col-span-2 mb-2">
-                                <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Ano</label>
-                                <div class="relative mt-1 rounded-md shadow-sm">
-                                    <input type="number" onChange={e => setAno(e.target.value)} name="ano" id="name" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite o ano" />
+                            <div className="col-span-2 mb-2">
+                                <label htmlFor="ano" className="block text-sm font-medium leading-6 text-gray-900">Ano</label>
+                                <div className="relative mt-1 rounded-md shadow-sm">
+                                    <input type="number" onChange={e => setAno(e.target.value)} name="ano" id="ano" className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite o ano" />
                                 </div>
                             </div>
 
-                            <div class="col-span-2 mb-2">
-                                <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Quilometragem</label>
-                                <div class="relative mt-1 rounded-md shadow-sm">
-                                    <input type="number" onChange={e => setQuilometragem(e.target.value)} name="quilometragem" id="name" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite a quilometragem" />
+                            <div className="col-span-2 mb-2">
+                                <label htmlFor="quilometragem" className="block text-sm font-medium leading-6 text-gray-900">Quilometragem</label>
+                                <div className="relative mt-1 rounded-md shadow-sm">
+                                    <input type="number" onChange={e => setQuilometragem(e.target.value)} name="quilometragem" id="quilometragem" className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite a quilometragem" />
                                 </div>
                             </div>
 
-                            <div class="col-span-2 mb-2">
-                                <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Data de Aquisição</label>
-                                <div class="relative mt-1 rounded-md shadow-sm">
-                                    <input type="date" onChange={e => setDtAquisicao(e.target.value)} name="dt_aquisicao" id="name" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite a data" />
+                            <div className="col-span-2 mb-2">
+                                <label htmlFor="dt_aquisicao" className="block text-sm font-medium leading-6 text-gray-900">Data de Aquisição</label>
+                                <div className="relative mt-1 rounded-md shadow-sm">
+                                    <input type="date" onChange={e => setDtAquisicao(e.target.value)} name="dt_aquisicao" id="dt_aquisicao" className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite a data" />
                                 </div>
                             </div>
 
