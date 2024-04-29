@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ReactModal from "react-modal";
-import api from "../services/api";
+import api from "../../services/api";
 import { useNavigate } from "react-router-dom";
 
 export function ModalCriarVeiculo({ isOpen, onRequestClose }) {

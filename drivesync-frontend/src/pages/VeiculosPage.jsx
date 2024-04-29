@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Sidebar } from "../components/Sidebar";
-import { ModalCriarVeiculo } from '../components/ModalCriarVeiculos'; // Importe o componente do modal de criação
-import { ModalEditarVeiculo } from '../components/ModalEditarVeiculos'; // Importe o componente do modal de edição
+import { ModalCriarVeiculo } from '../components/Veiculos/ModalCriarVeiculos';
+import { ModalEditarVeiculo } from '../components/Veiculos/ModalEditarVeiculos';
 import api from '../services/api';
 
 export function Veiculos() {
   const [searchInput, setSearchInput] = useState('');
   const [filtro, setFiltro] = useState([]);
   const [veiculos, setVeiculos] = useState([]);
-  const [modalCreateIsOpen, setModalCreateIsOpen] = useState(false); // Estado para controlar a abertura do modal de criação
-  const [modalEditIsOpen, setModalEditIsOpen] = useState(false); // Estado para controlar a abertura do modal de edição
+  const [modalCreateIsOpen, setModalCreateIsOpen] = useState(false);
+  const [modalEditIsOpen, setModalEditIsOpen] = useState(false);
   const [veiculoId, setVeiculoId] = useState(null);
 
   const token = localStorage.getItem('token');
@@ -101,6 +101,8 @@ export function Veiculos() {
         <div id="main-content" className="h-full w-full bg-gray-100 relative overflow-y-auto ">
           <main>
             <div className="pt-6 px-4">
+
+              {/* Header da página */}
               <div className="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4">
                 <h1 className="text-2xl font-medium tracking-tight text-gray-900">Veículos</h1>
                 <div className="relative">
@@ -109,12 +111,15 @@ export function Veiculos() {
                       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                     </svg>
                   </div>
-                  <input type="text" onChange={(e) => searchVeiculos(e.target.value)} id="table-search-users" className="pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-white focus:ring-blue-500 focus:border-blue-500" placeholder="Pesquisar pela placa" />
+                  <input type="text" onChange={(e) => searchVeiculos(e.target.value)} id="table-search-users" className="pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-white focus:ring-blue-500 focus:border-blue-500" placeholder="Pesquisar veículo" />
                 </div>
                 <button type="button" onClick={openCreateModal} className="text-white bg-gray-900 hover:bg-gray-700 focus:ring-1 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none">Novo Veículo +</button>
               </div>
+
+              {/* Corpo da página */}
               <div className="relative overflow-x-auto shadow-md sm:rounded-lg bg-white mb-20" style={{ maxHeight: "40rem", overflow: "auto" }}>
                 <table className="w-full text-sm text-left rtl:text-right text-gray-500">
+                  {/* Cabeçalho da tabela */}
                   <thead className="text-xs text-gray-700 uppercase bg-gray-50 border">
                     <tr>
                       <th scope="col" className="px-6 py-3">Placa</th>
@@ -128,6 +133,7 @@ export function Veiculos() {
                       <th scope="col" className="px-6 py-3">Ações</th>
                     </tr>
                   </thead>
+                  {/* Linha da tabela */}
                   <tbody>
                     {searchInput.length > 1 ? (
                       filtro.map(veiculo => (
@@ -171,10 +177,14 @@ export function Veiculos() {
                   </tbody>
                 </table>
               </div>
+              
             </div>
           </main>
         </div>
       </div>
+
+
+      {/* Chamando os modais na tela */}
       <ModalEditarVeiculo
         isOpen={modalEditIsOpen} // Passa o estado de abertura do modal de edição
         onRequestClose={closeModal} // Passa a função para fechar o modal de edição

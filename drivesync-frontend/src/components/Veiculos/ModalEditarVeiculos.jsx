@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ReactModal from "react-modal";
-import api from "../services/api";
+import api from "../../services/api";
 import { useNavigate, useParams } from "react-router-dom";
 
 export function ModalEditarVeiculo({ isOpen, onRequestClose, veiculoId, editVeiculo }) {
