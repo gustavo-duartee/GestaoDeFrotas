@@ -27,7 +27,7 @@ namespace DriveSync.Controllers
         {
             try
             {
-                var empresa = await _empresaService.GetEmpresa();
+                var empresa = await _empresaService.GetEmpresas();
                 return Ok(empresa);
             }
             catch
@@ -60,7 +60,7 @@ namespace DriveSync.Controllers
         {
             try
             {
-                var empresa = await _empresaService.GetEmpresa();
+                var empresa = await _empresaService.GetEmpresas();
                 if (empresa == null)
                 {
                     return NotFound($"Não existe uma empresa com o id = {id}");
@@ -78,7 +78,7 @@ namespace DriveSync.Controllers
             try
             {
                 await _empresaService.CreateEmpresa(empresa);
-                return CreatedAtRoute(nameof(GetEmpresa), new { Id = empresa.Id }, empresa);
+                return CreatedAtRoute(nameof(GetEmpresa), new { id = empresa.Id }, empresa);
 
             }
             catch

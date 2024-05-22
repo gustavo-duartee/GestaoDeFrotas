@@ -18,9 +18,9 @@ namespace DriveSync.Model
         public string endereco { get; set; }
         [Required]
         [StringLength(200)]
+        [EmailAddress]
         public string email { get; set; }
         [Required]
-        [EmailAddress]
         [StringLength(200)]
         public string telefone { get; set; }
         [Required]
