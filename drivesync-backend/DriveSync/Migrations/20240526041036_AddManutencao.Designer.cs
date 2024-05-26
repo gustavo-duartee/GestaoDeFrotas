@@ -12,18 +12,53 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DriveSync.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240427010036_AddTbManutencao")]
-    partial class AddTbManutencao
+    [Migration("20240526041036_AddManutencao")]
+    partial class AddManutencao
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.4")
+                .HasAnnotation("ProductVersion", "8.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("DriveSync.Model.Manutencao", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("descricao")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<DateTime?>("dt_manutencao")
+                        .IsRequired()
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("fornecedor")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("pecas_trocadas")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<float>("valor")
+                        .HasColumnType("real");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Manutencao");
+                });
 
             modelBuilder.Entity("DriveSync.Model.Veiculo", b =>
                 {
@@ -32,6 +67,9 @@ namespace DriveSync.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<int?>("ManutencaoId")
+                        .HasColumnType("int");
 
                     b.Property<int?>("ano")
                         .IsRequired()
@@ -70,6 +108,8 @@ namespace DriveSync.Migrations
                         .HasColumnType("nvarchar(80)");
 
                     b.HasKey("id");
+
+                    b.HasIndex("ManutencaoId");
 
                     b.ToTable("Veiculos");
                 });
@@ -272,6 +312,13 @@ namespace DriveSync.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("DriveSync.Model.Veiculo", b =>
+                {
+                    b.HasOne("DriveSync.Model.Manutencao", null)
+                        .WithMany("id_veiculo")
+                        .HasForeignKey("ManutencaoId");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -321,6 +368,11 @@ namespace DriveSync.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("DriveSync.Model.Manutencao", b =>
+                {
+                    b.Navigation("id_veiculo");
                 });
 #pragma warning restore 612, 618
         }
