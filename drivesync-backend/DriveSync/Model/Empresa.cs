@@ -6,25 +6,25 @@ namespace DriveSync.Model
     [Table("Empresas")]
     public class Empresa
     {
-        public int Id { get; set; }
-        [Required]
-        [StringLength(80)]
-        public string nome { get; set; }
+        public int id { get; set; }
         [Required]
         [StringLength(200)]
-        public string cnpj { get; set; }
+        public string nome { get; set; }
         [Required]
         [StringLength(20)]
+        public string cnpj { get; set; }
+        [Required]
+        [StringLength(200)]
         public string endereco { get; set; }
         [Required]
         [StringLength(200)]
         [EmailAddress]
         public string email { get; set; }
         [Required]
-        [StringLength(200)]
+        [StringLength(20)]
         public string telefone { get; set; }
         [Required]
-        [StringLength(20)]
+        [DataType(DataType.Date)]
         public DateTime? data_cadastro { get; set; }
         
     }

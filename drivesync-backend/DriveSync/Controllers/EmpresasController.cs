@@ -11,19 +11,18 @@ namespace DriveSync.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public class EmpresaController : ControllerBase /*ControllerBase - Na controller veiculos
-                                                 estava dessa forma*/
+    public class EmpresasController : ControllerBase 
     {
-        private readonly ILogger<VeiculosController> _logger;
+        private readonly ILogger<EmpresasController> _logger;
 
         private IEmpresaService _empresaService;
 
-        public EmpresaController(IEmpresaService empresaSerice)
+        public EmpresasController(IEmpresaService empresaSerice)
         {
             _empresaService = empresaSerice;
         }
         [HttpGet]
-        public async Task<ActionResult<IAsyncEnumerable<Empresa>>> GetEmpresa()
+        public async Task<ActionResult<IAsyncEnumerable<Empresa>>> GetEmpresas()
         {
             try
             {
@@ -60,7 +59,7 @@ namespace DriveSync.Controllers
         {
             try
             {
-                var empresa = await _empresaService.GetEmpresas();
+                var empresa = await _empresaService.GetEmpresa(id);
                 if (empresa == null)
                 {
                     return NotFound($"Não existe uma empresa com o id = {id}");
@@ -73,12 +72,12 @@ namespace DriveSync.Controllers
             }
         }
         [HttpPost]
-        public async Task<ActionResult> Create(Empresa empresa)
+        public async Task<ActionResult> Create (Empresa empresa)
         {
             try
             {
                 await _empresaService.CreateEmpresa(empresa);
-                return CreatedAtRoute(nameof(GetEmpresa), new { id = empresa.Id }, empresa);
+                return CreatedAtRoute(nameof(GetEmpresa), new { Id = empresa.id }, empresa);
 
             }
             catch
@@ -91,10 +90,10 @@ namespace DriveSync.Controllers
         {
             try
             {
-                if (empresa.Id == id)
+                if (empresa.id == id)
                 {
                     await _empresaService.UpdateEmpresa(empresa);
-                    return Ok($"Veiculo com o id={id} foi atualizado com sucesso");
+                    return Ok($"Empresa com o id={id} foi atualizado com sucesso");
                 }
                 return BadRequest("Dados inconsistentes");
             }
@@ -114,7 +113,7 @@ namespace DriveSync.Controllers
                     await _empresaService.DeleteEmpresa(empresa);
                     return Ok($"Empresa de id={id} foi excluido com sucesso");
                 }
-                return NotFound($"Veiculo com id={id} não encontrado");
+                return NotFound($"Empresa com id={id} não encontrado");
             }
             catch
             {
