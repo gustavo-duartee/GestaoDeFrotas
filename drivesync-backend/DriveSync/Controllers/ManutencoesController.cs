@@ -11,13 +11,13 @@ namespace DriveSync.Controllers
     [ApiController]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 
-    public class ManutencaoController : ControllerBase
+    public class ManutencoesController : ControllerBase
     {
-        private readonly ILogger<ManutencaoController> _logger;
+        private readonly ILogger<ManutencoesController> _logger;
 
         private IManutencaoService _manutencaoService;
 
-        public ManutencaoController(IManutencaoService manutencaoService)
+        public ManutencoesController(IManutencaoService manutencaoService)
         {
             _manutencaoService = manutencaoService;
         }
