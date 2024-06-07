@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { ModalCriarManutencao } from '../components/Manutencoes/ModalCriarManutencao';
+// import { ModalEditarManutencao } from '../components/Manutencoes/ModalEditarManutencao';
 import { Sidebar } from "../components/Sidebar";
 import api from "../services/api";
 
@@ -57,6 +59,42 @@ export function Manutencoes() {
     setModalEditIsOpen(false); // Fecha o modal de edição
     setManutencaoId(null);
   }
+
+  const editManutencao = async (id) => {
+    try {
+      console.log(`Editar manutancao com ID ${id}`);
+      closeModal();
+    } catch (error) {
+      alert("Não foi possível editar a manutenção")
+    }
+  }
+
+  const excluirManutencao = async (id) => {
+    if (!window.confirm(`Deseja realmente excluir a manutenção ${id}?`)) {
+      return;
+    }
+    try {
+      await api.delete(`api/manutencoes/${id}`, authorization);
+      alert("Manutencao excluido com sucesso!");
+      window.location.reload();
+    } catch (error) {
+      let errorMessage = "Não foi possível deletar a manutenção";
+
+      if (error.response) {
+        const { data, status } = error.response;
+        if (status === 400) {
+          errorMessage = "Manutenção não encontrada";
+        } else if (status >= 500) {
+          errorMessage = "Falha na comunicação com o servidor";
+        } else {
+          errorMessage = data.message || errorMessage;
+        }
+      }
+      alert(errorMessage);
+
+    }
+  }
+
 
   return (
     <div>
@@ -125,6 +163,17 @@ export function Manutencoes() {
           </main>
         </div>
       </div>
+      {/* Chamar modais pra tela */}
+      {/* <ModalEditarManutencao
+        isOpen={modalEditIsOpen} // Passa o estado de abertura do modal de edição
+        onRequestClose={closeModal} // Passa a função para fechar o modal de edição
+        manutencaoId={ManutencaoId}
+        editManutencao={editManutencao}
+      /> */}
+      <ModalCriarManutencao
+        isOpen={modalCreateIsOpen} // Passa o estado de abertura do modal de criação
+        onRequestClose={closeModal} // Passa a função para fechar o modal de criação
+      />
     </div>
   )
 }
