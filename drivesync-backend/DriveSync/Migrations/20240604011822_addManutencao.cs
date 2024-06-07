@@ -6,17 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DriveSync.Migrations
 {
     /// <inheritdoc />
-    public partial class AddManutencao : Migration
+    public partial class addManutencao : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<int>(
-                name: "ManutencaoId",
-                table: "Veiculos",
-                type: "int",
-                nullable: true);
-
             migrationBuilder.CreateTable(
                 name: "Manutencao",
                 columns: table => new
@@ -33,37 +27,13 @@ namespace DriveSync.Migrations
                 {
                     table.PrimaryKey("PK_Manutencao", x => x.Id);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Veiculos_ManutencaoId",
-                table: "Veiculos",
-                column: "ManutencaoId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Veiculos_Manutencao_ManutencaoId",
-                table: "Veiculos",
-                column: "ManutencaoId",
-                principalTable: "Manutencao",
-                principalColumn: "Id");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Veiculos_Manutencao_ManutencaoId",
-                table: "Veiculos");
-
             migrationBuilder.DropTable(
                 name: "Manutencao");
-
-            migrationBuilder.DropIndex(
-                name: "IX_Veiculos_ManutencaoId",
-                table: "Veiculos");
-
-            migrationBuilder.DropColumn(
-                name: "ManutencaoId",
-                table: "Veiculos");
         }
     }
 }

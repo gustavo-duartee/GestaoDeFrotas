@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DriveSync.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240526041036_AddManutencao")]
-    partial class AddManutencao
+    [Migration("20240607152604_editManutencao")]
+    partial class editManutencao
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -42,18 +42,17 @@ namespace DriveSync.Migrations
                         .IsRequired()
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("fornecedor")
+                    b.Property<string>("servico")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<string>("pecas_trocadas")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<float>("valor")
                         .HasColumnType("real");
+
+                    b.Property<string>("veiculo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -67,9 +66,6 @@ namespace DriveSync.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
-
-                    b.Property<int?>("ManutencaoId")
-                        .HasColumnType("int");
 
                     b.Property<int?>("ano")
                         .IsRequired()
@@ -108,8 +104,6 @@ namespace DriveSync.Migrations
                         .HasColumnType("nvarchar(80)");
 
                     b.HasKey("id");
-
-                    b.HasIndex("ManutencaoId");
 
                     b.ToTable("Veiculos");
                 });
@@ -312,13 +306,6 @@ namespace DriveSync.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("DriveSync.Model.Veiculo", b =>
-                {
-                    b.HasOne("DriveSync.Model.Manutencao", null)
-                        .WithMany("id_veiculo")
-                        .HasForeignKey("ManutencaoId");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -368,11 +355,6 @@ namespace DriveSync.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("DriveSync.Model.Manutencao", b =>
-                {
-                    b.Navigation("id_veiculo");
                 });
 #pragma warning restore 612, 618
         }
