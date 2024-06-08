@@ -6,6 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 export function ModalEditarManutencao({ isOpen, onRequestClose, manutencaoId, editManutencao }) {
     const [id, setId] = useState(null);
     const [dt_manutencao, setDtManutencao] = useState('');
+    const [tp_manutencao, setTpManutencao] = useState('');
     const [veiculo, setVeiculo] = useState('');
     const [servico, setServico] = useState('');
     const [valor, setValor] = useState(0);
@@ -32,6 +33,7 @@ export function ModalEditarManutencao({ isOpen, onRequestClose, manutencaoId, ed
 
             setId(response.data.id);
             setDtManutencao(response.data.dt_manutencao);
+            setTpManutencao(response.data.tp_manutencao)
             setVeiculo(response.data.veiculo);
             setServico(response.data.servico);
             setValor(response.data.valor);
@@ -49,6 +51,7 @@ export function ModalEditarManutencao({ isOpen, onRequestClose, manutencaoId, ed
 
         const data = {
             dt_manutencao,
+            tp_manutencao,
             veiculo,
             servico,
             valor,
@@ -100,6 +103,16 @@ export function ModalEditarManutencao({ isOpen, onRequestClose, manutencaoId, ed
                                 </div>
 
                                 <div className="col-span-2 mb-2">
+                                    <label htmlFor="tp_manutencao" className="block text-sm font-medium leading-6 text-gray-900">Tipo da Manutenção</label>
+                                    <select id="tp_manutencao" name="tp_manutencao" onChange={e => setTpManutencao(e.target.value)} placeholder="Selecione um tipo" className="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                        <option value="Manutenção Preventiva">Manutenção Preventiva</option>
+                                        <option value="Manutenção Corretiva">Manutenção Corretiva</option>
+                                        <option value="Manutenção Preditiva">Manutenção Preditiva</option>
+                                        <option value="Manutenção Detectiva">Manutenção Detectiva</option>
+                                    </select>
+                                </div>
+
+                                <div className="col-span-2 mb-2">
                                     <label htmlFor="veiculo" className="block text-sm font-medium leading-6 text-gray-900">Veículo</label>
                                     <input required type="text" name="veiculo" id="veiculo" className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 placeholder-gray-400" value={veiculo} onChange={(e) => setVeiculo(e.target.value)} />
                                 </div>
@@ -111,7 +124,7 @@ export function ModalEditarManutencao({ isOpen, onRequestClose, manutencaoId, ed
 
                                 <div className="col-span-2 mb-2">
                                     <label htmlFor="valor" className="block text-sm font-medium leading-6 text-gray-900">Valor</label>
-                                    <input required type="text" name="valor" id="valor" className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 placeholder-gray-400" value={valor} onChange={(e) => setValor(e.target.value)} />
+                                    <input required type="number" name="valor" id="valor" className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 placeholder-gray-400" value={valor} onChange={(e) => setValor(e.target.value)} />
                                 </div>
 
                                 <div className="col-span-2 mb-2">
