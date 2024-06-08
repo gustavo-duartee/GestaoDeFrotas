@@ -5,12 +5,11 @@ import { useNavigate } from "react-router-dom";
 
 export function ModalCriarManutencao({ isOpen, onRequestClose }) {
 
-    const [descricao, setDescricao] = useState('');
     const [dt_manutencao, setDtManutencao] = useState('');
-    const [fornecedor, setFornecedor] = useState('');
-    const [id_veiculo, setIdVeiculo] = useState('');
-    const [pecas_trocadas, setPecasTrocadas] = useState('');
+    const [veiculo, setVeiculo] = useState('');
+    const [servico, setServico] = useState('');
     const [valor, setValor] = useState('');
+    const [descricao, setDescricao] = useState('');
 
     const history = useNavigate();
 
@@ -28,11 +27,10 @@ export function ModalCriarManutencao({ isOpen, onRequestClose }) {
 
         const data = {
             dt_manutencao,
-            fornecedor,
+            veiculo,
+            servico,
             valor,
-            descricao,
-            pecas_trocadas,
-            // id_veiculo
+            descricao
         }
 
         try {
@@ -58,7 +56,7 @@ export function ModalCriarManutencao({ isOpen, onRequestClose }) {
             <div className="modal-content bg-white shadow-lg rounded-lg w-full max-w-md ">
 
                 <div className="modal-header flex justify-between items-center px-6 py-4 bg-gray-50 rounded-t-lg">
-                    <h3 className="modal-title text-lg font-semibold text-gray-900">Adicionar nova manetenção</h3>
+                    <h3 className="modal-title text-lg font-semibold text-gray-900">Adicionar nova manutenção</h3>
                     <button onClick={onRequestClose} className="modal-close text-gray-500 hover:text-gray-700" >
                         <span className="sr-only">Fechar</span>
                         <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -70,7 +68,7 @@ export function ModalCriarManutencao({ isOpen, onRequestClose }) {
                 <hr></hr>
 
                 <div className="modal-body px-5 py-0 ">
-                <form className="p-4 md:p-5" onSubmit={saveManutencao}>
+                    <form className="p-4 md:p-5" onSubmit={saveManutencao}>
                         <div className="grid mb-1 w-full">
 
                             <div className="col-span-2 mb-2">
@@ -80,38 +78,29 @@ export function ModalCriarManutencao({ isOpen, onRequestClose }) {
                                 </div>
                             </div>
                             <div className="col-span-2 mb-2">
-                                <label htmlFor="fornecedor" className="block text-sm font-medium leading-6 text-gray-900">Fornecedor</label>
+                                <label htmlFor="pecasTrocadas" className="block text-sm font-medium leading-6 text-gray-900">Veículo</label>
                                 <div className="relative mt-1 rounded-md shadow-sm">
-                                    <input type="text" onChange={e => setFornecedor(e.target.value)} name="fornecedor" id="fornecedor" className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite a data da manutenção" />
+                                    <input type="text" onChange={e => setVeiculo(e.target.value)} name="pecasTrocadas" id="pecasTrocadas" className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite as peças trocadas na manutenção" />
+                                </div>
+                                <div className="col-span-2 mb-2">
+                                    <label htmlFor="servico" className="block text-sm font-medium leading-6 text-gray-900">Serviço</label>
+                                    <div className="relative mt-1 rounded-md shadow-sm">
+                                        <input type="text" onChange={e => setServico(e.target.value)} name="servico" id="servico" className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite a data da manutenção" />
+                                    </div>
+                                </div>
+                                <div className="col-span-2 mb-2">
+                                    <label htmlFor="valor" className="block text-sm font-medium leading-6 text-gray-900">Valor</label>
+                                    <div className="relative mt-1 rounded-md shadow-sm">
+                                        <input type="number" onChange={e => setValor(e.target.value)} name="valor" id="valor" className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite o valor da manutenção" />
+                                    </div>
+                                </div>
+                                <div className="col-span-2 mb-2">
+                                    <label htmlFor="descricao" className="block text-sm font-medium leading-6 text-gray-900">Descrição</label>
+                                    <div className="relative mt-1 rounded-md shadow-sm">
+                                        <input type="text" onChange={e => setDescricao(e.target.value)} name="descricao" id="descricao" className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite a descrição da manutenção" />
+                                    </div>
                                 </div>
                             </div>
-                            <div className="col-span-2 mb-2">
-                                <label htmlFor="valor" className="block text-sm font-medium leading-6 text-gray-900">Valor</label>
-                                <div className="relative mt-1 rounded-md shadow-sm">
-                                    <input type="number" onChange={e => setValor(e.target.value)} name="valor" id="valor" className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite o valor da manutenção" />
-                                </div>
-                            </div>
-                            <div className="col-span-2 mb-2">
-                                <label htmlFor="descricao" className="block text-sm font-medium leading-6 text-gray-900">Descrição</label>
-                                <div className="relative mt-1 rounded-md shadow-sm">
-                                    <input type="text" onChange={e => setDescricao(e.target.value)} name="descricao" id="descricao" className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite a descrição da manutenção" />
-                                </div>
-                            </div>
-                            <div className="col-span-2 mb-2">
-                                <label htmlFor="pecasTrocadas" className="block text-sm font-medium leading-6 text-gray-900">Pecas Trocadas</label>
-                                <div className="relative mt-1 rounded-md shadow-sm">
-                                    <input type="text" onChange={e => setPecasTrocadas(e.target.value)} name="pecasTrocadas" id="pecasTrocadas" className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite as peças trocadas na manutenção" />
-                                </div>
-                            </div>
-                            {/* fazer o "Adicionar veiculo", antes preciso arrumar chave estrangeira na api */}
-                            {/* <div className="col-span-2 mb-2">
-                                <label htmlFor="pecasTrocadas" className="block text-sm font-medium leading-6 text-gray-900">Valor</label>
-                                <div className="relative mt-1 rounded-md shadow-sm">
-                                    <input type="text" onChange={e => setPecasTrocadas(e.target.value)} name="pecasTrocadas" id="pecasTrocadas" className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite as peças trocadas na manutenção" />
-                                </div>
-                            </div> */}
-
-                           
                         </div>
 
                         <div className="flex justify-between gap-2 mt-8" >
