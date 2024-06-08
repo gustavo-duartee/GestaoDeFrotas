@@ -44,6 +44,10 @@ namespace DriveSync.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<string>("tp_manutencao")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<float>("valor")
                         .HasColumnType("real");
 

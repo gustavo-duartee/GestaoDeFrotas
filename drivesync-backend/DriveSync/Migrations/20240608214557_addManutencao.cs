@@ -18,10 +18,11 @@ namespace DriveSync.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     dt_manutencao = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    fornecedor = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    tp_manutencao = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    veiculo = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    servico = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     valor = table.Column<float>(type: "real", nullable: false),
-                    descricao = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
-                    pecas_trocadas = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false)
+                    descricao = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false)
                 },
                 constraints: table =>
                 {
