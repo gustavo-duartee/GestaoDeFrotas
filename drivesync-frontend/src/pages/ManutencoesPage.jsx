@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ModalCriarManutencao } from '../components/Manutencoes/ModalCriarManutencao';
-// import { ModalEditarManutencao } from '../components/Manutencoes/ModalEditarManutencao';
+import { ModalEditarManutencao } from '../components/Manutencoes/ModalEditarManutencao';
 import { Sidebar } from "../components/Sidebar";
 import api from "../services/api";
 
@@ -114,7 +114,7 @@ export function Manutencoes() {
                   </div>
                   <input type="text" onChange={(e) => searchManutencoes(e.target.value)} id="table-search-users" className="pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-white focus:ring-blue-500 focus:border-blue-500" placeholder="Pesquisar veículo" />
                 </div>
-                <button type="button" onClick={openCreateModal} className="text-white bg-gray-900 hover:bg-gray-700 focus:ring-1 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none">Novo Veículo +</button>
+                <button type="button" onClick={openCreateModal} className="text-white bg-gray-900 hover:bg-gray-700 focus:ring-1 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none">Nova manutenção +</button>
               </div>
 
               {/* Corpo da página */}
@@ -124,11 +124,10 @@ export function Manutencoes() {
                   <thead className="text-xs text-gray-700 uppercase bg-gray-50 border">
                     <tr>
                       <th scope="col" className="px-6 py-3">Data da Manutenção</th>
-                      <th scope="col" className="px-6 py-3">Fornecedor</th>
+                      <th scope="col" className="px-6 py-3">Veículo</th>
+                      <th scope="col" className="px-6 py-3">Serviço</th>
                       <th scope="col" className="px-6 py-3">Valor</th>
                       <th scope="col" className="px-6 py-3">Descrição</th>
-                      <th scope="col" className="px-6 py-3">Peças Trocadas</th>
-                      <th scope="col" className="px-6 py-3">Veículo</th>
                     </tr>
                   </thead>
                   {/* Linha da tabela */}
@@ -137,22 +136,24 @@ export function Manutencoes() {
                       filtro.map(manutencao => (
                         <tr key={manutencao.id}>
                           <td className="px-6 py-4">{manutencao.dt_manutencao}</td>
-                          <td className="px-6 py-4">{manutencao.fornecedor}</td>
+                          <td className="px-6 py-4">{manutencao.veiculo}</td>
+                          <td className="px-6 py-4">{manutencao.servico}</td>
                           <td className="px-6 py-4">{manutencao.valor}</td>
                           <td className="px-6 py-4">{manutencao.descricao}</td>
-                          <td className="px-6 py-4">{manutencao.pecas_trocadas}</td>
-                          <td className="px-6 py-4">{manutencao.veiculo}</td>
                         </tr>
                       ))
                     ) : (
                       manutencoes.map(manutencao => (
                         <tr key={manutencao.id}>
                           <td className="px-6 py-4">{manutencao.dt_manutencao}</td>
-                          <td className="px-6 py-4">{manutencao.fornecedor}</td>
+                          <td className="px-6 py-4">{manutencao.veiculo}</td>
+                          <td className="px-6 py-4">{manutencao.servico}</td>
                           <td className="px-6 py-4">{manutencao.valor}</td>
                           <td className="px-6 py-4">{manutencao.descricao}</td>
-                          <td className="px-6 py-4">{manutencao.pecas_trocadas}</td>
-                          <td className="px-6 py-4">{manutencao.veiculo}</td>
+                          <div className="flex gap-2">
+                              <button type="button" onClick={() => excluirManutencao(manutencao.id)} className="text-white bg-blue-600 hover:bg-blue-800 focus:ring-1 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none">Excluir</button>
+                              <button type="button" onClick={() => openEditModal(manutencao.id)} className="text-white bg-blue-600 hover:bg-blue-800 focus:ring-1 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none">Editar</button>
+                            </div>
                         </tr>
                       ))
                     )}
@@ -164,12 +165,12 @@ export function Manutencoes() {
         </div>
       </div>
       {/* Chamar modais pra tela */}
-      {/* <ModalEditarManutencao
+      <ModalEditarManutencao
         isOpen={modalEditIsOpen} // Passa o estado de abertura do modal de edição
         onRequestClose={closeModal} // Passa a função para fechar o modal de edição
-        manutencaoId={ManutencaoId}
+        manutencaoId={manutencaoId}
         editManutencao={editManutencao}
-      /> */}
+      />
       <ModalCriarManutencao
         isOpen={modalCreateIsOpen} // Passa o estado de abertura do modal de criação
         onRequestClose={closeModal} // Passa a função para fechar o modal de criação
