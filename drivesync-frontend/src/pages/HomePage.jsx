@@ -1,3 +1,5 @@
+import MyChart from '../components/Graficos/GastoCombustivelMensal';
+import ConsumoPorVeiculo from '../components/Graficos/GastoCombustivelVeiculo';
 import { Sidebar } from '../components/Sidebar';
 
 export function Home() {
@@ -67,14 +69,15 @@ export function Home() {
                             <div className="mt-4 w-full grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-4">
 
                                 {/* Gráfico de consumo de combustível por mês */}
-                                <div className="bg-white shadow-md rounded-lg p-4 sm:p-6 xl:p-8  2xl:col-span-2">
+                                <div className="bg-white shadow-md rounded-lg p-4 sm:p-6 xl:p-8 2xl:col-span-2">
                                     <div className="flex items-center justify-between mb-4">
                                         <div className="flex-shrink-0">
-                                            <span className="text-2xl sm:text-3xl leading-none font-bold text-gray-900">$00,00</span>
-                                            <h3 className="text-base font-normal text-gray-500">Gastos com combustível por mês</h3>
+                                            <h3 className="text-xl font-bold leading-none text-gray-900">Gastos com combustível por mês</h3>
                                         </div>
                                     </div>
-                                    <div id="main-chart"></div>
+                                    <div id="main-chart" className="w-full h-96">
+                                        <MyChart />
+                                    </div>
                                 </div>
 
                                 {/* Tabela com lista de últimas viagens */}
@@ -178,108 +181,18 @@ export function Home() {
                             <div className="grid grid-cols-1 2xl:grid-cols-2 xl:gap-4 my-4">
 
                                 {/* Total de viagens por veículo */}
-                                <div className="bg-white shadow-md  rounded-lg mb-4 p-4 sm:p-6 h-full">
+                                <div className="bg-white shadow-md rounded-lg mb-4 p-4 sm:p-6 h-full">
                                     <div className="flex items-center justify-between mb-4">
-                                        <h3 className="text-xl font-bold leading-none text-gray-900">Total de viagens por veículo</h3>
+                                        <h3 className="text-xl font-bold leading-none text-gray-900">Total de combustível gasto por veículo</h3>
                                         <a href="#" className="text-sm font-medium text-cyan-600 hover:bg-gray-100 rounded-lg inline-flex items-center p-2">
                                             Ver todos
                                         </a>
                                     </div>
-                                    <div className="flow-root">
-                                        <ul role="list" className="divide-y divide-gray-200">
-                                            <li className="py-3 sm:py-4">
-                                                <div className="flex items-center space-x-4">
-                                                    <div className="flex-shrink-0">
-                                                        <img className="h-8 w-8 rounded-full" src="https://demo.themesberg.com/windster/images/users/neil-sims.png" alt="Imagem veículo" />
-                                                    </div>
-                                                    <div className="flex-1 min-w-0">
-                                                        <p className="text-sm font-medium text-gray-900 truncate">
-                                                            Placa
-                                                        </p>
-                                                        <p className="text-sm text-gray-500 truncate">
-                                                            <a href="">Modelo</a>
-                                                        </p>
-                                                    </div>
-                                                    <div className="inline-flex items-center text-base font-semibold text-gray-900">
-                                                        0
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li className="py-3 sm:py-4">
-                                                <div className="flex items-center space-x-4">
-                                                    <div className="flex-shrink-0">
-                                                        <img className="h-8 w-8 rounded-full" src="https://demo.themesberg.com/windster/images/users/neil-sims.png" alt="Imagem veículo" />
-                                                    </div>
-                                                    <div className="flex-1 min-w-0">
-                                                        <p className="text-sm font-medium text-gray-900 truncate">
-                                                            Placa
-                                                        </p>
-                                                        <p className="text-sm text-gray-500 truncate">
-                                                            <a href="">Modelo</a>
-                                                        </p>
-                                                    </div>
-                                                    <div className="inline-flex items-center text-base font-semibold text-gray-900">
-                                                        0
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li className="py-3 sm:py-4">
-                                                <div className="flex items-center space-x-4">
-                                                    <div className="flex-shrink-0">
-                                                        <img className="h-8 w-8 rounded-full" src="https://demo.themesberg.com/windster/images/users/neil-sims.png" alt="Imagem veículo" />
-                                                    </div>
-                                                    <div className="flex-1 min-w-0">
-                                                        <p className="text-sm font-medium text-gray-900 truncate">
-                                                            Placa
-                                                        </p>
-                                                        <p className="text-sm text-gray-500 truncate">
-                                                            <a href="">Modelo</a>
-                                                        </p>
-                                                    </div>
-                                                    <div className="inline-flex items-center text-base font-semibold text-gray-900">
-                                                        0
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li className="py-3 sm:py-4">
-                                                <div className="flex items-center space-x-4">
-                                                    <div className="flex-shrink-0">
-                                                        <img className="h-8 w-8 rounded-full" src="https://demo.themesberg.com/windster/images/users/neil-sims.png" alt="Imagem veículo" />
-                                                    </div>
-                                                    <div className="flex-1 min-w-0">
-                                                        <p className="text-sm font-medium text-gray-900 truncate">
-                                                            Placa
-                                                        </p>
-                                                        <p className="text-sm text-gray-500 truncate">
-                                                            <a href="">Modelo</a>
-                                                        </p>
-                                                    </div>
-                                                    <div className="inline-flex items-center text-base font-semibold text-gray-900">
-                                                        0
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li className="py-3 sm:py-4">
-                                                <div className="flex items-center space-x-4">
-                                                    <div className="flex-shrink-0">
-                                                        <img className="h-8 w-8 rounded-full" src="https://demo.themesberg.com/windster/images/users/neil-sims.png" alt="Imagem veículo" />
-                                                    </div>
-                                                    <div className="flex-1 min-w-0">
-                                                        <p className="text-sm font-medium text-gray-900 truncate">
-                                                            Placa
-                                                        </p>
-                                                        <p className="text-sm text-gray-500 truncate">
-                                                            <a href="">Modelo</a>
-                                                        </p>
-                                                    </div>
-                                                    <div className="inline-flex items-center text-base font-semibold text-gray-900">
-                                                        0
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul>
+                                    <div className="w-full h-96">
+                                        {/*<ConsumoPorVeiculo />*/}
                                     </div>
                                 </div>
+
 
                                 {/* A definir */}
                                 <div className="bg-white shadow-md  rounded-lg p-4 sm:p-6 xl:p-8 ">
@@ -329,7 +242,7 @@ export function Home() {
                                     </div>
                                 </div>
                             </div>
-                            
+
                         </div>
                     </main>
                 </div>
