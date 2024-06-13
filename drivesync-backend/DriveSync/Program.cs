@@ -55,6 +55,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddScoped<IAuthenticate, AuthenticateService>();
 builder.Services.AddScoped<IVeiculoService, VeiculosService>();
+builder.Services.AddScoped<IManutencaoService, ManutencaoService>();
 
 
 builder.Services.AddCors(options =>
