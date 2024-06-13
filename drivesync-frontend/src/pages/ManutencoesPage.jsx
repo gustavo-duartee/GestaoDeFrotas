@@ -124,6 +124,7 @@ export function Manutencoes() {
                   <thead className="text-xs text-gray-700 uppercase bg-gray-50 border">
                     <tr>
                       <th scope="col" className="px-6 py-3">Data da Manutenção</th>
+                      <th scope="col" className="px-6 py-3">Próxima Manutenção</th>
                       <th scope="col" className="px-6 py-3">Tipo da Manutenção</th>
                       <th scope="col" className="px-6 py-3">Veículo</th>
                       <th scope="col" className="px-6 py-3">Serviço</th>
@@ -137,6 +138,7 @@ export function Manutencoes() {
                       filtro.map(manutencao => (
                         <tr key={manutencao.id}>
                           <td className="px-6 py-4">{manutencao.dt_manutencao}</td>
+                          <td className="px-6 py-4">{manutencao.dt_prox_manutencao}</td>
                           <td className="px-6 py-4">{manutencao.tp_manutencao}</td>
                           <td className="px-6 py-4">{manutencao.veiculo}</td>
                           <td className="px-6 py-4">{manutencao.servico}</td>
@@ -148,6 +150,7 @@ export function Manutencoes() {
                       manutencoes.map(manutencao => (
                         <tr key={manutencao.id}>
                           <td className="px-6 py-4">{manutencao.dt_manutencao}</td>
+                          <td className="px-6 py-4">{manutencao.dt_prox_manutencao}</td>
                           <td className="px-6 py-4">{manutencao.tp_manutencao}</td>
                           <td className="px-6 py-4">{manutencao.veiculo}</td>
                           <td className="px-6 py-4">{manutencao.servico}</td>

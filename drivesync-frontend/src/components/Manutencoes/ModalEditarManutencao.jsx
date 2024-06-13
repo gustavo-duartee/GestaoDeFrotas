@@ -6,6 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 export function ModalEditarManutencao({ isOpen, onRequestClose, manutencaoId, editManutencao }) {
     const [id, setId] = useState(null);
     const [dt_manutencao, setDtManutencao] = useState('');
+    const [dt_prox_manutencao, setDtProxManutencao] = useState('');
     const [tp_manutencao, setTpManutencao] = useState('');
     const [veiculo, setVeiculo] = useState('');
     const [servico, setServico] = useState('');
@@ -33,6 +34,7 @@ export function ModalEditarManutencao({ isOpen, onRequestClose, manutencaoId, ed
 
             setId(response.data.id);
             setDtManutencao(response.data.dt_manutencao);
+            setProxDtManutencao(response.data.dt_prox_manutencao);
             setTpManutencao(response.data.tp_manutencao)
             setVeiculo(response.data.veiculo);
             setServico(response.data.servico);
@@ -51,6 +53,7 @@ export function ModalEditarManutencao({ isOpen, onRequestClose, manutencaoId, ed
 
         const data = {
             dt_manutencao,
+            dt_prox_manutencao,
             tp_manutencao,
             veiculo,
             servico,
@@ -100,6 +103,10 @@ export function ModalEditarManutencao({ isOpen, onRequestClose, manutencaoId, ed
                                 <div className="col-span-2 mb-2">
                                     <label htmlFor="dt_manutencao" className="block text-sm font-medium leading-6 text-gray-900">Data de Manutenção</label>
                                     <input required type="date" name="dt_manutencao" id="dt_manutencao" className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 placeholder-gray-400" value={dt_manutencao} onChange={(e) => setDtManutencao(e.target.value)} />
+                                </div>
+                                <div className="col-span-2 mb-2">
+                                    <label htmlFor="dt_prox_manutencao" className="block text-sm font-medium leading-6 text-gray-900">Data de Manutenção</label>
+                                    <input required type="date" name="" id="dt_prox_manutencao" className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 placeholder-gray-400" value={dt_prox_manutencao} onChange={(e) => setDtProxManutencao(e.target.value)} />
                                 </div>
 
                                 <div className="col-span-2 mb-2">
