@@ -13,6 +13,9 @@ namespace DriveSync.Model
         
         [Required]
         public DateTime? dt_manutencao { get; set; }
+
+        [Required]
+        public DateTime? dt_prox_manutencao { get; set; }
         
         [Required]
         public string tp_manutencao { get; set; }
@@ -30,6 +33,10 @@ namespace DriveSync.Model
         [Required]
         [StringLength(1000)]
         public string descricao { get; set; }
+
+        public int veiculoId { get; set; } // Required foreign key property
+        public Veiculo veiculo { get; set; } = null!; // Required reference navigation to principal
+        
 /*      [Required]
         [StringLength(1000)]
         public string pecas_trocadas { get; set; }*/
