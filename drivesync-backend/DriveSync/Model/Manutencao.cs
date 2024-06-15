@@ -34,12 +34,8 @@ namespace DriveSync.Model
         [StringLength(1000)]
         public string descricao { get; set; }
 
-        public int veiculoId { get; set; } // Required foreign key property
-        public Veiculo veiculo { get; set; } = null!; // Required reference navigation to principal
-        
-/*      [Required]
-        [StringLength(1000)]
-        public string pecas_trocadas { get; set; }*/
+        public int veiculoId { get; set; }
+
 
 
         
