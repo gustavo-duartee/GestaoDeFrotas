@@ -4,6 +4,7 @@ import LoginPage from './pages/LoginPage';
 import { Veiculos } from './pages/VeiculosPage';
 import { Manutencoes } from './pages/ManutencoesPage';
 import { Home } from './pages/HomePage';
+import { Empresas } from "./pages/EmpresasPage";
 
 export default function AppRoutes() {
     return (
@@ -12,6 +13,7 @@ export default function AppRoutes() {
             <Route path="/veiculos" element={<Veiculos />} />
             <Route path="/manutencoes" element={<Manutencoes />} />
             <Route path="/home" element={<Home />} />
+            <Route path="/empresas" element={<Empresas />} />
         </Routes>
     )
 }
