@@ -4,6 +4,7 @@ using DriveSync.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DriveSync.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240608214557_addManutencao")]
+    partial class addManutencao
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,10 +42,6 @@ namespace DriveSync.Migrations
                         .IsRequired()
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("dt_prox_manutencao")
-                        .IsRequired()
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("servico")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -59,12 +58,7 @@ namespace DriveSync.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("veiculoId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("veiculoId");
 
                     b.ToTable("Manutencao");
                 });
@@ -316,15 +310,6 @@ namespace DriveSync.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("DriveSync.Model.Manutencao", b =>
-                {
-                    b.HasOne("DriveSync.Model.Veiculo", null)
-                        .WithMany("manutencoes")
-                        .HasForeignKey("veiculoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -374,11 +359,6 @@ namespace DriveSync.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("DriveSync.Model.Veiculo", b =>
-                {
-                    b.Navigation("manutencoes");
                 });
 #pragma warning restore 612, 618
         }
