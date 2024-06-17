@@ -9,7 +9,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:5249",
+  baseURL: "https://1316-177-71-67-7.ngrok-free.app",
 });
 
 // Interceptor para tratar erros nas respostas
