@@ -3,13 +3,15 @@ import ReactModal from "react-modal";
 import api from "../../services/api";
 import { useNavigate } from "react-router-dom";
 
-export function ModalCriarEmpresa({ isOpen, onRequestClose }) {
-  const [nome, setNome] = useState("");
-  const [cnpj, setCNPJ] = useState("");
-  const [endereco, setEndereco] = useState("");
-  const [email, setEmail] = useState("");
-  const [telefone, setTelefone] = useState("");
-  const [data_cadastro, setData_cadastro] = useState("");
+export function ModalCriarMulta({ isOpen, onRequestClose }) {
+  //const [idviagem, setIdViagem] = useState(0);
+  const [codigo, setCodigo] = useState("");
+  const [dtmulta, setDtMulta] = useState("");
+  const [tpinfracao, setTpInfracao] = useState("");
+  const [valor, setValor] = useState(0);
+  const [ptscarteira, setPtsCarteira] = useState(0);
+  const [descricao, setDescricao] = useState("");
+  const [veiculoid, setVeiculoId] = useState(0);
 
   const history = useNavigate();
 
@@ -20,28 +22,29 @@ export function ModalCriarEmpresa({ isOpen, onRequestClose }) {
     },
   };
 
-  async function saveEmpresa(event) {
+  async function saveMulta(event) {
     event.preventDefault();
 
     const status = "Disponível";
 
     const data = {
-      nome,
-      cnpj,
-      endereco,
-      email,
-      telefone,
-      data_cadastro,
+      //idviagem,
+      codigo,
+      dtmulta,
+      tpinfracao,
+      valor,
+      ptscarteira,
+      descricao,
+      veiculoid,
     };
 
     try {
-      await api.post("api/empresas", data, authorization);
-      alert("Empresa adicionada com sucesso!");
-      history("/empresas");
+      await api.post("api/multas", data, authorization);
+      alert("Multa adicionada com sucesso!");
+      history("/multas");
       window.location.reload();
     } catch (error) {
-      alert("Erro ao adicionar empresa: " + error);
-      console.log(error);
+      alert("Erro ao adicionar multa: " + error);
     }
   }
 
@@ -57,7 +60,7 @@ export function ModalCriarEmpresa({ isOpen, onRequestClose }) {
       <div className="modal-content bg-white shadow-lg rounded-lg w-full max-w-md ">
         <div className="modal-header flex justify-between items-center px-6 py-4 bg-gray-50 rounded-t-lg">
           <h3 className="modal-title text-lg font-semibold text-gray-900">
-            Adicionar nova empresa
+            Adicionar nova multa
           </h3>
           <button
             onClick={onRequestClose}
@@ -83,116 +86,137 @@ export function ModalCriarEmpresa({ isOpen, onRequestClose }) {
         <hr></hr>
 
         <div className="modal-body px-5 py-0 ">
-          <form className="p-4 md:p-5" onSubmit={saveEmpresa}>
+          <form className="p-4 md:p-5" onSubmit={saveMulta}>
             <div className="grid mb-1 w-full">
-              <div className="col-span-2 mb-2">
+              {/* <div className="col-span-2 mb-2">
                 <label
-                  htmlFor="nome"
+                  htmlFor="idViagem"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
-                  Nome
+                  idViagem
                 </label>
                 <div className="relative mt-1 rounded-md shadow-sm">
                   <input
                     type="text"
-                    onChange={(e) => setNome(e.target.value)}
-                    name="nome"
-                    id="nome"
+                    onChange={(e) => setIdViagem(e.target.value)}
+                    name="idViagem"
+                    id="idViagem"
                     className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    placeholder="Digite o nome"
+                    placeholder="Digite o ID viagem"
                   />
                 </div>
-              </div>
+              </div> */}
 
               <div className="col-span-2 mb-2">
                 <label
-                  htmlFor="CNPJ"
+                  htmlFor="codigo"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
-                  CNPJ
+                  Codigo
                 </label>
                 <div className="relative mt-1 rounded-md shadow-sm">
                   <input
                     type="text"
-                    onChange={(e) => setCNPJ(e.target.value)}
-                    name="cnpj"
-                    id="cnpj"
+                    onChange={(e) => setCodigo(e.target.value)}
+                    name="codigo"
+                    id="codigo"
                     className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    placeholder="Digite o CNPJ"
+                    placeholder="Digite o codigo"
                   />
                 </div>
               </div>
 
               <div className="col-span-2 mb-2">
                 <label
-                  htmlFor="endereco"
+                  htmlFor="dtmulta"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
-                  Endereco
-                </label>
-                <input
-                  type="text"
-                  id="endereco"
-                  onChange={(e) => setEndereco(e.target.value)}
-                  name="endereco"
-                  className="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  placeholder="Digite o endereço"
-                />
-              </div>
-
-              <div className="col-span-2 mb-2">
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium leading-6 text-gray-900"
-                >
-                  Email
-                </label>
-                <div className="relative mt-1 rounded-md shadow-sm">
-                  <input
-                    type="text"
-                    onChange={(e) => setEmail(e.target.value)}
-                    name="email"
-                    id="email"
-                    className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    placeholder="Digite o email"
-                  />
-                </div>
-              </div>
-
-              <div className="col-span-2 mb-2">
-                <label
-                  htmlFor="telefone"
-                  className="block text-sm font-medium leading-6 text-gray-900"
-                >
-                  Telefone
-                </label>
-                <div className="relative mt-1 rounded-md shadow-sm">
-                  <input
-                    type="number"
-                    onChange={(e) => setTelefone(e.target.value)}
-                    name="telefone"
-                    id="telefone"
-                    className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    placeholder="Digite o telefone"
-                  />
-                </div>
-              </div>
-
-              <div className="col-span-2 mb-2">
-                <label
-                  htmlFor="data_cadastro"
-                  className="block text-sm font-medium leading-6 text-gray-900"
-                >
-                  Data de Cadastro
+                  Data da multa
                 </label>
                 <div className="relative mt-1 rounded-md shadow-sm">
                   <input
                     type="date"
-                    onChange={(e) => setData_cadastro(e.target.value)}
-                    name="data_cadastro"
-                    id="data_cadastro"
+                    onChange={(e) => setDtMulta(e.target.value)}
+                    name="dtmulta"
+                    id="dtmulta"
                     className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    placeholder="Digite a data de cadastro"
+                    placeholder="Digite a data da infração"
+                  />
+                </div>
+              </div>
+
+              <div className="col-span-2 mb-2">
+                <label
+                  htmlFor="tpinfracao"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Tipo de Infração
+                </label>
+                <div className="relative mt-1 rounded-md shadow-sm">
+                  <input
+                    type="text"
+                    onChange={(e) => setTpInfracao(e.target.value)}
+                    name="tpinfracao"
+                    id="tpinfracao"
+                    className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    placeholder="Digite o tipo de infração"
+                  />
+                </div>
+              </div>
+
+              <div className="col-span-2 mb-2">
+                <label
+                  htmlFor="valor"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Valor
+                </label>
+                <div className="relative mt-1 rounded-md shadow-sm">
+                  <input
+                    type="number"
+                    onChange={(e) => setValor(e.target.value)}
+                    name="valor"
+                    id="valor"
+                    className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    placeholder="Digite o valor"
+                  />
+                </div>
+              </div>
+
+              <div className="col-span-2 mb-2">
+                <label
+                  htmlFor="ptscarteira"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Pontos na Carteira
+                </label>
+                <div className="relative mt-1 rounded-md shadow-sm">
+                  <input
+                    type="number"
+                    onChange={(e) => setPtsCarteira(e.target.value)}
+                    name="ptscarteira"
+                    id="ptscarteira"
+                    className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    placeholder="Digite quantos pontos na carteira"
+                  />
+                </div>
+              </div>
+
+              <div className="col-span-2 mb-2">
+                <label
+                  htmlFor="descricao"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Descricao
+                </label>
+                <div className="relative mt-1 rounded-md shadow-sm">
+                  <input
+                    type="text"
+                    onChange={(e) => setDescricao(e.target.value)}
+                    name="descricao"
+                    id="descricao"
+                    className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    placeholder="Digite a descrição"
                   />
                 </div>
               </div>

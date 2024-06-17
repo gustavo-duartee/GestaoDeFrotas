@@ -4,6 +4,7 @@ using DriveSync.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DriveSync.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240615194119_ListVeiculos")]
+    partial class ListVeiculos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -82,9 +85,11 @@ namespace DriveSync.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<DateTime?>("DtMulta")
-                        .IsRequired()
+                    b.Property<DateTime>("DtMulta")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("IdVeiculo")
+                        .HasColumnType("int");
 
                     b.Property<int>("IdViagem")
                         .HasColumnType("int");
@@ -100,10 +105,12 @@ namespace DriveSync.Migrations
                     b.Property<decimal>("Valor")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("Veiculoid")
+                    b.Property<int?>("Veiculoid")
                         .HasColumnType("int");
 
                     b.HasKey("id");
+
+                    b.HasIndex("Veiculoid");
 
                     b.ToTable("Multas");
                 });
@@ -355,6 +362,13 @@ namespace DriveSync.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("DriveSync.Model.Multa", b =>
+                {
+                    b.HasOne("DriveSync.Model.Veiculo", null)
+                        .WithMany("multa")
+                        .HasForeignKey("Veiculoid");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -404,6 +418,11 @@ namespace DriveSync.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("DriveSync.Model.Veiculo", b =>
+                {
+                    b.Navigation("multa");
                 });
 #pragma warning restore 612, 618
         }

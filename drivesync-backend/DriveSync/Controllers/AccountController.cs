@@ -1,5 +1,6 @@
 ﻿using DriveSync.Service;
 using DriveSync.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -9,6 +10,7 @@ using System.Text;
 
 namespace DriveSync.Controllers
 {
+    //[Authorize("Authorize")]
     [Route("api/[controller]")]
     [ApiController]
     public class AccountController : ControllerBase

@@ -28,5 +28,7 @@ namespace DriveSync.Model
         [DataType(DataType.Date)]
         public DateTime? dt_aquisicao { get; set; }
         public string status { get; set; }
+       // public ICollection<Multa> multa { get; } = new List<Multa>();
+        //public ICollection<Empresa> empresa { get; } = new List<Empresa>();
     }
 }
