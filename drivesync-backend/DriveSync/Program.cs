@@ -62,9 +62,9 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("DefaultPolicy", builder =>
     {
-        builder.WithOrigins("http://localhost:3000") // Allow requests from this origin
-               .WithMethods("GET", "POST", "PUT", "DELETE") // Allow these HTTP methods
-               .WithHeaders("Content-Type", "Authorization"); // Allow these headers
+        builder.AllowAnyOrigin()
+               .WithMethods("GET", "POST", "PUT", "DELETE") // Permitir esses métodos HTTP
+               .WithHeaders("Content-Type", "Authorization"); // Permitir esses headers
     });
 });
 
