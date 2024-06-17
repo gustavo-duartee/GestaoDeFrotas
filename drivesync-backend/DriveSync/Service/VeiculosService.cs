@@ -15,7 +15,7 @@ namespace DriveSync.Service
 
         public async Task<IEnumerable<Veiculo>> GetVeiculos()
         {
-            try
+            try 
             {
                 return await _context.Veiculos.Include(v => v.manutencoes).ToListAsync();
             }

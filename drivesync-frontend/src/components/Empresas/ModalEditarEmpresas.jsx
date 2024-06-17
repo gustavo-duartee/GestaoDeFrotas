@@ -3,21 +3,19 @@ import ReactModal from "react-modal";
 import api from "../../services/api";
 import { useNavigate, useParams } from "react-router-dom";
 
-export function ModalEditarVeiculo({
+export function ModalEditarEmpresa({
   isOpen,
   onRequestClose,
-  veiculoId,
-  editVeiculo,
+  empresaId,
+  editEmpresa,
 }) {
   const [id, setId] = useState(null);
-  const [marca, setMarca] = useState("");
-  const [modelo, setModelo] = useState("");
-  const [ano, setAno] = useState(0);
-  const [placa, setPlaca] = useState("");
-  const [quilometragem, setQuilometragem] = useState(0);
-  const [tp_combustivel, setTpCombustivel] = useState("");
-  const [dt_aquisicao, setDtAquisicao] = useState("");
-  const [status, setStatus] = useState("");
+  const [nome, setNome] = useState("");
+  const [cnpj, setCNPJ] = useState("");
+  const [endereco, setEndereco] = useState("");
+  const [email, setEmail] = useState("");
+  const [telefone, setTelefone] = useState("");
+  const [data_cadastro, setData_cadastro] = useState("");
 
   const history = useNavigate();
 
@@ -29,55 +27,51 @@ export function ModalEditarVeiculo({
   };
 
   useEffect(() => {
-    if (veiculoId) {
-      loadVeiculo();
+    if (empresaId) {
+      loadEmpresa();
     }
-  }, [veiculoId]);
+  }, [empresaId]);
 
-  async function loadVeiculo() {
+  async function loadEmpresa() {
     try {
       const response = await api.get(
-        `api/veiculos/${veiculoId}`,
+        `api/empresas/${empresaId}`,
         authorization
       );
 
       setId(response.data.id);
-      setMarca(response.data.marca);
-      setModelo(response.data.modelo);
-      setAno(response.data.ano);
-      setPlaca(response.data.placa);
-      setQuilometragem(response.data.quilometragem);
-      setTpCombustivel(response.data.tp_combustivel);
-      setDtAquisicao(response.data.dt_aquisicao);
-      setStatus(response.data.status);
+      setNome(response.data.nome);
+      setCNPJ(response.data.cnpj);
+      setEndereco(response.data.endereco);
+      setEmail(response.data.email);
+      setTelefone(response.data.telefone);
+      setData_cadastro(response.data.data_cadastro);
     } catch (error) {
-      alert("Erro ao recuperar o veículo " + error);
-      history("/veiculos");
+      alert("Erro ao recuperar a empresa " + error);
+      history("/empresas");
     }
   }
 
-  async function updateVeiculo(event) {
+  async function updateEmpresa(event) {
     event.preventDefault();
 
     const data = {
-      marca,
-      modelo,
-      ano,
-      placa,
-      quilometragem,
-      tp_combustivel,
-      dt_aquisicao,
-      status,
+      nome,
+      cnpj,
+      endereco,
+      email,
+      telefone,
+      data_cadastro,
     };
 
     try {
       data.id = id;
-      await api.put(`api/veiculos/${id}`, data, authorization);
-      editVeiculo(id);
-      alert("Veiculo atualizado com sucesso!");
+      await api.put(`api/empresas/${id}`, data, authorization);
+      editEmpresa(id);
+      alert("Empresa atualizado com sucesso!");
       window.location.reload();
     } catch (error) {
-      alert("Erro ao editar veículo. ");
+      alert("Erro ao editar empresa. ");
     }
     onRequestClose(); // Fechando o modal após a edição do veículo
   }
@@ -94,7 +88,7 @@ export function ModalEditarVeiculo({
       <div className="modal-content bg-white shadow-lg rounded-lg w-full max-w-md">
         <div className="modal-header flex justify-between items-center px-6 py-4 bg-gray-50 rounded-t-lg">
           <h3 className="modal-title text-lg font-semibold text-gray-900">
-            Editar veículo
+            Editar empresa
           </h3>
           <button
             onClick={onRequestClose}
@@ -120,143 +114,109 @@ export function ModalEditarVeiculo({
         <hr />
 
         <div className="modal-body px-5 py-0 ">
-          <form className="p-4 md:p-5" onSubmit={updateVeiculo}>
+          <form className="p-4 md:p-5" onSubmit={updateEmpresa}>
             <div className="grid mb-1 w-full">
               {/* Campos de edição habilitados para permitir a alteração */}
               <div className="grid grid-cols-2 gap-4">
                 <div className="col-span-2 mb-2">
                   <label
-                    htmlFor="marca"
+                    htmlFor="nome"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
-                    Marca
+                    Nome
                   </label>
                   <input
                     type="text"
-                    name="marca"
-                    id="marca"
+                    name="nome"
+                    id="nome"
                     className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 placeholder-gray-400"
-                    value={marca}
-                    onChange={(e) => setMarca(e.target.value)}
+                    value={nome}
+                    onChange={(e) => setNome(e.target.value)}
                   />
                 </div>
 
                 <div className="col-span-2 mb-2">
                   <label
-                    htmlFor="modelo"
+                    htmlFor="cnpj"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
-                    Modelo
+                    CNPJ
                   </label>
                   <input
                     type="text"
-                    name="modelo"
-                    id="modelo"
+                    name="cnpj"
+                    id="cnpj"
                     className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 placeholder-gray-400"
-                    value={modelo}
-                    onChange={(e) => setModelo(e.target.value)}
+                    value={cnpj}
+                    onChange={(e) => setCNPJ(e.target.value)}
                   />
                 </div>
 
                 <div className="col-span-2 mb-2">
                   <label
-                    htmlFor="ano"
+                    htmlFor="endereco"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
-                    Ano
+                    Endereco
+                  </label>
+                  <input
+                    type="text"
+                    name="endereco"
+                    id="endereco"
+                    className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 placeholder-gray-400"
+                    value={endereco}
+                    onChange={(e) => setEndereco(e.target.value)}
+                  />
+                </div>
+
+                <div className="col-span-2 mb-2">
+                  <label
+                    htmlFor="email"
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >
+                    Email
+                  </label>
+                  <input
+                    type="text"
+                    name="email"
+                    id="email"
+                    className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 placeholder-gray-400"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                </div>
+
+                <div className="col-span-2 mb-2">
+                  <label
+                    htmlFor="telefone"
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >
+                    Telefone
                   </label>
                   <input
                     type="number"
-                    name="ano"
-                    id="ano"
+                    name="telefone"
+                    id="telefone"
                     className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 placeholder-gray-400"
-                    value={ano}
-                    onChange={(e) => setAno(e.target.value)}
+                    value={telefone}
+                    onChange={(e) => setTelefone(e.target.value)}
                   />
                 </div>
 
                 <div className="col-span-2 mb-2">
                   <label
-                    htmlFor="placa"
+                    htmlFor="data_cadastro"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
-                    Placa
-                  </label>
-                  <input
-                    type="text"
-                    name="placa"
-                    id="placa"
-                    className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 placeholder-gray-400"
-                    value={placa}
-                    onChange={(e) => setPlaca(e.target.value)}
-                  />
-                </div>
-
-                <div className="col-span-2 mb-2">
-                  <label
-                    htmlFor="quilometragem"
-                    className="block text-sm font-medium leading-6 text-gray-900"
-                  >
-                    Quilometragem
-                  </label>
-                  <input
-                    type="number"
-                    name="quilometragem"
-                    id="quilometragem"
-                    className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 placeholder-gray-400"
-                    value={quilometragem}
-                    onChange={(e) => setQuilometragem(e.target.value)}
-                  />
-                </div>
-
-                <div className="col-span-2 mb-2">
-                  <label
-                    htmlFor="tp_combustivel"
-                    className="block text-sm font-medium leading-6 text-gray-900"
-                  >
-                    Tipo do Combustível
-                  </label>
-                  <input
-                    type="text"
-                    name="tp_combustivel"
-                    id="tp_combustivel"
-                    className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 placeholder-gray-400"
-                    value={tp_combustivel}
-                    onChange={(e) => setTpCombustivel(e.target.value)}
-                  />
-                </div>
-
-                <div className="col-span-2 mb-2">
-                  <label
-                    htmlFor="dt_aquisicao"
-                    className="block text-sm font-medium leading-6 text-gray-900"
-                  >
-                    Data de Aquisição
+                    Data de Cadastro
                   </label>
                   <input
                     type="date"
-                    name="dt_aquisicao"
-                    id="dt_aquisicao"
+                    name="data_cadastro"
+                    id="data_cadastro"
                     className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 placeholder-gray-400"
-                    value={dt_aquisicao}
-                    onChange={(e) => setDtAquisicao(e.target.value)}
-                  />
-                </div>
-
-                <div className="col-span-2 mb-2">
-                  <label
-                    htmlFor="status"
-                    className="block text-sm font-medium leading-6 text-gray-900"
-                  >
-                    Status
-                  </label>
-                  <input
-                    type="text"
-                    name="status"
-                    id="status"
-                    className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 placeholder-gray-400"
-                    value={status}
-                    onChange={(e) => setStatus(e.target.value)}
+                    value={data_cadastro}
+                    onChange={(e) => setData_cadastro(e.target.value)}
                   />
                 </div>
               </div>
