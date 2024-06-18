@@ -1,10 +1,12 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
 
 import LoginPage from './pages/LoginPage';
 import { Veiculos } from './pages/VeiculosPage';
 import { Manutencoes } from './pages/ManutencoesPage';
 import { Home } from './pages/HomePage';
-import { Empresas } from "./pages/EmpresasPage";
+import { Empresas } from './pages/EmpresasPage';
+import { RegisterPage } from './pages/RegisterPage';
 
 export default function AppRoutes() {
     return (
@@ -14,6 +16,7 @@ export default function AppRoutes() {
             <Route path="/manutencoes" element={<Manutencoes />} />
             <Route path="/home" element={<Home />} />
             <Route path="/empresas" element={<Empresas />} />
+            <Route path="/registro" element={<RegisterPage />} />
         </Routes>
-    )
+    );
 }
