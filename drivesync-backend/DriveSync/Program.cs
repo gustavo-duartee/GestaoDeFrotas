@@ -56,7 +56,7 @@ builder.Services.AddScoped<IAuthenticate, AuthenticateService>();
 builder.Services.AddScoped<IVeiculoService, VeiculosService>();
 builder.Services.AddScoped<IManutencaoService, ManutencaoService>();
 builder.Services.AddScoped<IEmpresaService, EmpresaService>();
-
+builder.Services.AddScoped<IMultaService, MultaService>();
 
 builder.Services.AddCors(options =>
 {

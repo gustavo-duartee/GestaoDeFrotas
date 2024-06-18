@@ -4,6 +4,7 @@ using DriveSync.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DriveSync.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240612010712_AddTbMulta2")]
+    partial class AddTbMulta2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -62,50 +65,6 @@ namespace DriveSync.Migrations
                     b.HasKey("id");
 
                     b.ToTable("Empresas");
-                });
-
-            modelBuilder.Entity("DriveSync.Model.Multa", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
-
-                    b.Property<string>("codigo")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<string>("descricao")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<DateTime?>("dtmulta")
-                        .IsRequired()
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("idviagem")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ptscarteira")
-                        .HasColumnType("int");
-
-                    b.Property<string>("tpinfracao")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<decimal>("valor")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("veiculoid")
-                        .HasColumnType("int");
-
-                    b.HasKey("id");
-
-                    b.ToTable("Multas");
                 });
 
             modelBuilder.Entity("DriveSync.Model.Veiculo", b =>
