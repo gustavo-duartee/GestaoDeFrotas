@@ -26,29 +26,29 @@ const data = {
         {
             label: 'Gasolina Comum',
             data: [150, 141, 145, 152, 135, 125, 125, 125, 125, 125, 125, 125],
-            backgroundColor: 'rgba(26, 86, 219, 0.2)',
-            borderColor: '#1A56DB',
+            backgroundColor: 'rgba(74, 191, 96, 0.6)',
+            borderColor: '#4ABF60',
             borderWidth: 2,
         },
         {
             label: 'Diesel',
             data: [150, 141, 145, 152, 135, 125, 125, 125, 125, 125, 125, 125],
-            backgroundColor: 'rgba(126, 59, 242, 0.2)',
-            borderColor: '#7E3BF2',
+            backgroundColor: 'rgba(52, 160, 61, 0.6)',
+            borderColor: '#34A03D',
             borderWidth: 2,
         },
         {
             label: 'Etanol',
             data: [150, 141, 145, 152, 135, 125, 125, 125, 125, 125, 125, 125],
-            backgroundColor: 'rgba(126, 59, 242, 0.2)',
-            borderColor: '#7E3BF2',
+            backgroundColor: 'rgba(96, 201, 107, 0.6)',
+            borderColor: '#60C96B',
             borderWidth: 2,
         },
         {
             label: 'Gasolina Aditivada',
             data: [150, 141, 145, 152, 135, 125, 125, 125, 125, 125, 125, 125],
-            backgroundColor: 'rgba(126, 59, 242, 0.2)',
-            borderColor: '#7E3BF2',
+            backgroundColor: 'rgba(22, 140, 53, 0.6)',
+            borderColor: '#168C35',
             borderWidth: 2,
         },
     ],
@@ -56,6 +56,7 @@ const data = {
 
 const options = {
     responsive: true,
+    maintainAspectRatio: false, // Garante que o gráfico ocupe 100% do contêiner
     scales: {
         x: {
             display: true,
@@ -64,9 +65,8 @@ const options = {
                 text: 'Meses do Ano',
                 color: '#666',
                 font: {
-                    family: 'Inter, sans-serif',
-                    size: 20,
-                    weight: 'bold',
+                    family: 'Roboto',
+                    size: 18,
                 },
             },
             ticks: {
@@ -88,18 +88,17 @@ const options = {
             display: true,
             title: {
                 display: true,
-                text: 'Gastos em $',
+                text: 'Gastos em R$',
                 color: '#666',
                 font: {
-                    family: 'Inter, sans-serif',
-                    size: 20,
-                    weight: 'bold',
+                    family: 'Roboto',
+                    size: 18,
                 },
             },
             ticks: {
                 color: '#666',
                 font: {
-                    family: 'Inter, sans-serif',
+                    family: 'Roboto',
                     size: 14,
                 },
                 callback: function(value) {
@@ -118,7 +117,7 @@ const options = {
             labels: {
                 color: '#666',
                 font: {
-                    family: 'Inter, sans-serif',
+                    family: 'Roboto',
                     size: 14,
                 },
             },
@@ -135,11 +134,9 @@ const options = {
 };
 
 const MyChart = () => (
-    <div className="w-full h-full">
+    <div className="w-full">
         <Bar data={data} options={options} />
     </div>
 );
-
-
 
 export default MyChart;

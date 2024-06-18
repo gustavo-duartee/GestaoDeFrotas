@@ -1,6 +1,9 @@
-import MyChart from '../components/Graficos/GastoCombustivelMensal';
-import ConsumoPorVeiculo from '../components/Graficos/GastoCombustivelVeiculo';
+import GastoMensal from '../components/Graficos/GastoCombustivelMensal';
+import DonutChart from '../components/Graficos/TiposDeVeiculos';
 import { Sidebar } from '../components/Sidebar';
+
+import {  DieselIcon, EthanolIcon, GasolineIcon } from 'lucide-react';
+
 
 export function Home() {
     return (
@@ -12,163 +15,84 @@ export function Home() {
                     <main>
                         <div className="pt-6 px-4">
 
-                            {/* Nível 2 */}
-                            <div className="mt-2 w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-
+                            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3">
                                 {/* Consumo total de díesel */}
-                                <div className="bg-white shadow-md  rounded-lg p-4 sm:p-6 xl:p-8 ">
-                                    <div className="flex items-center">
-                                        <div className="flex-shrink-0">
-                                            <span className="text-2xl sm:text-3xl leading-none font-bold text-gray-900">0,00</span>
-                                            <h3 className="text-base font-normal text-gray-500">Consumo total de díesel</h3>
+                                <div className="relative">
+                                    <div className="bg-white shadow-md rounded-lg p-4 sm:p-6 xl:p-8">
+                                        <div className="flex items-center">
+                                            <div className="flex-shrink-0">
+                                                <span className="text-2xl sm:text-3xl leading-none font-bold text-gray-900">5.000L</span>
+                                                <h3 className="text-base font-normal text-gray-500">Consumo total de díesel</h3>
+                                            </div>
                                         </div>
-                                        <div className="ml-5 w-0 flex items-center justify-end flex-1 text-green-500 text-base font-bold">
-                                            0.0%
-                                            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                                <path fill-rule="evenodd" d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
-                                            </svg>
-                                        </div>
+                                    </div>
+                                    {/* Espaço com cor e ícone Lucide */}
+                                    <div className="absolute inset-0 flex items-end justify-end bg-green-500 rounded-tr-lg p-2">
+                                        <DieselIcon className="w-8 h-8 text-white" />
                                     </div>
                                 </div>
 
                                 {/* Consumo total de etanol */}
-                                <div className="bg-white shadow-md  rounded-lg p-4 sm:p-6 xl:p-8 ">
-                                    <div className="flex items-center">
-                                        <div className="flex-shrink-0">
-                                            <span className="text-2xl sm:text-3xl leading-none font-bold text-gray-900">0,00</span>
-                                            <h3 className="text-base font-normal text-gray-500">Consumo total de etanol</h3>
+                                <div className="relative">
+                                    <div className="bg-white shadow-md rounded-lg p-4 sm:p-6 xl:p-8">
+                                        <div className="flex items-center">
+                                            <div className="flex-shrink-0">
+                                                <span className="text-2xl sm:text-3xl leading-none font-bold text-gray-900">9.000L</span>
+                                                <h3 className="text-base font-normal text-gray-500">Consumo total de etanol</h3>
+                                            </div>
                                         </div>
-                                        <div className="ml-5 w-0 flex items-center justify-end flex-1 text-green-500 text-base font-bold">
-                                            0.0%
-                                            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                                <path fill-rule="evenodd" d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
-                                            </svg>
-                                        </div>
+                                    </div>
+                                    {/* Espaço com cor e ícone Lucide */}
+                                    <div className="absolute inset-0 flex items-end justify-end bg-green-500 rounded-tr-lg p-2">
+                                        <EthanolIcon className="w-8 h-8 text-white" />
                                     </div>
                                 </div>
 
                                 {/* Consumo total de gasolina comum */}
-                                <div className="bg-white shadow-md  rounded-lg p-4 sm:p-6 xl:p-8 ">
-                                    <div className="flex items-center">
-                                        <div className="flex-shrink-0">
-                                            <span className="text-2xl sm:text-3xl leading-none font-bold text-gray-900">0,00</span>
-                                            <h3 className="text-base font-normal text-gray-500">Consumo total de gasolina comum</h3>
-                                        </div>
-                                        <div className="ml-5 w-0 flex items-center justify-end flex-1 text-red-500 text-base font-bold">
-                                            -0.0%
-                                            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                                <path fill-rule="evenodd" d="M14.707 12.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 14.586V3a1 1 0 012 0v11.586l2.293-2.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                            </svg>
+                                <div className="relative">
+                                    <div className="bg-white shadow-md rounded-lg p-4 sm:p-6 xl:p-8">
+                                        <div className="flex items-center">
+                                            <div className="flex-shrink-0">
+                                                <span className="text-2xl sm:text-3xl leading-none font-bold text-gray-900">13.000L</span>
+                                                <h3 className="text-base font-normal text-gray-500">Consumo total de gasolina comum</h3>
+                                            </div>
                                         </div>
                                     </div>
+                                    {/* Espaço com cor e ícone Lucide */}
+                                    <div className="absolute inset-0 flex items-end justify-end bg-green-500 rounded-tr-lg p-2">
+                                        <GasolineIcon className="w-8 h-8 text-white" />
+                                    </div>
                                 </div>
-
                             </div>
 
-                            {/* Nível 1 */}
+                            {/* Nível 2 */}
                             <div className="mt-4 w-full grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-4">
 
                                 {/* Gráfico de consumo de combustível por mês */}
-                                <div className="bg-white shadow-md rounded-lg p-4 sm:p-6 xl:p-8 2xl:col-span-2">
-                                    <div className="flex items-center justify-between mb-4">
-                                        <div className="flex-shrink-0">
-                                            <h3 className="text-xl font-bold leading-none text-gray-900">Gastos com combustível por mês</h3>
-                                        </div>
+                                <div className="bg-white shadow-md rounded-lg p-4 sm:p-6 xl:p-8 2xl:col-span-2 flex flex-col items-center justify-center">
+                                    <div className="flex items-center justify-between mb-4 w-full">
+                                        <h3 className="text-xl font-bold leading-none text-gray-900">Gastos com combustível por mês</h3>
                                     </div>
-                                    <div id="main-chart" className="w-full h-96">
-                                        <MyChart />
+                                    <div id="main-chart" className="w-full h-96 flex items-center justify-center">
+                                        <GastoMensal />
                                     </div>
                                 </div>
 
-                                {/* Tabela com lista de últimas viagens */}
-                                <div className="bg-white shadow-md rounded-lg p-4 sm:p-6 xl:p-8 ">
+
+                                {/* Tipos de veículos */}
+                                <div className="bg-white shadow-md rounded-lg p-4 sm:p-6 xl:p-8">
                                     <div className="mb-4 flex items-center justify-between">
                                         <div>
-                                            <h3 className="text-xl font-bold text-gray-900 mb-2">Últimas viagens</h3>
-                                            <span className="text-base font-normal text-gray-500">Lista de registro de viagens mais recentes</span>
+                                            <h3 className="text-xl font-bold text-gray-900 mb-2">Tipos de veículos</h3>
                                         </div>
                                         <div className="flex-shrink-0">
-                                            <a href="#" className="text-sm font-medium text-cyan-600 hover:bg-gray-100 rounded-lg p-2">Ver todas</a>
+                                            <a href="/veiculos" className="text-sm font-medium text-cyan-600 hover:bg-gray-100 rounded-lg p-2">Ver todos</a>
                                         </div>
                                     </div>
-                                    <div className="flex flex-col mt-8">
-                                        <div className="overflow-x-auto rounded-lg">
-                                            <div className="align-middle inline-block min-w-full">
-                                                <div className="shadow overflow-hidden sm:rounded-lg">
-                                                    <table className="min-w-full divide-y divide-gray-200">
-                                                        <thead className="bg-gray-50">
-                                                            <tr>
-                                                                <th scope="col" className="p-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                                    Início x Destino
-                                                                </th>
-                                                                <th scope="col" className="p-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                                    Data
-                                                                </th>
-                                                                <th scope="col" className="p-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                                    Veículo
-                                                                </th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody className="bg-white">
-                                                            <tr>
-                                                                <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-900">
-                                                                </td>
-                                                                <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-500">
-                                                                </td>
-                                                                <td className="p-4 whitespace-nowrap text-sm font-semibold text-gray-900">
-                                                                </td>
-                                                            </tr>
-                                                            <tr className="bg-gray-50">
-                                                                <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-900 rounded-lg rounded-left">
-                                                                </td>
-                                                                <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-500">
-                                                                </td>
-                                                                <td className="p-4 whitespace-nowrap text-sm font-semibold text-gray-900">
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-900">
-                                                                </td>
-                                                                <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-500">
-                                                                </td>
-                                                                <td className="p-4 whitespace-nowrap text-sm font-semibold text-gray-900">
-                                                                </td>
-                                                            </tr>
-                                                            <tr className="bg-gray-50">
-                                                                <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-900 rounded-lg rounded-left">
-                                                                </td>
-                                                                <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-500">
-                                                                </td>
-                                                                <td className="p-4 whitespace-nowrap text-sm font-semibold text-gray-900">
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-900">
-                                                                </td>
-                                                                <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-500">
-                                                                </td>
-                                                                <td className="p-4 whitespace-nowrap text-sm font-semibold text-gray-900">
-                                                                </td>
-                                                            </tr>
-                                                            <tr className="bg-gray-50">
-                                                                <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-900 rounded-lg rounded-left">
-                                                                </td>
-                                                                <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-500">
-                                                                </td>
-                                                                <td className="p-4 whitespace-nowrap text-sm font-semibold text-gray-900">
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-900">
-                                                                </td>
-                                                                <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-500">
-                                                                </td>
-                                                                <td className="p-4 whitespace-nowrap text-sm font-semibold text-gray-900">
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
+                                    <div className="flex items-center justify-center mt-8">
+                                        <div className="overflow-hidden rounded-lg">
+                                            <div className="shadow overflow-hidden sm:rounded-lg">
+                                                <DonutChart />
                                             </div>
                                         </div>
                                     </div>
