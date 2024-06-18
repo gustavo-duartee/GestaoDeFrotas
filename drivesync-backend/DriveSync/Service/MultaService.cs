@@ -35,7 +35,7 @@ namespace DriveSync.Service
             IEnumerable<Multa> multas;
             if (!string.IsNullOrWhiteSpace(codigo))
             {
-                multas = await _context.Multas.Where(n => n.Codigo.Contains(codigo)).ToListAsync();
+                multas = await _context.Multas.Where(n => n.codigo.Contains(codigo)).ToListAsync();
             }
             else
             {
