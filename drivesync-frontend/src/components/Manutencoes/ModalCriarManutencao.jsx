@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReactModal from "react-modal";
 import api from "../../services/api";
 import { useNavigate } from "react-router-dom";
@@ -6,11 +6,14 @@ import { useNavigate } from "react-router-dom";
 export function ModalCriarManutencao({ isOpen, onRequestClose }) {
 
     const [dt_manutencao, setDtManutencao] = useState('');
+    const [dt_prox_manutencao, setDtProxManutencao] = useState('');
     const [tp_manutencao, setTpManutencao] = useState('');
+    const [veiculoId, setVeiculoId] = useState('');
     const [veiculo, setVeiculo] = useState('');
     const [servico, setServico] = useState('');
     const [valor, setValor] = useState('');
     const [descricao, setDescricao] = useState('');
+    const [getVeiculo, setVeiculos] = useState([]);
 
     const history = useNavigate();
 
@@ -28,7 +31,9 @@ export function ModalCriarManutencao({ isOpen, onRequestClose }) {
 
         const data = {
             dt_manutencao,
+            dt_prox_manutencao,
             tp_manutencao,
+            veiculoId,
             veiculo,
             servico,
             valor,
@@ -40,11 +45,41 @@ export function ModalCriarManutencao({ isOpen, onRequestClose }) {
             alert('Manutenção adicionado com sucesso!');
             history('/manutencoes');
             window.location.reload();
+            // console.log(data);
         } catch (error) {
+            console.log(data);
             alert('Erro ao adicionar manutenção: ' + error);
         }
-        console.log(data)
+
     }
+
+    useEffect(() => {
+        api.get('api/veiculos', authorization)
+            .then(response => {
+                setVeiculos(response.data);
+                console.log(response.data);
+            })
+            .catch(error => {
+                console.error('Erro ao obter veiculo: ', error);
+            });
+    }, []);
+
+
+    const onChange = (e) => {
+        const [idVeiculo, veiculoName] = e.target.value.split(',');
+        setVeiculo(veiculoName);
+        setVeiculoId(idVeiculo)
+        console.log("Veiculo ID: ", idVeiculo);
+
+        // let date = e.target.value;
+        // if (!date) {
+        //     date = '0001-01-01'; // Data padrão que a API pode aceitar
+        // }
+        // setDtProxManutencao(date);
+        // veiculoId = idVeiculo;
+
+    }
+
 
     return (
         <ReactModal
@@ -81,6 +116,13 @@ export function ModalCriarManutencao({ isOpen, onRequestClose }) {
                             </div>
 
                             <div className="col-span-2 mb-2">
+                                <label htmlFor="dt_prox_manutencao" className="block text-sm font-medium leading-6 text-gray-900">Data da Próxima Manutenção</label>
+                                <div className="relative mt-1 rounded-md shadow-sm">
+                                    <input required type="date" onChange={e => setDtProxManutencao(e.target.value)} name="dt_prox_manutencao" id="dtManutencao" className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite a data da manutenção" />
+                                </div>
+                            </div>
+
+                            <div className="col-span-2 mb-2">
                                 <label htmlFor="tp_manutencao" className="block text-sm font-medium leading-6 text-gray-900">Tipo da Manutenção</label>
                                 <select required id="tp_manutencao" name="tp_manutencao" onChange={e => setTpManutencao(e.target.value)} placeholder="Selecione um tipo" className="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                                     <option value="" disabled selected>Select your option</option>
@@ -94,7 +136,12 @@ export function ModalCriarManutencao({ isOpen, onRequestClose }) {
                             <div className="col-span-2 mb-2">
                                 <label htmlFor="veiculo" className="block text-sm font-medium leading-6 text-gray-900">Veículo</label>
                                 <div className="relative mt-1 rounded-md shadow-sm">
-                                    <input required type="text" onChange={e => setVeiculo(e.target.value)} name="veiculo" id="veiculo" className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite as peças trocadas na manutenção" />
+                                    <select id="veiculo" onChange={onChange} name="veiculo" className="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                        <option value="" disabled selected>Select your option</option>
+                                        {getVeiculo.map(veiculo => (
+                                            <option value={veiculo.id + ',' + veiculo.marca + ' ' + veiculo.modelo}>{veiculo.marca} {veiculo.modelo}</option>
+                                        ))}
+                                    </select>
                                 </div>
                                 <div className="col-span-2 mb-2">
                                     <label htmlFor="servico" className="block text-sm font-medium leading-6 text-gray-900">Serviço</label>

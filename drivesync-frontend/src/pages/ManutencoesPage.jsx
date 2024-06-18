@@ -10,6 +10,7 @@ export function Manutencoes() {
   const [modalEditIsOpen, setModalEditIsOpen] = useState(false);
   const [searchInput, setSearchInput] = useState('');
   const [manutencoes, setManutencoes] = useState([]);
+  const [veiculos, setVeiculos] = useState([]);
   const [manutencaoId, setManutencaoId] = useState(null);
 
 
@@ -24,6 +25,17 @@ export function Manutencoes() {
     api.get('api/Manutencoes', authorization)
       .then(response => {
         setManutencoes(response.data);
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.error('Erro ao obter manutenção: ', error);
+      });
+  }, []);
+
+  useEffect(() => {
+    api.get('api/veiculos', authorization)
+      .then(response => {
+        setVeiculos(response.data);
         console.log(response.data);
       })
       .catch(error => {
@@ -130,6 +142,7 @@ export function Manutencoes() {
                       <th scope="col" className="px-6 py-3">Serviço</th>
                       <th scope="col" className="px-6 py-3">Valor</th>
                       <th scope="col" className="px-6 py-3">Descrição</th>
+                      <th scope="col" className="px-6 py-3">idVeiculo</th>
                     </tr>
                   </thead>
                   {/* Linha da tabela */}
@@ -144,6 +157,7 @@ export function Manutencoes() {
                           <td className="px-6 py-4">{manutencao.servico}</td>
                           <td className="px-6 py-4">{manutencao.valor}</td>
                           <td className="px-6 py-4">{manutencao.descricao}</td>
+                          <td className="px-6 py-4">{manutencao.veiculoId}</td>
                         </tr>
                       ))
                     ) : (
@@ -156,6 +170,7 @@ export function Manutencoes() {
                           <td className="px-6 py-4">{manutencao.servico}</td>
                           <td className="px-6 py-4">{manutencao.valor}</td>
                           <td className="px-6 py-4">{manutencao.descricao}</td>
+                          <td className="px-6 py-4">{manutencao.veiculoId}</td>
                           <div className="flex gap-2">
                               <button type="button" onClick={() => excluirManutencao(manutencao.id)} className="text-white bg-blue-600 hover:bg-blue-800 focus:ring-1 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none">Excluir</button>
                               <button type="button" onClick={() => openEditModal(manutencao.id)} className="text-white bg-blue-600 hover:bg-blue-800 focus:ring-1 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none">Editar</button>
