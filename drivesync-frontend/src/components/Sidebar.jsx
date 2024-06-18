@@ -8,6 +8,7 @@ import {
   CarFront,
   LogOut,
   Building2,
+  UserRoundPlus,
 } from "lucide-react";
 import { useNavigate, Link } from "react-router-dom";
 
@@ -77,15 +78,6 @@ export function Sidebar() {
             </li>
             <li>
               <Link
-                to="/empresas"
-                className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
-              >
-                <Building2 />
-                <span className="flex-1 ms-3 whitespace-nowrap">Empresas</span>
-              </Link>
-            </li>
-            <li>
-              <Link
                 to="/multas"
                 className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
               >
@@ -104,18 +96,32 @@ export function Sidebar() {
                 </span>
               </Link>
             </li>
+
+            <hr className="my-3" />
+
             <li>
               <Link
-                to="/funcionarios"
+                to="/empresas"
                 className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
               >
-                <UserRound />
+                <Building2 />
+                <span className="flex-1 ms-3 whitespace-nowrap">Empresas</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/registro"
+                className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
+              >
+                <UserRoundPlus />
                 <span className="flex-1 ms-3 whitespace-nowrap">
-                  Funcionários
+                  Acessos
                 </span>
               </Link>
             </li>
+
             <hr className="my-3" />
+
             <li>
               <Link
                 to="/suporte"
@@ -137,7 +143,6 @@ export function Sidebar() {
             <li>
               <Link
                 onClick={logout}
-                //Solução provisória para desconectar
                 to="/"
                 className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
               >
