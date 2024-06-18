@@ -40,7 +40,6 @@ namespace DriveSync.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("dt_prox_manutencao")
-                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("servico")

@@ -14,15 +14,15 @@ namespace DriveSync.Model
         [Required]
         public DateTime? dt_manutencao { get; set; }
 
-        [Required]
+        /*[Required]*/
         public DateTime? dt_prox_manutencao { get; set; }
         
         [Required]
         public string tp_manutencao { get; set; }
-        
+
         [Required]
         public string veiculo { get; set; }
-        
+
         [Required]
         [StringLength(100)]
         public string servico { get; set; }
