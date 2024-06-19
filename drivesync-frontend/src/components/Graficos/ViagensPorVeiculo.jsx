@@ -1,62 +1,62 @@
 import React from 'react';
-import { Bar } from 'react-chartjs-2';
+import { Line } from 'react-chartjs-2';
 import {
     Chart as ChartJS,
     CategoryScale,
     LinearScale,
-    BarElement,
+    PointElement,
+    LineElement,
     Title,
     Tooltip,
     Legend,
 } from 'chart.js';
 
-// Registro dos componentes do Chart.js
 ChartJS.register(
     CategoryScale,
     LinearScale,
-    BarElement,
+    PointElement,
+    LineElement,
     Title,
     Tooltip,
     Legend
 );
 
-const data = {
+const dataLine = {
     labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
     datasets: [
         {
-            label: 'Gasolina Comum',
-            data: [150, 141, 145, 152, 300, 280, 125, 260, 125, 125, 125, 125],
-            backgroundColor: 'rgba(74, 191, 96, 0.6)',
-            borderColor: '#4ABF60',
-            borderWidth: 2,
+            label: 'RKL2938',
+            data: [30, 20, 40, 50, 60, 70, 80, 60, 50, 40, 30, 20],
+            borderColor: '#2ECC71',
+            backgroundColor: 'rgba(46, 204, 113, 0.5)',
+            fill: true,
         },
         {
-            label: 'Diesel',
-            data: [150, 141, 145, 152, 135, 125, 125, 125, 125, 125, 125, 125],
-            backgroundColor: 'rgba(52, 160, 61, 0.6)',
-            borderColor: '#34A03D',
-            borderWidth: 2,
+            label: 'PJL9988',
+            data: [15, 25, 35, 45, 55, 65, 75, 85, 65, 55, 45, 35],
+            borderColor: '#27AE60',
+            backgroundColor: 'rgba(39, 174, 96, 0.5)',
+            fill: true,
         },
         {
-            label: 'Etanol',
-            data: [150, 141, 145, 152, 135, 125, 125, 125, 125, 125, 125, 125],
-            backgroundColor: 'rgba(96, 201, 107, 0.6)',
-            borderColor: '#60C96B',
-            borderWidth: 2,
+            label: 'JRI3348',
+            data: [10, 15, 20, 25, 30, 35, 40, 30, 20, 10, 5, 0],
+            borderColor: '#4CAF50',
+            backgroundColor: 'rgba(76, 175, 80, 0.5)',
+            fill: true,
         },
         {
-            label: 'Gasolina Aditivada',
-            data: [150, 141, 145, 152, 135, 125, 125, 125, 125, 125, 125, 125],
-            backgroundColor: 'rgba(22, 140, 53, 0.6)',
-            borderColor: '#168C35',
-            borderWidth: 2,
+            label: 'PPE2223',
+            data: [5, 10, 15, 20, 25, 30, 35, 25, 20, 15, 10, 5],
+            borderColor: '#3498DB',
+            backgroundColor: 'rgba(52, 152, 219, 0.5)',
+            fill: true,
         },
     ],
 };
 
-const options = {
+const optionsLine = {
     responsive: true,
-    maintainAspectRatio: false, // Garante que o gráfico ocupe 100% do contêiner
     scales: {
         x: {
             display: true,
@@ -65,8 +65,9 @@ const options = {
                 text: 'Meses do Ano',
                 color: '#666',
                 font: {
-                    family: 'Roboto',
-                    size: 18,
+                    family: 'Inter, sans-serif',
+                    size: 20,
+                    weight: 'bold',
                 },
             },
             ticks: {
@@ -74,9 +75,6 @@ const options = {
                 font: {
                     family: 'Inter, sans-serif',
                     size: 14,
-                },
-                callback: function(value, index, values) {
-                    return data.labels[index];
                 },
             },
             grid: {
@@ -88,21 +86,19 @@ const options = {
             display: true,
             title: {
                 display: true,
-                text: 'Gastos em R$',
+                text: 'Número de Viagens',
                 color: '#666',
                 font: {
-                    family: 'Roboto',
-                    size: 18,
+                    family: 'Inter, sans-serif',
+                    size: 20,
+                    weight: 'bold',
                 },
             },
             ticks: {
                 color: '#666',
                 font: {
-                    family: 'Roboto',
+                    family: 'Inter, sans-serif',
                     size: 14,
-                },
-                callback: function(value) {
-                    return '$' + value;
                 },
             },
             grid: {
@@ -117,7 +113,7 @@ const options = {
             labels: {
                 color: '#666',
                 font: {
-                    family: 'Roboto',
+                    family: 'Inter, sans-serif',
                     size: 14,
                 },
             },
@@ -126,17 +122,22 @@ const options = {
             enabled: true,
             callbacks: {
                 label: function(context) {
-                    return context.dataset.label + ': $' + context.parsed.y;
+                    let label = context.dataset.label || '';
+                    if (label) {
+                        label += ': ';
+                    }
+                    label += context.raw;
+                    return label;
                 },
             },
         },
     },
 };
 
-const MyChart = () => (
-    <div className="w-full">
-        <Bar data={data} options={options} />
+const LineChart = () => (
+    <div className="w-full h-full">
+        <Line data={dataLine} options={optionsLine} />
     </div>
 );
 
-export default MyChart;
+export default LineChart;

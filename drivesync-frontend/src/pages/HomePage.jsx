@@ -1,9 +1,7 @@
 import GastoMensal from '../components/Graficos/GastoCombustivelMensal';
 import DonutChart from '../components/Graficos/TiposDeVeiculos';
+import LineChart from '../components/Graficos/ViagensPorVeiculo';
 import { Sidebar } from '../components/Sidebar';
-
-import {  DieselIcon, EthanolIcon, GasolineIcon } from 'lucide-react';
-
 
 export function Home() {
     return (
@@ -27,8 +25,8 @@ export function Home() {
                                         </div>
                                     </div>
                                     {/* Espaço com cor e ícone Lucide */}
-                                    <div className="absolute inset-0 flex items-end justify-end bg-green-500 rounded-tr-lg p-2">
-                                        <DieselIcon className="w-8 h-8 text-white" />
+                                    <div className="absolute inset-0 flex items-end justify-end rounded-tr-lg p-2">
+                                        
                                     </div>
                                 </div>
 
@@ -43,8 +41,8 @@ export function Home() {
                                         </div>
                                     </div>
                                     {/* Espaço com cor e ícone Lucide */}
-                                    <div className="absolute inset-0 flex items-end justify-end bg-green-500 rounded-tr-lg p-2">
-                                        <EthanolIcon className="w-8 h-8 text-white" />
+                                    <div className="absolute inset-0 flex items-end justify-end rounded-tr-lg p-2">
+                                        
                                     </div>
                                 </div>
 
@@ -59,8 +57,8 @@ export function Home() {
                                         </div>
                                     </div>
                                     {/* Espaço com cor e ícone Lucide */}
-                                    <div className="absolute inset-0 flex items-end justify-end bg-green-500 rounded-tr-lg p-2">
-                                        <GasolineIcon className="w-8 h-8 text-white" />
+                                    <div className="absolute inset-0 flex items-end justify-end rounded-tr-lg p-2">
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -74,7 +72,6 @@ export function Home() {
                                         <h3 className="text-xl font-bold leading-none text-gray-900">Gastos com combustível por mês</h3>
                                     </div>
                                     <div id="main-chart" className="w-full h-96 flex items-center justify-center">
-                                        <GastoMensal />
                                     </div>
                                 </div>
 
@@ -107,13 +104,13 @@ export function Home() {
                                 {/* Total de viagens por veículo */}
                                 <div className="bg-white shadow-md rounded-lg mb-4 p-4 sm:p-6 h-full">
                                     <div className="flex items-center justify-between mb-4">
-                                        <h3 className="text-xl font-bold leading-none text-gray-900">Total de combustível gasto por veículo</h3>
+                                        <h3 className="text-xl font-bold leading-none text-gray-900">Consumo de combustível gasto por mês</h3>
                                         <a href="#" className="text-sm font-medium text-cyan-600 hover:bg-gray-100 rounded-lg inline-flex items-center p-2">
                                             Ver todos
                                         </a>
                                     </div>
                                     <div className="w-full h-96">
-                                        {/*<ConsumoPorVeiculo />*/}
+                                    <GastoMensal />
                                     </div>
                                 </div>
 
@@ -122,47 +119,7 @@ export function Home() {
                                 <div className="bg-white shadow-md  rounded-lg p-4 sm:p-6 xl:p-8 ">
                                     <h3 className="text-xl leading-none font-bold text-gray-900 mb-10">Espaço para definir</h3>
                                     <div className="block w-full overflow-x-auto">
-                                        <table className="items-center w-full bg-transparent border-collapse">
-                                            <thead>
-                                                <tr>
-                                                    <th className="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">Coluna 1</th>
-                                                    <th className="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">Coluna 2</th>
-                                                    <th className="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">Coluna 3</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody className="divide-y divide-gray-100">
-                                                <tr className="text-gray-500">
-                                                    <th className="border-t-0 px-4 align-middle text-sm font-normal whitespace-nowrap p-4 text-left">Dado</th>
-                                                    <td className="border-t-0 px-4 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">0</td>
-                                                    <td className="border-t-0 px-4 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">0</td>
-                                                </tr>
-                                                <tr className="text-gray-500">
-                                                    <th className="border-t-0 px-4 align-middle text-sm font-normal whitespace-nowrap p-4 text-left">Dado</th>
-                                                    <td className="border-t-0 px-4 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">0</td>
-                                                    <td className="border-t-0 px-4 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">0</td>
-                                                </tr>
-                                                <tr className="text-gray-500">
-                                                    <th className="border-t-0 px-4 align-middle text-sm font-normal whitespace-nowrap p-4 text-left">Dado</th>
-                                                    <td className="border-t-0 px-4 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">0</td>
-                                                    <td className="border-t-0 px-4 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">0</td>
-                                                </tr>
-                                                <tr className="text-gray-500">
-                                                    <th className="border-t-0 px-4 align-middle text-sm font-normal whitespace-nowrap p-4 text-left">Dado</th>
-                                                    <td className="border-t-0 px-4 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">0</td>
-                                                    <td className="border-t-0 px-4 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">0</td>
-                                                </tr>
-                                                <tr className="text-gray-500">
-                                                    <th className="border-t-0 px-4 align-middle text-sm font-normal whitespace-nowrap p-4 text-left">Dado</th>
-                                                    <td className="border-t-0 px-4 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">0</td>
-                                                    <td className="border-t-0 px-4 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">0</td>
-                                                </tr>
-                                                <tr className="text-gray-500">
-                                                    <th className="border-t-0 px-4 align-middle text-sm font-normal whitespace-nowrap p-4 text-left">Dado</th>
-                                                    <td className="border-t-0 px-4 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">0</td>
-                                                    <td className="border-t-0 px-4 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">0</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                        <LineChart />
                                     </div>
                                 </div>
                             </div>

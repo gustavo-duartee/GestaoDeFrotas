@@ -63,7 +63,7 @@ const optionsDonut = {
 };
 
 const DonutChart = () => (
-    <div className="w-max h-auto">
+    <div className="w-max h-max">
         <Doughnut data={dataDonut} options={optionsDonut} />
     </div>
 );
