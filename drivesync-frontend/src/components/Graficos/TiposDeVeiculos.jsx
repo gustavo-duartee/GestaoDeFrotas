@@ -22,10 +22,10 @@ const dataDonut = {
             label: 'Tipos de Veículos',
             data: [30, 25, 20, 25],
             backgroundColor: [
-                '#2ECC71', // Verde
-                '#27AE60', // Verde mais escuro
-                '#4CAF50', // Verde claro
-                '#3498DB', // Azul claro
+                '#def4c6',
+                '#1c7c54',
+                '#73e2a7',
+                '#1b512d',
             ],
             borderWidth: 1,
         },

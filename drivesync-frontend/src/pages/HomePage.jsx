@@ -4,7 +4,34 @@ import LineChart from '../components/Graficos/ViagensPorVeiculo';
 import SideBarChart from '../components/Graficos/ConsumoPorVeiculo';
 import { Sidebar } from '../components/Sidebar';
 
+import { Droplet, Fuel, Car } from 'lucide-react';
+
 export function Home() {
+
+    const cards = [
+        {
+            id: 1,
+            title: 'Díesel',
+            amount: '5.000L',
+            color: 'bg-green-400',
+            icon: <Droplet className="w-16 h-16 text-white" />,
+        },
+        {
+            id: 2,
+            title: 'Etanol',
+            amount: '9.000L',
+            color: 'bg-green-600',
+            icon: <Fuel className="w-16 h-16 text-white" />,
+        },
+        {
+            id: 3,
+            title: 'Gasolina Comum',
+            amount: '13.000L',
+            color: 'bg-green-800',
+            icon: <Car className="w-16 h-16 text-white" />,
+        },
+    ];
+
     return (
         <div>
             <Sidebar />
@@ -15,53 +42,22 @@ export function Home() {
                         <div className="pt-6 px-4">
 
                             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3">
-                                {/* Consumo total de díesel */}
-                                <div className="relative">
-                                    <div className="bg-white shadow-md rounded-lg p-4 sm:p-6 xl:p-8">
-                                        <div className="flex items-center">
-                                            <div className="flex-shrink-0">
-                                                <span className="text-2xl sm:text-3xl leading-none font-bold text-gray-900">5.000L</span>
-                                                <h3 className="text-base font-normal text-gray-500">Díesel</h3>
+                                {cards.map((card) => (
+                                    <div key={card.id} className="relative">
+                                        <div className="bg-white shadow-md rounded-lg p-4 sm:p-6 xl:p-8">
+                                            <div className="flex items-center">
+                                                <div className="flex-shrink-0">
+                                                    <span className="text-2xl sm:text-3xl leading-none font-bold text-gray-900">{card.amount}</span>
+                                                    <h3 className="text-base font-normal text-gray-500">{card.title}</h3>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    {/* Espaço com cor e ícone Lucide */}
-                                    <div className="absolute inset-0 flex items-end justify-end rounded-tr-lg p-2">
-
-                                    </div>
-                                </div>
-
-                                {/* Consumo total de etanol */}
-                                <div className="relative">
-                                    <div className="bg-white shadow-md rounded-lg p-4 sm:p-6 xl:p-8">
-                                        <div className="flex items-center">
-                                            <div className="flex-shrink-0">
-                                                <span className="text-2xl sm:text-3xl leading-none font-bold text-gray-900">9.000L</span>
-                                                <h3 className="text-base font-normal text-gray-500">Etanol</h3>
-                                            </div>
+                                        {/* Espaço com cor e ícone Lucide */}
+                                        <div className={`absolute top-0 right-0 p-2 rounded-lg ${card.color} flex items-center justify-center h-full w-52`}>
+                                            {card.icon}
                                         </div>
                                     </div>
-                                    {/* Espaço com cor e ícone Lucide */}
-                                    <div className="absolute inset-0 flex items-end justify-end rounded-tr-lg p-2">
-
-                                    </div>
-                                </div>
-
-                                {/* Consumo total de gasolina comum */}
-                                <div className="relative">
-                                    <div className="bg-white shadow-md rounded-lg p-4 sm:p-6 xl:p-8">
-                                        <div className="flex items-center">
-                                            <div className="flex-shrink-0">
-                                                <span className="text-2xl sm:text-3xl leading-none font-bold text-gray-900">13.000L</span>
-                                                <h3 className="text-base font-normal text-gray-500">Gasolina Comum</h3>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {/* Espaço com cor e ícone Lucide */}
-                                    <div className="absolute inset-0 flex items-end justify-end rounded-tr-lg p-2">
-
-                                    </div>
-                                </div>
+                                ))}
                             </div>
 
                             {/* Nível 2 */}
@@ -70,7 +66,7 @@ export function Home() {
                                 {/* Gráfico de consumo de combustível por mês */}
                                 <div className="bg-white shadow-md rounded-lg p-4 sm:p-6 xl:p-8 2xl:col-span-2 flex flex-col items-center justify-center">
                                     <div className="flex items-center justify-between mb-4 w-full">
-                                        <h3 className="text-xl font-bold leading-none text-gray-900">Gastos com combustível por mês</h3>
+                                        <h3 className="text-xl font-bold leading-none text-gray-900">Veículos que mais consumiram combusítel</h3>
                                     </div>
                                     <div id="main-chart" className="w-full h-full">
                                         <SideBarChart />

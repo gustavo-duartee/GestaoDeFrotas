@@ -26,18 +26,11 @@ const dataBar = {
             label: 'Consumo de Combustível (L)',
             data: [5000, 7000, 3000, 6000],
             backgroundColor: [
-                '#2ECC71', // Verde
-                '#27AE60', // Verde mais escuro
-                '#4CAF50', // Verde claro
-                '#3498DB', // Azul claro
+                '#1b512d',
+                '#b1cf5f',
+                '#1c7c54',
+                '#73e2a7',
             ],
-            borderColor: [
-                '#2ECC71',
-                '#27AE60',
-                '#4CAF50',
-                '#3498DB',
-            ],
-            borderWidth: 1,
         },
     ],
 };
