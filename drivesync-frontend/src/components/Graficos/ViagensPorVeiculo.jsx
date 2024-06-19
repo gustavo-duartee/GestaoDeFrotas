@@ -65,15 +65,14 @@ const optionsLine = {
                 text: 'Meses do Ano',
                 color: '#666',
                 font: {
-                    family: 'Inter, sans-serif',
+                    family: 'Roboto',
                     size: 20,
-                    weight: 'bold',
                 },
             },
             ticks: {
                 color: '#666',
                 font: {
-                    family: 'Inter, sans-serif',
+                    family: 'Roboto',
                     size: 14,
                 },
             },
@@ -89,15 +88,14 @@ const optionsLine = {
                 text: 'Número de Viagens',
                 color: '#666',
                 font: {
-                    family: 'Inter, sans-serif',
+                    family: 'Roboto',
                     size: 20,
-                    weight: 'bold',
                 },
             },
             ticks: {
                 color: '#666',
                 font: {
-                    family: 'Inter, sans-serif',
+                    family: 'Roboto',
                     size: 14,
                 },
             },
@@ -113,7 +111,7 @@ const optionsLine = {
             labels: {
                 color: '#666',
                 font: {
-                    family: 'Inter, sans-serif',
+                    family: 'Roboto',
                     size: 14,
                 },
             },

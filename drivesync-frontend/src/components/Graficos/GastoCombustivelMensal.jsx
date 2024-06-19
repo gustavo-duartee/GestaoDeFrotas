@@ -66,7 +66,7 @@ const options = {
                 color: '#666',
                 font: {
                     family: 'Roboto',
-                    size: 18,
+                    size: 16,
                 },
             },
             ticks: {
@@ -134,7 +134,7 @@ const options = {
 };
 
 const MyChart = () => (
-    <div className="w-full">
+    <div className="w-full h-full">
         <Bar data={data} options={options} />
     </div>
 );

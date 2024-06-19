@@ -1,6 +1,7 @@
 import GastoMensal from '../components/Graficos/GastoCombustivelMensal';
 import DonutChart from '../components/Graficos/TiposDeVeiculos';
 import LineChart from '../components/Graficos/ViagensPorVeiculo';
+import SideBarChart from '../components/Graficos/ConsumoPorVeiculo';
 import { Sidebar } from '../components/Sidebar';
 
 export function Home() {
@@ -20,13 +21,13 @@ export function Home() {
                                         <div className="flex items-center">
                                             <div className="flex-shrink-0">
                                                 <span className="text-2xl sm:text-3xl leading-none font-bold text-gray-900">5.000L</span>
-                                                <h3 className="text-base font-normal text-gray-500">Consumo total de díesel</h3>
+                                                <h3 className="text-base font-normal text-gray-500">Díesel</h3>
                                             </div>
                                         </div>
                                     </div>
                                     {/* Espaço com cor e ícone Lucide */}
                                     <div className="absolute inset-0 flex items-end justify-end rounded-tr-lg p-2">
-                                        
+
                                     </div>
                                 </div>
 
@@ -36,13 +37,13 @@ export function Home() {
                                         <div className="flex items-center">
                                             <div className="flex-shrink-0">
                                                 <span className="text-2xl sm:text-3xl leading-none font-bold text-gray-900">9.000L</span>
-                                                <h3 className="text-base font-normal text-gray-500">Consumo total de etanol</h3>
+                                                <h3 className="text-base font-normal text-gray-500">Etanol</h3>
                                             </div>
                                         </div>
                                     </div>
                                     {/* Espaço com cor e ícone Lucide */}
                                     <div className="absolute inset-0 flex items-end justify-end rounded-tr-lg p-2">
-                                        
+
                                     </div>
                                 </div>
 
@@ -52,13 +53,13 @@ export function Home() {
                                         <div className="flex items-center">
                                             <div className="flex-shrink-0">
                                                 <span className="text-2xl sm:text-3xl leading-none font-bold text-gray-900">13.000L</span>
-                                                <h3 className="text-base font-normal text-gray-500">Consumo total de gasolina comum</h3>
+                                                <h3 className="text-base font-normal text-gray-500">Gasolina Comum</h3>
                                             </div>
                                         </div>
                                     </div>
                                     {/* Espaço com cor e ícone Lucide */}
                                     <div className="absolute inset-0 flex items-end justify-end rounded-tr-lg p-2">
-                                        
+
                                     </div>
                                 </div>
                             </div>
@@ -71,9 +72,11 @@ export function Home() {
                                     <div className="flex items-center justify-between mb-4 w-full">
                                         <h3 className="text-xl font-bold leading-none text-gray-900">Gastos com combustível por mês</h3>
                                     </div>
-                                    <div id="main-chart" className="w-full h-96 flex items-center justify-center">
+                                    <div id="main-chart" className="w-full h-full">
+                                        <SideBarChart />
                                     </div>
                                 </div>
+
 
 
                                 {/* Tipos de veículos */}
@@ -110,14 +113,14 @@ export function Home() {
                                         </a>
                                     </div>
                                     <div className="w-full h-96">
-                                    <GastoMensal />
+                                        <GastoMensal />
                                     </div>
                                 </div>
 
 
                                 {/* A definir */}
                                 <div className="bg-white shadow-md  rounded-lg p-4 sm:p-6 xl:p-8 ">
-                                    <h3 className="text-xl leading-none font-bold text-gray-900 mb-10">Espaço para definir</h3>
+                                    <h3 className="text-xl leading-none font-bold text-gray-900 mb-10">Quantidade de viagens por veículo</h3>
                                     <div className="block w-full overflow-x-auto">
                                         <LineChart />
                                     </div>
