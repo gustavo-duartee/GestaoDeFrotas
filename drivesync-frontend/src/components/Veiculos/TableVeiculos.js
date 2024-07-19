@@ -106,7 +106,7 @@ const excluirVeiculo = async (id) => {
 
 //#endregion
 
-
+//criação de linha da tabela
 function Row(props) {
   const { veiculo } = props;
   const [open, setOpen] = React.useState(false);
@@ -177,6 +177,7 @@ function Row(props) {
   );
 }
 
+//renderização e exportaão da tabela 
 export default function CollapsibleTable() {
   return (
     <TableContainer component={Paper}>
