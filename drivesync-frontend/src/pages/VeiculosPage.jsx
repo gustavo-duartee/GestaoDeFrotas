@@ -1,25 +1,10 @@
 //#region imports
+import CollapsibleTable from '../components/Veiculos/TableVeiculos.js'
 import React, { useState, useEffect } from "react";
 import { Sidebar } from "../components/Sidebar";
 import { ModalCriarVeiculo } from '../components/Veiculos/ModalCriarVeiculos';
 import { ModalEditarVeiculo } from '../components/Veiculos/ModalEditarVeiculos';
 import api from '../services/api';
-import * as React from 'react';
-import { Box, Collapse, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Paper, TablePagination } from '@mui/material';
-// import Collapse from '@mui/material/Collapse';
-// import IconButton from '@mui/material/IconButton';
-// import Table from '@mui/material/Table';
-// import TableBody from '@mui/material/TableBody';
-// import TableCell from '@mui/material/TableCell';
-// import TableContainer from '@mui/material/TableContainer';
-// import TableHead from '@mui/material/TableHead';
-// import TableRow from '@mui/material/TableRow';
-// import Typography from '@mui/material/Typography';
-// import Paper from '@mui/material/Paper';
-import { KeyboardArrowDownIcon, KeyboardArrowUpIcon } from '@mui/icons-material';
-// import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-// import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-//#endregion
 
 export function Veiculos() {
   const [searchInput, setSearchInput] = useState('');
@@ -28,8 +13,8 @@ export function Veiculos() {
   const [modalCreateIsOpen, setModalCreateIsOpen] = useState(false);
   const [modalEditIsOpen, setModalEditIsOpen] = useState(false);
   const [veiculoId, setVeiculoId] = useState(null);
-  const [manutencao, getManutencao] = useState(''),
-  const [manutencaoId, getManutencaoId] = useState(''),
+  const [manutencao, setManutencao] = useState('');
+  const [manutencaoId, setManutencaoId] = useState('');
 
   const token = localStorage.getItem('token');
   const authorization = {
@@ -38,7 +23,7 @@ export function Veiculos() {
     }
   }
 
-//#region chamadas de api
+  //#region chamadas de api
 
   useEffect(() => {
     api.get('api/veiculos', authorization)
@@ -51,15 +36,15 @@ export function Veiculos() {
   }, []);
 
   useEffect(() => {
-    api.get('api/mantencoes', authorization)
-        .then(response => {
-            getManutencao(response.data);
-            console.log(response.data);
-        })
-        .catch(error => {
-            console.error('Erro ao obter manutenção: ', error);
-        });
-}, []);
+    api.get('api/manutencoes', authorization)
+      .then(response => {
+        setManutencao(response.data);
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.error('Erro ao obter manutenção: ', error);
+      });
+  }, []);
 
   const searchVeiculos = (searchValue) => {
     setSearchInput(searchValue);
@@ -111,7 +96,7 @@ export function Veiculos() {
   }
   //#endregion
 
-//#region chamada de modais
+  //#region chamada de modais
   const openEditModal = (id) => {
     setVeiculoId(id);
     setModalEditIsOpen(true); // Abre o modal de edição
@@ -129,169 +114,13 @@ export function Veiculos() {
 
   //#endregion
 
-  function createData(
-    marca,
-    modelo,
-    ano,
-    placa,
-    quilometragem,
-    tp_combustivel,
-    dt_aquisicao,
-    status,
-  ) {
-    return {
-      marca,
-      modelo,
-      ano,
-      placa,
-      quilometragem,
-      tp_combustivel,
-      dt_aquisicao,
-      status,
-      manutencoes: [
-        {
-          dt_manutencao,
-          dt_proxmanutencao,
-          tp_manutencao,
-          servico,
-          valor,
-          descricao,
-        },
-      ],
-    };
-  }
-
-
-  function Row(props) {
-    const { row } = props;
-    const [open, setOpen] = React.useState(false);
-
-    return (
-      <React.Fragment>
-        <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
-          <TableCell>
-            <IconButton
-              aria-label="expand row"
-              size="small"
-              onClick={() => setOpen(!open)}
-            >
-              {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-            </IconButton>
-          </TableCell>
-          <TableCell component="th" scope="row">
-            {veiculo.id}
-          </TableCell>
-          <TableCell align="right">{veiculo.placa}</TableCell>
-          <TableCell align="right">{veiculo.marca}</TableCell>
-          <TableCell align="right">{veiculo.modelo}</TableCell>
-          <TableCell align="right">{veiculo.ano}</TableCell>
-          <TableCell align="right">{veiculo.quilometragem}</TableCell>
-          <TableCell align="right">{veiculo.dt_aquisicao}</TableCell>
-          <TableCell align="right">{veiculo.tp_combustivel}</TableCell>
-          <TableCell align="right">{veiculo.status}</TableCell>
-        </TableRow>
-        <TableRow>
-          <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-            <Collapse in={open} timeout="auto" unmountOnExit>
-              <Box sx={{ margin: 1 }}>
-                <Typography variant="h6" gutterBottom component="div">
-                  Manutenção
-                </Typography>
-                <Table size="small" aria-label="purchases">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>Data da Última Manutenção</TableCell>
-                      <TableCell>Próxima Manutenção</TableCell>
-                      <TableCell>Tipo da Manutenção</TableCell>
-                      <TableCell>Veículo</TableCell>
-                      <TableCell>Serviço</TableCell>
-                      <TableCell>Valor</TableCell>
-                      <TableCell>Descrição</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {row.manutencoes.map((manutencao) => (
-                      <TableRow key={manutencao.id}>
-                        <TableCell component="th" scope="row">{historyRow.date}</TableCell>
-                        <TableCell align="right">{manutencao.dt_manutencao}</TableCell>
-                        <TableCell align="right">{manutencao.dt_prox_manutencao}</TableCell>
-                        <TableCell align="right">{manutencao.tp_manutencao}</TableCell>
-                        <TableCell align="right">{manutencao.veiculo}</TableCell>
-                        <TableCell align="right">{manutencao.servico}</TableCell>
-                        <TableCell align="right">{manutencao.valor}</TableCell>
-                        <TableCell align="right">{manutencao.descricao}</TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </Box>
-            </Collapse>
-          </TableCell>
-        </TableRow>
-      </React.Fragment>
-    );
-  }
-
-  // const rows = [
-  //   createData('Frozen yoghurt', 159, 6.0, 24, 4.0, 3.99),
-  //   createData('Ice cream sandwich', 237, 9.0, 37, 4.3, 4.99),
-  //   createData('Eclair', 262, 16.0, 24, 6.0, 3.79),
-  //   createData('Cupcake', 305, 3.7, 67, 4.3, 2.5),
-  //   createData('Gingerbread', 356, 16.0, 49, 3.9, 1.5),
-  // ];
-
-  export default function CollapsibleTable() {
-    return (
-      <TableContainer component={Paper}>
-        <Table aria-label="collapsible table">
-          <TableHead>
-            <TableRow>
-              <TableCell />
-              {/* <TableCell>Dessert (100g serving)</TableCell> */}
-              <TableCell align="right">Marca</TableCell>
-              <TableCell align="right">Modelo</TableCell>
-              <TableCell align="right">Ano</TableCell>
-              <TableCell align="right">Placa</TableCell>
-              <TableCell align="right">Quilometragem</TableCell>
-              <TableCell align="right">Tipo&nbsp;de Combustível</TableCell>
-              <TableCell align="right">Data&nbsp;Aquisição</TableCell>
-              <TableCell align="right">Status</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {veiculos.map((veiculo) => (
-              <Row key={veiculo.id} row={veiculo} />
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    );
-  }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   return (
+
+
+
+
+    CollapsibleTable(),
+
     <div>
       <Sidebar />
       <div style={{ flex: 1, marginTop: '4rem', marginLeft: '16rem' }} >
@@ -315,9 +144,9 @@ export function Veiculos() {
 
               {/* Corpo da página */}
               <div className="relative overflow-x-auto shadow-md sm:rounded-lg bg-white mb-20" style={{ maxHeight: "40rem", overflow: "auto" }}>
-                <table className="w-full text-sm text-left rtl:text-right text-gray-500">
-                  {/* Cabeçalho da tabela */}
-                  <thead className="text-xs text-gray-700 uppercase bg-gray-50 border">
+                {/*<table className="w-full text-sm text-left rtl:text-right text-gray-500">
+                  {/* Cabeçalho da tabela *
+                  {/* <thead className="text-xs text-gray-700 uppercase bg-gray-50 border">
                     <tr>
                       <th scope="col" className="px-6 py-3">Placa</th>
                       <th scope="col" className="px-6 py-3">Marca</th>
@@ -330,7 +159,7 @@ export function Veiculos() {
                       <th scope="col" className="px-6 py-3">Ações</th>
                     </tr>
                   </thead>
-                  {/* Linha da tabela */}
+                  {/* Linha da tabela *
                   <tbody>
                     {searchInput.length > 1 ? (
                       filtro.map(veiculo => (
@@ -372,7 +201,7 @@ export function Veiculos() {
                       ))
                     )}
                   </tbody>
-                </table>
+                </table> */}
               </div>
             </div>
           </main>
