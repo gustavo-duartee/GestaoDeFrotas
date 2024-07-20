@@ -35,16 +35,16 @@ export function Veiculos() {
       });
   }, []);
 
-  useEffect(() => {
-    api.get('api/manutencoes', authorization)
-      .then(response => {
-        setManutencao(response.data);
-        console.log(response.data);
-      })
-      .catch(error => {
-        console.error('Erro ao obter manutenção: ', error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   api.get('api/manutencoes', authorization)
+  //     .then(response => {
+  //       setManutencao(response.data);
+  //       console.log(response.data);
+  //     })
+  //     .catch(error => {
+  //       console.error('Erro ao obter manutenção: ', error);
+  //     });
+  // }, []);
 
   const searchVeiculos = (searchValue) => {
     setSearchInput(searchValue);
@@ -116,11 +116,6 @@ export function Veiculos() {
 
   return (
 
-
-
-
-    CollapsibleTable(),
-
     <div>
       <Sidebar />
       <div style={{ flex: 1, marginTop: '4rem', marginLeft: '16rem' }} >
@@ -140,68 +135,11 @@ export function Veiculos() {
                   <input type="text" onChange={(e) => searchVeiculos(e.target.value)} id="table-search-users" className="pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-white focus:ring-blue-500 focus:border-blue-500" placeholder="Pesquisar veículo" />
                 </div>
                 <button type="button" onClick={openCreateModal} className="text-white bg-gray-900 hover:bg-gray-700 focus:ring-1 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none">Novo Veículo +</button>
-              </div>
+              </div> *
 
               {/* Corpo da página */}
               <div className="relative overflow-x-auto shadow-md sm:rounded-lg bg-white mb-20" style={{ maxHeight: "40rem", overflow: "auto" }}>
-                {/*<table className="w-full text-sm text-left rtl:text-right text-gray-500">
-                  {/* Cabeçalho da tabela *
-                  {/* <thead className="text-xs text-gray-700 uppercase bg-gray-50 border">
-                    <tr>
-                      <th scope="col" className="px-6 py-3">Placa</th>
-                      <th scope="col" className="px-6 py-3">Marca</th>
-                      <th scope="col" className="px-6 py-3">Modelo</th>
-                      <th scope="col" className="px-6 py-3">Ano</th>
-                      <th scope="col" className="px-6 py-3">Quilometragem</th>
-                      <th scope="col" className="px-6 py-3">Aquisição</th>
-                      <th scope="col" className="px-6 py-3">Tipo do Combustível</th>
-                      <th scope="col" className="px-6 py-3">Status</th>
-                      <th scope="col" className="px-6 py-3">Ações</th>
-                    </tr>
-                  </thead>
-                  {/* Linha da tabela *
-                  <tbody>
-                    {searchInput.length > 1 ? (
-                      filtro.map(veiculo => (
-                        <tr key={veiculo.id} className="bg-white border-b">
-                          <td className="px-6 py-4">{veiculo.placa}</td>
-                          <td className="px-6 py-4">{veiculo.marca}</td>
-                          <td className="px-6 py-4">{veiculo.modelo}</td>
-                          <td className="px-6 py-4">{veiculo.ano}</td>
-                          <td className="px-6 py-4">{veiculo.quilometragem}</td>
-                          <td className="px-6 py-4">{veiculo.dt_aquisicao}</td>
-                          <td className="px-6 py-4">{veiculo.tp_combustivel}</td>
-                          <td className="px-6 py-4">{veiculo.status}</td>
-                          <td className="px-6 py-4 text-right">
-                            <div className="flex gap-2">
-                              <button type="button" onClick={() => excluirVeiculo(veiculo.id)} className="text-white bg-blue-600 hover:bg-blue-800 focus:ring-1 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none">Excluir</button>
-                              <button type="button" onClick={() => openEditModal(veiculo.id)} className="text-white bg-blue-600 hover:bg-blue-800 focus:ring-1 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none">Editar</button>
-                            </div>
-                          </td>
-                        </tr>
-                      ))
-                    ) : (
-                      veiculos.map(veiculo => (
-                        <tr key={veiculo.id} className="bg-white border-b">
-                          <td className="px-6 py-4">{veiculo.placa}</td>
-                          <td className="px-6 py-4">{veiculo.marca}</td>
-                          <td className="px-6 py-4">{veiculo.modelo}</td>
-                          <td className="px-6 py-4">{veiculo.ano}</td>
-                          <td className="px-6 py-4">{veiculo.quilometragem}</td>
-                          <td className="px-6 py-4">{veiculo.dt_aquisicao}</td>
-                          <td className="px-6 py-4">{veiculo.tp_combustivel}</td>
-                          <td className="px-6 py-4">{veiculo.status}</td>
-                          <td className="px-6 py-4 text-right">
-                            <div className="flex gap-2">
-                              <button type="button" onClick={() => excluirVeiculo(veiculo.id)} className="text-white bg-blue-600 hover:bg-blue-800 focus:ring-1 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none">Excluir</button>
-                              <button type="button" onClick={() => openEditModal(veiculo.id)} className="text-white bg-blue-600 hover:bg-blue-800 focus:ring-1 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none">Editar</button>
-                            </div>
-                          </td>
-                        </tr>
-                      ))
-                    )}
-                  </tbody>
-                </table> */}
+              {CollapsibleTable()}
               </div>
             </div>
           </main>

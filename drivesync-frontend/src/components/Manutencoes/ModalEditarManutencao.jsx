@@ -34,7 +34,7 @@ export function ModalEditarManutencao({ isOpen, onRequestClose, manutencaoId, ed
 
             setId(response.data.id);
             setDtManutencao(response.data.dt_manutencao);
-            setProxDtManutencao(response.data.dt_prox_manutencao);
+            setDtProxManutencao(response.data.dt_prox_manutencao);
             setTpManutencao(response.data.tp_manutencao)
             setVeiculo(response.data.veiculo);
             setServico(response.data.servico);

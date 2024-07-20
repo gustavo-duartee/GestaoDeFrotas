@@ -1,4 +1,8 @@
-import * as React from 'react';
+import { Sidebar } from "../../components/Sidebar";
+import { ModalCriarVeiculo } from '../../components/Veiculos/ModalCriarVeiculos';
+import { ModalEditarVeiculo } from '../../components/Veiculos/ModalEditarVeiculos';
+import api from '../../services/api';
+import React, { useState, useEffect } from "react";
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
@@ -14,106 +18,126 @@ import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
-//#region chamada de modais
-const openEditModal = (id) => {
-  setVeiculoId(id);
-  setModalEditIsOpen(true); // Abre o modal de edição
-}
+export function Veiculos() {
+  const [searchInput, setSearchInput] = useState('');
+  const [filtro, setFiltro] = useState([]);
+  const [veiculos, setVeiculos] = useState([]);
+  const [modalCreateIsOpen, setModalCreateIsOpen] = useState(false);
+  const [modalEditIsOpen, setModalEditIsOpen] = useState(false);
+  const [veiculoId, setVeiculoId] = useState(null);
+  const [manutencao, setManutencao] = useState('');
+  const [manutencaoId, setManutencaoId] = useState('');
 
-const openCreateModal = () => {
-  setModalCreateIsOpen(true); // Abre o modal de criação
-}
-
-const closeModal = () => {
-  setModalCreateIsOpen(false); // Fecha o modal de criação
-  setModalEditIsOpen(false); // Fecha o modal de edição
-  setVeiculoId(null);
-}
-
-//#endregion
-
-//#region chamadas de api
-
-useEffect(() => {
-  api.get('api/veiculos', authorization)
-    .then(response => {
-      setVeiculos(response.data);
-    })
-    .catch(error => {
-      console.error('Erro ao obter veículo: ', error);
-    });
-}, []);
-
-useEffect(() => {
-  api.get('api/manutencoes', authorization)
-    .then(response => {
-      setManutencao(response.data);
-      console.log(response.data);
-    })
-    .catch(error => {
-      console.error('Erro ao obter manutenção: ', error);
-    });
-}, []);
-
-const searchVeiculos = (searchValue) => {
-  setSearchInput(searchValue);
-  if (searchInput !== '') {
-    const dadosFiltrados = veiculos.filter((item) => {
-      return Object.values(item).join('').toLocaleLowerCase()
-        .includes(searchInput.toLocaleLowerCase())
-    });
-    setFiltro(dadosFiltrados);
-  }
-  else {
-    setFiltro(veiculos);
-  }
-}
-const editVeiculo = async (id) => {
-  try {
-    console.log(`Editar veículo com ID: ${id}`);
-    closeModal();
-  } catch (error) {
-    alert("Não foi possível editar o veículo")
-  }
-}
-
-const excluirVeiculo = async (id) => {
-  if (!window.confirm(`Deseja realmente excluir o veículo ${id}?`)) {
-    return;
+  const token = localStorage.getItem('token');
+  const authorization = {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
   }
 
-  try {
-    await api.delete(`api/veiculos/${id}`, authorization);
-    alert("Veiculo excluído com sucesso!");
-    window.location.reload();
-  } catch (error) {
-    let errorMessage = "Não foi possível deletar o veículo";
+  //#region chamadas de api
+  useEffect(() => {
+    api.get('api/veiculos', authorization)
+      .then(response => {
+        setVeiculos(response.data);
+      })
+      .catch(error => {
+        console.error('Erro ao obter veículo: ', error);
+      });
+  }, [])
 
-    if (error.response) {
-      const { data, status } = error.response;
-      if (status === 400) {
-        errorMessage = "Veículo não encontrado";
-      } else if (status >= 500) {
-        errorMessage = "Falha na comunicação com o servidor";
-      } else {
-        errorMessage = data.message || errorMessage;
-      }
+  // useEffect(() => {
+  //   api.get('api/manutencoes', authorization)
+  //     .then(response => {
+  //       setManutencao(response.data);
+  //       console.log(response.data);
+  //     })
+  //     .catch(error => {
+  //       console.error('Erro ao obter manutenção: ', error);
+  //     });
+  // }, []);
+
+  const searchVeiculos = (searchValue) => {
+    setSearchInput(searchValue);
+    if (searchInput !== '') {
+      const dadosFiltrados = veiculos.filter((item) => {
+        return Object.values(item).join('').toLocaleLowerCase()
+          .includes(searchInput.toLocaleLowerCase())
+      });
+      setFiltro(dadosFiltrados);
+    }
+    else {
+      setFiltro(veiculos);
+    }
+  }
+  const editVeiculo = async (id) => {
+    try {
+      console.log(`Editar veículo com ID: ${id}`);
+      closeModal();
+    } catch (error) {
+      alert("Não foi possível editar o veículo")
+    }
+  }
+
+  const excluirVeiculo = async (id) => {
+    if (!window.confirm(`Deseja realmente excluir o veículo ${id}?`)) {
+      return;
     }
 
-    alert(errorMessage);
+    try {
+      await api.delete(`api/veiculos/${id}`, authorization);
+      alert("Veiculo excluído com sucesso!");
+      window.location.reload();
+    } catch (error) {
+      let errorMessage = "Não foi possível deletar o veículo";
+
+      if (error.response) {
+        const { data, status } = error.response;
+        if (status === 400) {
+          errorMessage = "Veículo não encontrado";
+        } else if (status >= 500) {
+          errorMessage = "Falha na comunicação com o servidor";
+        } else {
+          errorMessage = data.message || errorMessage;
+        }
+      }
+
+      alert(errorMessage);
+    }
   }
+  //#endregion
+
+  //#region chamada de modais
+  const openEditModal = (id) => {
+    setVeiculoId(id);
+    setModalEditIsOpen(true); // Abre o modal de edição
+  }
+
+  const openCreateModal = () => {
+    setModalCreateIsOpen(true); // Abre o modal de criação
+  }
+
+  const closeModal = () => {
+    setModalCreateIsOpen(false); // Fecha o modal de criação
+    setModalEditIsOpen(false); // Fecha o modal de edição
+    setVeiculoId(null);
+  }
+
+  return (veiculos)
+
 }
 
 //#endregion
 
 //criação de linha da tabela
 function Row(props) {
-  const { veiculo } = props;
+  const { row } = props;
   const [open, setOpen] = React.useState(false);
 
   return (
+    console.log(row),
     <React.Fragment>
-      <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
+      <TableRow sx={{ '& > *': { borderBottom: 'unset' } }} key={row.id}>
         <TableCell>
           <IconButton
             aria-label="expand row"
@@ -123,17 +147,17 @@ function Row(props) {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell component="th" scope="row">
-          {veiculo.id}
-        </TableCell>
-        <TableCell align="right">{veiculo.placa}</TableCell>
-        <TableCell align="right">{veiculo.marca}</TableCell>
-        <TableCell align="right">{veiculo.modelo}</TableCell>
-        <TableCell align="right">{veiculo.ano}</TableCell>
-        <TableCell align="right">{veiculo.quilometragem}</TableCell>
-        <TableCell align="right">{veiculo.dt_aquisicao}</TableCell>
-        <TableCell align="right">{veiculo.tp_combustivel}</TableCell>
-        <TableCell align="right">{veiculo.status}</TableCell>
+        {/* <TableCell component="th" scope="row">
+        {row.id}
+      </TableCell> */}
+        <TableCell align="right">{row.marca}</TableCell>
+        <TableCell align="right">{row.modelo}</TableCell>
+        <TableCell align="right">{row.ano}</TableCell>
+        <TableCell align="right">{row.placa}</TableCell>
+        <TableCell align="right">{row.quilometragem}</TableCell>
+        <TableCell align="right">{row.tp_combustivel}</TableCell>
+        <TableCell align="right">{row.dt_aquisicao}</TableCell>
+        <TableCell align="right">{row.status}</TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -157,7 +181,6 @@ function Row(props) {
                 <TableBody>
                   {row.manutencoes.map((manutencao) => (
                     <TableRow key={manutencao.id}>
-                      <TableCell component="th" scope="row">{historyRow.date}</TableCell>
                       <TableCell align="right">{manutencao.dt_manutencao}</TableCell>
                       <TableCell align="right">{manutencao.dt_prox_manutencao}</TableCell>
                       <TableCell align="right">{manutencao.tp_manutencao}</TableCell>
@@ -177,9 +200,13 @@ function Row(props) {
   );
 }
 
+
+
 //renderização e exportaão da tabela 
 export default function CollapsibleTable() {
   return (
+    // console.log(Veiculos()),
+    'teste',
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
         <TableHead>
@@ -196,11 +223,12 @@ export default function CollapsibleTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {veiculos.map((veiculo) => (
+          {(Veiculos().map((veiculo) => (
             <Row key={veiculo.id} row={veiculo} />
-          ))}
+          )))}
         </TableBody>
       </Table>
     </TableContainer>
+
   );
 }
