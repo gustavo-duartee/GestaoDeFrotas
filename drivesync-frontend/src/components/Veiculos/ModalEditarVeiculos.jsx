@@ -28,6 +28,11 @@ export function ModalEditarVeiculo({
     },
   };
 
+  function formatDate(dateString) {
+    const [year, month, day] = dateString.split("T")[0].split("-");
+    return `${day}/${month}/${year}`;
+  }
+
   useEffect(() => {
     if (veiculoId) {
       loadVeiculo();
@@ -239,7 +244,9 @@ export function ModalEditarVeiculo({
                     id="dt_aquisicao"
                     className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 placeholder-gray-400"
                     value={dt_aquisicao}
-                    onChange={(e) => setDtAquisicao(e.target.value)}
+                    // onChange={(e) => {
+                    //   formatDate.setDtAquisicao(e.target.value);
+                    // }}
                   />
                 </div>
 

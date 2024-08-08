@@ -19,6 +19,11 @@ export function Veiculos() {
     },
   };
 
+  function formatDate(dateString) {
+    const [year, month, day] = dateString.split("T")[0].split("-");
+    return `${day}/${month}/${year}`;
+  }
+
   useEffect(() => {
     api
       .get("api/veiculos", authorization)
@@ -233,7 +238,7 @@ export function Veiculos() {
                               {veiculo.quilometragem}
                             </td>
                             <td className="px-6 py-4">
-                              {veiculo.dt_aquisicao}
+                              {formatDate(veiculo.dt_aquisicao)}
                             </td>
                             <td className="px-6 py-4">
                               {veiculo.tp_combustivel}
