@@ -3,18 +3,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DriveSync.Model
 {
-    [Table("Manutencao")]
+    [Table("Manutencoes")]
     public class Manutencao
     {
         public int Id { get; set; }
         
-        /*[Required]
-        public int id_veiculo { get; set; }*/
-        
         [Required]
+        [DataType(DataType.Date)]
         public DateTime? dt_manutencao { get; set; }
 
         [Required]
+        [DataType(DataType.Date)]
         public DateTime? dt_prox_manutencao { get; set; }
         
         [Required]
@@ -34,10 +33,6 @@ namespace DriveSync.Model
         [StringLength(1000)]
         public string descricao { get; set; }
 
-        public int veiculoId { get; set; }
-
-
-
-        
+        public int idVeiculo { get; set; }        
     }
 }
