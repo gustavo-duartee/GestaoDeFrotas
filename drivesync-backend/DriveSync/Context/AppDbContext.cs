@@ -18,6 +18,7 @@ namespace DriveSync.Context
         public DbSet<Empresa> Empresas { get; set; }
         public DbSet<Multa> Multas { get; set; }
         public DbSet<Manutencao> Manutencoes { get; set; }
+        public DbSet<Viagem> Viagens { get; set; }
     }
 
 

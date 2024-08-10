@@ -1,9 +1,9 @@
-export default{
-    COLORS:{
+export default {
+    COLORS: {
         WHITE: '#FFFFF',
 
         BRAND_LIGHT: '#00B37E',
-        BRAND_MID: '#00875F',
+        BRAND_MID: '#00875F', // Adicione aqui a cor que você deseja
 
         GRAY_100: '#E1E1E6',
         GRAY_200: '#C4C4CC',

@@ -7,39 +7,38 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingTop: 20,
   },
-  subtitle: {
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    gap: 10,
+    marginBottom: 10,
+  },
+  greeting: {
     color: '#E1E1E6',
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: 'bold',
-    marginBottom: 20,
   },
-  searchIcon: {
-    marginRight: 10,
+  subGreeting: {
+    color: '#4CAF50',
+    fontSize: 14,
   },
-  input: {
-    flex: 1,
-    backgroundColor: '#29292E',
-    color: '#fff',
+  planButton: {
+    backgroundColor: '#4CAF50',
     borderRadius: 8,
     paddingVertical: 10,
-    paddingHorizontal: 15,
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  planButtonText: {
+    color: '#fff',
     fontSize: 16,
-    marginBottom: 10,
+    fontWeight: 'bold',
   },
   divider: {
     height: 1,
     backgroundColor: '#444',
-    marginVertical: 20,
-  },
-  userInfo: {
-    flexDirection: "row",
-    marginBottom: 15,
-  },
-  info: {
-    color: '#E1E1E6',
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 6
+    marginVertical: 10,
   },
   section: {
     marginBottom: 20,
@@ -54,35 +53,6 @@ const styles = StyleSheet.create({
     color: '#E1E1E6',
     fontSize: 16,
     marginBottom: 20,
-  },
-  card: {
-    backgroundColor: '#29292E',
-    borderRadius: 8,
-    padding: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 10,
-  },
-  cardIcon: {
-    marginBottom: 10,
-  },
-  cardText: {
-    color: '#E1E1E6',
-    fontSize: 16,
-    textAlign: 'center',
-  },
-  tip: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  tipIcon: {
-    marginRight: 10,
-  },
-  tipText: {
-    flex: 1,
-    color: '#E1E1E6',
-    fontSize: 16,
   },
 });
 

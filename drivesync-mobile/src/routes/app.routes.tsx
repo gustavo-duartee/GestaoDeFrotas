@@ -1,4 +1,3 @@
-// src/routes/app.routes.tsx
 import React from 'react';
 import { StatusBar } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -42,15 +41,14 @@ const AppRoutes: React.FC = () => (
   <>
     <StatusBar backgroundColor="#202024" barStyle="light-content" />
     <Tab.Navigator
-      screenOptions={({ route }) => ({
+      screenOptions={{
         tabBarActiveTintColor: '#00B37E',
         tabBarInactiveTintColor: '#aaaaaa',
         tabBarStyle: {
           backgroundColor: '#29292E',
         },
         tabBarShowLabel: false,
-        headerShown: route.name !== 'Veículos', // Oculta o cabeçalho para a tela 'Veículos'
-      })}
+      }}
     >
       <Tab.Screen
         name="Início"
@@ -59,9 +57,6 @@ const AppRoutes: React.FC = () => (
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="home" size={25} color={color} />
           ),
-          title: 'Início',
-          headerStyle: { backgroundColor: '#29292E' },
-          headerTintColor: '#FFFFFF'
         }}
       />
       <Tab.Screen
@@ -71,9 +66,6 @@ const AppRoutes: React.FC = () => (
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="list" size={25} color={color} />
           ),
-          title: 'Atividades', // Adiciona o título para a tela 'Atividades'
-          headerStyle: { backgroundColor: '#29292E' },
-          headerTintColor: '#FFFFFF'
         }}
       />
       <Tab.Screen
@@ -83,9 +75,6 @@ const AppRoutes: React.FC = () => (
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="add-outline" size={40} color={color} />
           ),
-          title: 'Nova Viagem', // Adiciona o título para a tela 'Nova Viagem'
-          headerStyle: { backgroundColor: '#29292E' },
-          headerTintColor: '#FFFFFF'
         }}
       />
       <Tab.Screen
@@ -104,9 +93,6 @@ const AppRoutes: React.FC = () => (
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="person" size={25} color={color} />
           ),
-          title: 'Minha Conta', // Adiciona o título para a tela 'Minha Conta'
-          headerStyle: { backgroundColor: '#29292E' },
-          headerTintColor: '#FFFFFF'
         }}
       />
     </Tab.Navigator>

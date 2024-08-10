@@ -1,132 +1,89 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, TextInput, ScrollView, TouchableOpacity } from "react-native";
-import CheckBox from 'react-native-check-box';
-import { Picker } from '@react-native-picker/picker'; // Picker para combobox
-import styles from './styles';
-import api from '../../services/api'; // Importar a instância da API
+import React, { useState, useEffect } from 'react';
+import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import api from '../../services/api';
 
-export default function NovaViagem() {
-    const [checkList, setCheckList] = useState({
-        brakes: false,
-        tires: false,
-        lights: false,
-        fuel: false,
-    });
+import styles, { Message } from './styles'; // Certifique-se de que 'Message' está sendo exportado corretamente
 
-    const [veiculos, setVeiculos] = useState([]);
-    const [selectedVeiculo, setSelectedVeiculo] = useState("");
+import { useForegroundPermissions, watchPositionAsync, LocationAccuracy, LocationSubscription } from 'expo-location';
 
-    useEffect(() => {
-        async function fetchVeiculos() {
-            try {
-                const response = await api.get('/api/Veiculos');
-                const veiculosDisponiveis = response.data.filter(veiculo => veiculo.status === "Disponível");
-                setVeiculos(veiculosDisponiveis);
-            } catch (error) {
-                console.error(error);
-            }
-        }
+const IniciarViagem = () => {
+  const [localInicio, setLocalInicio] = useState('');
+  const [motoristaId, setMotoristaId] = useState('');
+  const [veiculoId, setVeiculoId] = useState('');
 
-        fetchVeiculos();
-    }, []);
+  const [locationForegroundPermission, requestLocationForegroundPermission] = useForegroundPermissions();
 
-    const handleCheckBoxChange = (item) => {
-        setCheckList({ ...checkList, [item]: !checkList[item] });
-    };
+  const iniciarViagem = async () => {
+    try {
+      const response = await api.post('/viagem', {
+        localInicio,
+        motoristaId,
+        veiculoId,
+        dataInicio: new Date(),
+        ativa: true
+      });
+      console.log('Viagem iniciada:', response.data);
+    } catch (error) {
+      console.error('Erro ao iniciar a viagem:', error);
+    }
+  };
 
-    return (
-        <ScrollView style={styles.container}>
-            <Text style={styles.subtitle}>Informações da viagem</Text>
+  useEffect(() => {
+    requestLocationForegroundPermission();
+  }, []);
 
-            <View style={styles.inputsContainer}>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Localização atual"
-                    placeholderTextColor="#aaa"
-                />
-                <View style={styles.pickerContainer}>
-                    <Picker
-                        selectedValue={selectedVeiculo}
-                        onValueChange={(itemValue, itemIndex) => setSelectedVeiculo(itemValue)}
-                        style={styles.picker}
-                        dropdownIconColor="#aaa"
-                    >
-                        <Picker.Item label="Selecione um veículo" value="" />
-                        {veiculos.map(veiculo => (
-                            <Picker.Item key={veiculo.id} label={`${veiculo.marca} - ${veiculo.modelo}`} value={veiculo.id} />
-                        ))}
-                    </Picker>
-                </View>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Passageiros"
-                    placeholderTextColor="#aaa"
-                />
-                <TextInput
-                    style={styles.input}
-                    placeholder="Quilometragem atual"
-                    placeholderTextColor="#aaa"
-                />
-            </View>
+  useEffect(() => {
+    if (!locationForegroundPermission?.granted) {
+      return;
+    }
 
-            <View style={styles.divider} />
+    let subscription: LocationSubscription;
 
-            <Text style={styles.subtitle}>Check-list</Text>
-            <View style={styles.checkListContainer}>
-                <View style={styles.checkListItem}>
-                    <Text style={styles.checkListText}>Freios</Text>
-                    <CheckBox
-                        style={styles.checkBox}
-                        checkBoxColor='#00875F'
-                        isChecked={checkList.brakes}
-                        onClick={() => handleCheckBoxChange('brakes')}
-                    />
-                </View>
-                <View style={styles.checkListItem}>
-                    <Text style={styles.checkListText}>Pneus</Text>
-                    <CheckBox
-                        style={styles.checkBox}
-                        checkBoxColor='#00875F'
-                        isChecked={checkList.tires}
-                        onClick={() => handleCheckBoxChange('tires')}
-                    />
-                </View>
-                <View style={styles.checkListItem}>
-                    <Text style={styles.checkListText}>Luzes</Text>
-                    <CheckBox
-                        style={styles.checkBox}
-                        checkBoxColor='#00875F'
-                        isChecked={checkList.lights}
-                        onClick={() => handleCheckBoxChange('lights')}
-                    />
-                </View>
-                <View style={styles.checkListItem}>
-                    <Text style={styles.checkListText}>Combustível</Text>
-                    <CheckBox
-                        style={styles.checkBox}
-                        checkBoxColor='#00875F'
-                        isChecked={checkList.fuel}
-                        onClick={() => handleCheckBoxChange('fuel')}
-                    />
-                </View>
-            </View>
+    watchPositionAsync({
+      accuracy: LocationAccuracy.High,
+      timeInterval: 1000
+    }, (location) => {
+      console.log(location);
+    })
+      .then((response) => subscription = response);
 
-            <View style={styles.divider} />
+    return () => subscription.remove();
+  }, [locationForegroundPermission]);
 
-            <Text style={styles.subtitle}>Observações</Text>
-                <TextInput
-                    editable
-                    multiline
-                    numberOfLines={4}
-                    maxLength={40}
-                    style={styles.obsInput}
-                    placeholder="Digite suas observações aqui"
-                    placeholderTextColor="#aaa"
-                />
 
-                <TouchableOpacity style={styles.button}>
-                    <Text style={styles.buttonText}>Iniciar</Text>
-                </TouchableOpacity>
-        </ScrollView>
-    );
-}
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.inputsContainer}>
+        <TextInput
+          placeholder="ID do Motorista"
+          value={motoristaId}
+          onChangeText={text => setMotoristaId(text)}
+          style={styles.input}
+          placeholderTextColor="#7C7C8A"
+        />
+        <TextInput
+          placeholder="ID do Veículo"
+          value={veiculoId}
+          onChangeText={text => setVeiculoId(text)}
+          style={styles.input}
+          placeholderTextColor="#7C7C8A"
+        />
+        <TextInput
+          placeholder="Local de Início"
+          value={localInicio}
+          onChangeText={text => setLocalInicio(text)}
+          editable={false}
+          style={styles.input}
+          placeholderTextColor="#7C7C8A"
+        />
+      </View>
+
+      <TouchableOpacity style={styles.planButton} onPress={iniciarViagem}>
+        <Text style={styles.planButtonText}>Iniciar Viagem</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+export default IniciarViagem;

@@ -1,4 +1,6 @@
 import { StyleSheet } from "react-native";
+import styled from "styled-components/native";
+import theme from "../../theme";
 
 const styles = StyleSheet.create({
   container: {
@@ -71,20 +73,17 @@ const styles = StyleSheet.create({
     width: '100%',
     textAlignVertical: 'top',
   },
-  button: {
-    backgroundColor: '#00875F',
+  planButton: {
+    backgroundColor: '#4CAF50',
+    borderRadius: 8,
     paddingVertical: 10,
-    paddingHorizontal: 50,
-    borderRadius: 5,
-    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 20,
-    marginBottom: 40
+    marginBottom: 20,
   },
-  buttonText: {
-    color: 'white',
+  planButtonText: {
+    color: '#fff',
     fontSize: 16,
+    fontWeight: 'bold',
   },
   divider: {
     height: 1,
@@ -94,3 +93,9 @@ const styles = StyleSheet.create({
 });
 
 export default styles;
+
+export const Message = styled.Text`
+  color: '#FFFFF;
+  textAlign: center;
+  margin: 24px;
+`;
