@@ -53,11 +53,6 @@ const AppRoutes: React.FC = () => (
       <Tab.Screen
         name="Início"
         component={Home}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="home" size={25} color={color} />
-          ),
-        }}
       />
       <Tab.Screen
         name="Atividades"

@@ -4,12 +4,17 @@ import api from '../../services/api';
 
 import styles, { Message } from './styles'; // Certifique-se de que 'Message' está sendo exportado corretamente
 
+import { getAddressLocation } from '../../utils/getAddressLocation';
 import { useForegroundPermissions, watchPositionAsync, LocationAccuracy, LocationSubscription } from 'expo-location';
+import { Loading } from '../../components/Loading';
+import { LocationInfo } from '../../components/LocationInfo';
 
 const IniciarViagem = () => {
   const [localInicio, setLocalInicio] = useState('');
   const [motoristaId, setMotoristaId] = useState('');
   const [veiculoId, setVeiculoId] = useState('');
+  const [isLoadingLocation, setIsLoadingLocation] = useState(true);
+  const [currentAddress, setCurrentAddress] = useState<string | null>(null);
 
   const [locationForegroundPermission, requestLocationForegroundPermission] = useForegroundPermissions();
 
@@ -43,12 +48,32 @@ const IniciarViagem = () => {
       accuracy: LocationAccuracy.High,
       timeInterval: 1000
     }, (location) => {
-      console.log(location);
+      getAddressLocation(location.coords)
+      .then((address) => {
+        if(address){
+          setCurrentAddress(address);
+        }
+      })
+      .finally(() => setIsLoadingLocation(false))
     })
       .then((response) => subscription = response);
 
-    return () => subscription.remove();
+    return () => {
+      if(subscription)
+        {
+          subscription.remove();
+        }
+    };
   }, [locationForegroundPermission]);
+
+  if (!locationForegroundPermission?.granted) {
+    return;
+  }
+
+  if(isLoadingLocation)
+  {
+    <Loading />
+  }
 
 
 
@@ -77,6 +102,13 @@ const IniciarViagem = () => {
           style={styles.input}
           placeholderTextColor="#7C7C8A"
         />
+        {
+          currentAddress &&
+          <LocationInfo 
+            label='Localizacao Atual'
+            description={currentAddress}
+          />
+        }
       </View>
 
       <TouchableOpacity style={styles.planButton} onPress={iniciarViagem}>
