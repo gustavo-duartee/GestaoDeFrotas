@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DriveSync.Migrations
 {
     /// <inheritdoc />
-    public partial class editAdicionarRelacionamentoVeiculoManutencao : Migration
+    public partial class addRelacionamentoManutencaoVeiculo : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,8 +15,7 @@ namespace DriveSync.Migrations
                 name: "dt_prox_manutencao",
                 table: "Manutencao",
                 type: "datetime2",
-                nullable: false,
-                defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
+                nullable: true);
 
             migrationBuilder.AddColumn<int>(
                 name: "veiculoId",

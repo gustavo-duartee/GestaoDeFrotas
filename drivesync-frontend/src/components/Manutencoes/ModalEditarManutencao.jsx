@@ -34,7 +34,7 @@ export function ModalEditarManutencao({ isOpen, onRequestClose, manutencaoId, ed
 
             setId(response.data.id);
             setDtManutencao(response.data.dt_manutencao);
-            setProxDtManutencao(response.data.dt_prox_manutencao);
+            setDtProxManutencao(response.data.dt_prox_manutencao);
             setTpManutencao(response.data.tp_manutencao)
             setVeiculo(response.data.veiculo);
             setServico(response.data.servico);
@@ -137,6 +137,11 @@ export function ModalEditarManutencao({ isOpen, onRequestClose, manutencaoId, ed
                                 <div className="col-span-2 mb-2">
                                     <label htmlFor="descricao" className="block text-sm font-medium leading-6 text-gray-900">Descrição</label>
                                     <input required type="text" name="descricao" id="descricao" className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 placeholder-gray-400" value={descricao} onChange={(e) => setDescricao(e.target.value)} />
+                                </div>
+
+                                <div className="col-span-2 mb-2">
+                                    <label hidden htmlFor="veiculoId" className="block text-sm font-medium leading-6 text-gray-900">Descrição</label>
+                                
                                 </div>
 
                             </div>

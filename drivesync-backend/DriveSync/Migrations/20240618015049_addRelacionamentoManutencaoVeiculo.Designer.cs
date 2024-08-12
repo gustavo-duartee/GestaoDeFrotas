@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DriveSync.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240615173824_editAdicionarRelacionamentoVeiculoManutencao")]
-    partial class editAdicionarRelacionamentoVeiculoManutencao
+    [Migration("20240618015049_addRelacionamentoManutencaoVeiculo")]
+    partial class addRelacionamentoManutencaoVeiculo
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,7 +43,6 @@ namespace DriveSync.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("dt_prox_manutencao")
-                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("servico")
