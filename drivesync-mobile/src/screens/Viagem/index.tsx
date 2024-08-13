@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
-import { useForegroundPermissions, watchPositionAsync, LocationAccuracy, LocationSubscription } from 'expo-location';  
+import { View, Text, TextInput, TouchableOpacity, ScrollView } from 'react-native';
+import { useForegroundPermissions, watchPositionAsync, LocationAccuracy, LocationSubscription, LocationObjectCoords } from 'expo-location';
+import { Car } from 'phosphor-react-native';
 
 import api from '../../services/api';
 import styles from './styles';
@@ -8,6 +9,7 @@ import { getAddressLocation } from '../../utils/getAddressLocation';
 
 import { Loading } from '../../components/Loading';
 import { LocationInfo } from '../../components/LocationInfo';
+import { Map } from '../../components/Map';
 
 const IniciarViagem = () => {
   const [localInicio, setLocalInicio] = useState('');
@@ -15,6 +17,7 @@ const IniciarViagem = () => {
   const [veiculoId, setVeiculoId] = useState('');
   const [isLoadingLocation, setIsLoadingLocation] = useState(true);
   const [currentAddress, setCurrentAddress] = useState<string | null>(null);
+  const [currentCoords, setCurrentCoords] = useState<LocationObjectCoords | null>(null);
 
   const [locationForegroundPermission, requestLocationForegroundPermission] = useForegroundPermissions();
 
@@ -48,6 +51,8 @@ const IniciarViagem = () => {
       accuracy: LocationAccuracy.High,
       timeInterval: 1000
     }, (location) => {
+      setCurrentCoords(location.coords);
+
       getAddressLocation(location.coords)
         .then((address) => {
           if (address) {
@@ -76,43 +81,50 @@ const IniciarViagem = () => {
 
 
   return (
-    <View style={styles.container}>
-      <View style={styles.inputsContainer}>
-        <TextInput
-          placeholder="ID do Motorista"
-          value={motoristaId}
-          onChangeText={text => setMotoristaId(text)}
-          style={styles.input}
-          placeholderTextColor="#7C7C8A"
-        />
-        <TextInput
-          placeholder="ID do Veículo"
-          value={veiculoId}
-          onChangeText={text => setVeiculoId(text)}
-          style={styles.input}
-          placeholderTextColor="#7C7C8A"
-        />
-        <TextInput
-          placeholder="Local de Início"
-          value={localInicio}
-          onChangeText={text => setLocalInicio(text)}
-          editable={false}
-          style={styles.input}
-          placeholderTextColor="#7C7C8A"
-        />
-        {
-          currentAddress &&
-          <LocationInfo
-            label='Localizacao Atual'
-            description={currentAddress}
-          />
-        }
-      </View>
+    <ScrollView>
+      <View style={styles.container}>
 
-      <TouchableOpacity style={styles.planButton} onPress={iniciarViagem}>
-        <Text style={styles.planButtonText}>Iniciar Viagem</Text>
-      </TouchableOpacity>
-    </View>
+        { currentCoords && <Map coordinates={[currentCoords]}/>}
+
+        <View style={styles.inputsContainer}>
+          <TextInput
+            placeholder="ID do Motorista"
+            value={motoristaId}
+            onChangeText={text => setMotoristaId(text)}
+            style={styles.input}
+            placeholderTextColor="#7C7C8A"
+          />
+          <TextInput
+            placeholder="ID do Veículo"
+            value={veiculoId}
+            onChangeText={text => setVeiculoId(text)}
+            style={styles.input}
+            placeholderTextColor="#7C7C8A"
+          />
+          <TextInput
+            placeholder="Local de Início"
+            value={localInicio}
+            onChangeText={text => setLocalInicio(text)}
+            editable={false}
+            style={styles.input}
+            placeholderTextColor="#7C7C8A"
+          />
+          {
+            currentAddress &&
+            <LocationInfo
+              icon={Car}
+              label='Localizacao Atual'
+              description={currentAddress}
+            />
+          }
+        </View>
+
+        <TouchableOpacity style={styles.planButton} onPress={iniciarViagem}>
+          <Text style={styles.planButtonText}>Iniciar Viagem</Text>
+        </TouchableOpacity>
+      </View>
+    </ScrollView>
+
   );
 };
 

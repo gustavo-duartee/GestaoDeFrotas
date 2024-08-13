@@ -19,6 +19,8 @@ export function Map({ coordinates, ...rest}: Props)
                 longitudeDelta: 0.005
             }}
             {...rest}
-        />
+        >
+            <Marker coordinate={coordinates[0]}/>
+        </MapView>
     )
 }
