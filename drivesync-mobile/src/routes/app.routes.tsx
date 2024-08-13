@@ -22,7 +22,8 @@ const VeiculoStack = () => (
       options={{
         headerStyle: { backgroundColor: '#29292E' },
         headerTintColor: '#FFFFFF',
-        title: 'Veículos'
+        title: 'Veículos',
+        headerShown: false
       }}
     />
     <Stack.Screen
@@ -39,20 +40,31 @@ const VeiculoStack = () => (
 
 const AppRoutes: React.FC = () => (
   <>
-    <StatusBar backgroundColor="#202024" barStyle="light-content" />
+    <StatusBar backgroundColor="#161616" barStyle="light-content" />
     <Tab.Navigator
       screenOptions={{
-        tabBarActiveTintColor: '#00B37E',
-        tabBarInactiveTintColor: '#aaaaaa',
+        tabBarActiveTintColor: '#04D361',
+        tabBarInactiveTintColor: '#C4C4CC',
         tabBarStyle: {
-          backgroundColor: '#29292E',
+          backgroundColor: '#161616',
         },
-        tabBarShowLabel: false,
+        tabBarShowLabel: true,
+        headerStyle: { backgroundColor: '#161616' },
+          headerTintColor: '#E1E1E6',
+          headerTitleStyle: {
+            fontSize: 28,
+            fontWeight: 'bold',
+          },
       }}
     >
       <Tab.Screen
         name="Início"
         component={Home}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="home" size={25} color={color} />
+          ),
+        }}
       />
       <Tab.Screen
         name="Atividades"
@@ -68,7 +80,7 @@ const AppRoutes: React.FC = () => (
         component={Viagem}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="add-outline" size={40} color={color} />
+            <Ionicons name="add-outline" size={30} color={color} />
           ),
         }}
       />
@@ -77,7 +89,7 @@ const AppRoutes: React.FC = () => (
         component={VeiculoStack}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="car" size={25} color={color} />
+            <Ionicons name="bus" size={25} color={color} />
           ),
         }}
       />

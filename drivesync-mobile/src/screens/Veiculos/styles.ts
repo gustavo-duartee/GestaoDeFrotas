@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#202024",
+    backgroundColor: "#161616",
     paddingHorizontal: 20,
     paddingTop: 20,
   },
@@ -14,12 +14,14 @@ const styles = StyleSheet.create({
   filterButton: {
     paddingVertical: 8,
     paddingHorizontal: 11,
-    backgroundColor: '#29292E',
+    backgroundColor: '#292929',
     borderRadius: 6,
     marginRight: 5,
   },
   filterButtonSelected: {
-    backgroundColor: '#3E3E48',
+    backgroundColor: '#292929',
+    borderBottomColor: '#04D361',
+    borderBottomWidth: 3,
   },
   filterButtonText: {
     color: '#fff',
@@ -27,14 +29,14 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   filterButtonTextSelected: {
-    color: '#fff',
+    color: '#04D361',
   },
   cardContainer: {
     paddingBottom: 20,
   },
   input: {
     flex: 1,
-    backgroundColor: '#29292E',
+    backgroundColor: '#292929',
     color: '#fff',
     borderRadius: 8,
     paddingVertical: 10,

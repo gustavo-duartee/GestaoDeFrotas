@@ -48,7 +48,7 @@ export default function VeiculoCard({ veiculo }: VeiculoCardProps) {
       <View style={styles.container}>
         <View style={styles.card}>
           <View style={styles.iconSquare}>
-            <Ionicons style={[styles.icon, { color: statusStyles.color }]} name="car-outline" size={40} color="white" />
+            <Ionicons style={styles.icon} name="bus-outline" size={40} color="white" />
           </View>
 
           <View style={styles.content}>

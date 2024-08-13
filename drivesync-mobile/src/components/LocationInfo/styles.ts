@@ -1,8 +1,7 @@
 import styled from 'styled-components/native';
-import theme from '../../theme';
 
 export const Container = styled.View`
-  widht: 100%;
+  width: 100%;
   flex-direction: row;
   align-items: center;
 `;
@@ -12,13 +11,13 @@ export const Info = styled.View`
 `;
 
 export const Label = styled.Text`
-    color: ${({ theme }) => theme.COLORS.GRAY_300};
-    font-size: ${({ theme }) => theme.FONT_SIZE.SM}px;
-    font-family: ${({ theme }) => theme.FONT_FAMILY.REGULAR};
+    color: '#8D8D99';
+    font-size: 14px;
+    font-family: 'Roboto_400Regular';
 `;
 
 export const Description = styled.Text`
-    color: ${({ theme }) => theme.COLORS.GRAY_100};
-    font-size: ${({ theme }) => theme.FONT_SIZE.SM}px;
-    font-family: ${({ theme }) => theme.FONT_FAMILY.REGULAR};
+    color: '#E1E1E6'
+    font-size: 14px;
+    font-family: 'Roboto_400Regular';
 `;

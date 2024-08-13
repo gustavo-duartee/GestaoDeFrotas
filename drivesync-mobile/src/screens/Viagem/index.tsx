@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { useForegroundPermissions, watchPositionAsync, LocationAccuracy, LocationSubscription } from 'expo-location';  
+
 import api from '../../services/api';
-
-import styles, { Message } from './styles'; // Certifique-se de que 'Message' está sendo exportado corretamente
-
+import styles from './styles';
 import { getAddressLocation } from '../../utils/getAddressLocation';
-import { useForegroundPermissions, watchPositionAsync, LocationAccuracy, LocationSubscription } from 'expo-location';
+
 import { Loading } from '../../components/Loading';
 import { LocationInfo } from '../../components/LocationInfo';
 
@@ -49,20 +49,19 @@ const IniciarViagem = () => {
       timeInterval: 1000
     }, (location) => {
       getAddressLocation(location.coords)
-      .then((address) => {
-        if(address){
-          setCurrentAddress(address);
-        }
-      })
-      .finally(() => setIsLoadingLocation(false))
+        .then((address) => {
+          if (address) {
+            setCurrentAddress(address);
+          }
+        })
+        .finally(() => setIsLoadingLocation(false))
     })
       .then((response) => subscription = response);
 
     return () => {
-      if(subscription)
-        {
-          subscription.remove();
-        }
+      if (subscription) {
+        subscription.remove();
+      }
     };
   }, [locationForegroundPermission]);
 
@@ -70,8 +69,7 @@ const IniciarViagem = () => {
     return;
   }
 
-  if(isLoadingLocation)
-  {
+  if (isLoadingLocation) {
     <Loading />
   }
 
@@ -104,7 +102,7 @@ const IniciarViagem = () => {
         />
         {
           currentAddress &&
-          <LocationInfo 
+          <LocationInfo
             label='Localizacao Atual'
             description={currentAddress}
           />

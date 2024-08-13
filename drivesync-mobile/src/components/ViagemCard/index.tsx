@@ -1,7 +1,6 @@
 import React from "react";
-import { View, Text } from "react-native";
-import { Ionicons } from '@expo/vector-icons'; // Importar o Ionicons
-
+import { View, Text, TouchableOpacity } from "react-native";
+import { Ionicons } from '@expo/vector-icons';
 import styles from './styles';
 
 export default function ViagemCard() {
@@ -11,12 +10,12 @@ export default function ViagemCard() {
         dataSaida: "25/05/2023",
         horaSaida: "09:00",
         horaChegada: "10:00",
+        preco: "R$14,90"
     };
 
     return (
         <View style={styles.container}>
             <View style={styles.card}>
-                <View style={styles.leftBorder}></View>
                 <View style={styles.iconSquare}>
                     <Ionicons style={styles.icon} name="map-outline" size={40} />
                 </View>
@@ -40,6 +39,7 @@ export default function ViagemCard() {
                     <Ionicons style={styles.iconCheck} name="checkmark-outline" size={30} />
                 </View>
             </View>
+
         </View>
     );
 }

@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#202024",
+    backgroundColor: "#161616",
     paddingHorizontal: 20,
   },
   circle: {
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: "100%",
     height: 45,
-    backgroundColor: "#29292E",
+    backgroundColor: "#292929",
     borderRadius: 6,
     marginBottom: 10,
     paddingHorizontal: 15,
@@ -128,14 +128,8 @@ const styles = StyleSheet.create({
     color: "#E1E1E6",
     fontSize: 14,
     marginTop: 10,
-    textDecorationLine: "underline",
+    fontWeight: 'bold',
   },
-  signUpText: {
-    color: "#E1E1E6",
-    fontSize: 14,
-    marginTop: 10,
-    textDecorationLine: "underline",
-  }
 });
 
 export default SignIn;

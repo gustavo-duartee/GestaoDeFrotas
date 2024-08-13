@@ -1,15 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { View, Text, ScrollView, StyleSheet } from "react-native";
 import { Ionicons } from '@expo/vector-icons';
-import ViagemStatus from "../../components/ViagemStatus";
 import { useAuth } from "../../contexts/auth";
-import styles from "./styles";
-import { Map } from "../../components/Map";
-
-interface Coordenadas {
-  latitude: number;
-  longitude: number;
-}
+import MediaCard from "../../components/InfoCards";
 
 export default function Home() {
   const { user } = useAuth();
@@ -24,22 +17,52 @@ export default function Home() {
         </View>
       </View>
 
-
       <View style={styles.divider} />
 
-      <ViagemStatus />
+      <Text style={styles.subtitle}>Atente-se aos sinais</Text>
 
-      <View style={styles.divider} />
-      
+      {/* ScrollView horizontal para os cards */}
+      <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.cardsContainer}>
+        <MediaCard />
+      </ScrollView>
+
+      <Text style={styles.subtitle}>Segurança em primeiro lugar</Text>
     </ScrollView>
   );
 }
 
-const mapStyles = StyleSheet.create({
-  map: {
-    width: '100%',
-    height: 400,
-    marginTop: 20,
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#161616',
+    padding: 10,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  greeting: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#E1E1E6',
+  },
+  subGreeting: {
+    fontSize: 14,
+    color: '#E1E1E6',
+  },
+  divider: {
+    height: 1,
+    backgroundColor: '#E1E1E6',
+    marginVertical: 10,
+  },
+  subtitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#E1E1E6',
+    marginVertical: 10,
+  },
+  cardsContainer: {
+    flexDirection: 'row',
   },
 });
-

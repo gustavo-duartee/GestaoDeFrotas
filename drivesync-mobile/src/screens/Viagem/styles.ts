@@ -1,6 +1,5 @@
 import { StyleSheet } from "react-native";
 import styled from "styled-components/native";
-import theme from "../../theme";
 
 const styles = StyleSheet.create({
   container: {
@@ -94,8 +93,3 @@ const styles = StyleSheet.create({
 
 export default styles;
 
-export const Message = styled.Text`
-  color: '#FFFFF;
-  textAlign: center;
-  margin: 24px;
-`;
