@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import ReactModal from "react-modal";
 import api from "../../services/api";
 import { useNavigate, useParams } from "react-router-dom";
+import { formatDateEdit } from "../../functions";
 
 export function ModalEditarEmpresa({
   isOpen,
@@ -194,7 +195,7 @@ export function ModalEditarEmpresa({
                     Telefone
                   </label>
                   <input
-                    type="number"
+                    type="text"
                     name="telefone"
                     id="telefone"
                     className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 placeholder-gray-400"
@@ -215,7 +216,7 @@ export function ModalEditarEmpresa({
                     name="data_cadastro"
                     id="data_cadastro"
                     className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 placeholder-gray-400"
-                    value={data_cadastro}
+                    value={formatDateEdit(data_cadastro)}
                     onChange={(e) => setData_cadastro(e.target.value)}
                   />
                 </div>

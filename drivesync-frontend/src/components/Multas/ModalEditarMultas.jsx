@@ -3,6 +3,8 @@ import ReactModal from "react-modal";
 import api from "../../services/api";
 import { useNavigate, useParams } from "react-router-dom";
 
+import { formatDateEdit } from "../../functions";
+
 export function ModalEditarMulta({
   isOpen,
   onRequestClose,
@@ -167,7 +169,7 @@ export function ModalEditarMulta({
                     name="dtmulta"
                     id="dtmulta"
                     className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 placeholder-gray-400"
-                    value={dtmulta}
+                    value={formatDateEdit(dtmulta)}
                     onChange={(e) => setDtMulta(e.target.value)}
                   />
                 </div>

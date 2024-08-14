@@ -3,6 +3,7 @@ import { Sidebar } from "../components/Sidebar";
 import { ModalCriarEmpresa } from "../components/Empresas/ModalCriarEmpresas";
 import { ModalEditarEmpresa } from "../components/Empresas/ModalEditarEmpresas";
 import api from "../services/api";
+import { formatDatePreview } from "../functions";
 
 export function Empresas() {
   const [searchInput, setSearchInput] = useState("");
@@ -181,12 +182,12 @@ export function Empresas() {
                       ? filtro.map((empresa) => (
                           <tr key={empresa.id} className="bg-white border-b">
                             <td className="px-6 py-4">{empresa.nome}</td>
-                            <td className="px-6 py-4">{empresa.CNPJ}</td>
+                            <td className="px-6 py-4">{empresa.cnpj}</td>
                             <td className="px-6 py-4">{empresa.endereco}</td>
-                            <td className="px-6 py-4">{empresa.telefone}</td>
                             <td className="px-6 py-4">{empresa.email}</td>
+                            <td className="px-6 py-4">{empresa.telefone}</td>
                             <td className="px-6 py-4">
-                              {empresa.data_cadastro}
+                              {formatDatePreview(empresa.data_cadastro)}
                             </td>
                             <td className="px-6 py-4 text-right">
                               <div className="flex gap-2">
@@ -213,10 +214,10 @@ export function Empresas() {
                             <td className="px-6 py-4">{empresa.nome}</td>
                             <td className="px-6 py-4">{empresa.cnpj}</td>
                             <td className="px-6 py-4">{empresa.endereco}</td>
-                            <td className="px-6 py-4">{empresa.telefone}</td>
                             <td className="px-6 py-4">{empresa.email}</td>
+                            <td className="px-6 py-4">{empresa.telefone}</td>
                             <td className="px-6 py-4">
-                              {empresa.data_cadastro}
+                              {formatDatePreview(empresa.data_cadastro)}
                             </td>
                             <td className="px-6 py-4 text-right">
                               <div className="flex gap-2">

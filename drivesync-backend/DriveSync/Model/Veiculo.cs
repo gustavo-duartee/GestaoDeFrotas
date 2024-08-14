@@ -28,7 +28,12 @@ namespace DriveSync.Model
         [DataType(DataType.Date)]
         public DateTime? dt_aquisicao { get; set; }
         public string status { get; set; }
-        
+        public string cap_passageiros { get; set; }
+        public string categoria { get; set; }
+        [StringLength(12)]
+        public string nmr_chassi { get; set; }
+        public string renavam { get; set; }
+        public string cor { get; set; }
         public ICollection<Manutencao> manutencoes { get; } = new List<Manutencao>(); 
     }
 }

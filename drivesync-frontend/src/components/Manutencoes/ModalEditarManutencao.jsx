@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import ReactModal from "react-modal";
 import api from "../../services/api";
 import { useNavigate, useParams } from "react-router-dom";
+import { formatDateEdit } from "../../functions";
 
 export function ModalEditarManutencao({
   isOpen,
@@ -134,7 +135,7 @@ export function ModalEditarManutencao({
                     name="dt_manutencao"
                     id="dt_manutencao"
                     className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 placeholder-gray-400"
-                    value={dt_manutencao}
+                    value={formatDateEdit(dt_manutencao)}
                     onChange={(e) => setDtManutencao(e.target.value)}
                   />
                 </div>
@@ -151,7 +152,7 @@ export function ModalEditarManutencao({
                     name=""
                     id="dt_prox_manutencao"
                     className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 placeholder-gray-400"
-                    value={dt_prox_manutencao}
+                    value={formatDateEdit(dt_prox_manutencao)}
                     onChange={(e) => setDtProxManutencao(e.target.value)}
                   />
                 </div>

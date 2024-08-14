@@ -11,6 +11,11 @@ export function ModalCriarVeiculo({ isOpen, onRequestClose }) {
   const [quilometragem, setQuilometragem] = useState("");
   const [tp_combustivel, setTpCombustivel] = useState("");
   const [dt_aquisicao, setDtAquisicao] = useState("");
+  const [cap_passageiros, setCapPassageiros] = useState("");
+  const [categoria, setCategoria] = useState("");
+  const [nmr_chassi, setNmrChassi] = useState("");
+  const [renavam, setRenavam] = useState("");
+  const [cor, setCor] = useState("");
 
   const history = useNavigate();
 
@@ -35,6 +40,11 @@ export function ModalCriarVeiculo({ isOpen, onRequestClose }) {
       tp_combustivel,
       dt_aquisicao,
       status,
+      cap_passageiros,
+      categoria,
+      nmr_chassi,
+      renavam,
+      cor,
     };
 
     try {
@@ -87,7 +97,7 @@ export function ModalCriarVeiculo({ isOpen, onRequestClose }) {
         <div className="modal-body px-5 py-0 ">
           <form className="p-4 md:p-5" onSubmit={saveVeiculo}>
             <div className="grid mb-1 w-full">
-              <div className="col-span-2 mb-2">
+              <div className="col-span-1 mb-2 mr-3">
                 <label
                   htmlFor="modelo"
                   className="block text-sm font-medium leading-6 text-gray-900"
@@ -101,12 +111,12 @@ export function ModalCriarVeiculo({ isOpen, onRequestClose }) {
                     name="modelo"
                     id="modelo"
                     className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    placeholder="Digite o modelo"
+                    placeholder="Ex: Sprinter"
                   />
                 </div>
               </div>
 
-              <div className="col-span-2 mb-2">
+              <div className="col-span-1 mb-2">
                 <label
                   htmlFor="placa"
                   className="block text-sm font-medium leading-6 text-gray-900"
@@ -120,12 +130,12 @@ export function ModalCriarVeiculo({ isOpen, onRequestClose }) {
                     name="placa"
                     id="placa"
                     className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    placeholder="Digite a placa"
+                    placeholder="Ex.: MZT-6398"
                   />
                 </div>
               </div>
 
-              <div className="col-span-2 mb-2">
+              <div className="col-span-1 mb-2 mr-3">
                 <label
                   htmlFor="tp_combustivel"
                   className="block text-sm font-medium leading-6 text-gray-900"
@@ -145,12 +155,12 @@ export function ModalCriarVeiculo({ isOpen, onRequestClose }) {
                 </select>
               </div>
 
-              <div className="col-span-2 mb-2">
+              <div className="col-span-1 mb-2">
                 <label
                   htmlFor="marca"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
-                  Marca
+                  Fabricante
                 </label>
                 <div className="relative mt-1 rounded-md shadow-sm">
                   <input
@@ -159,17 +169,17 @@ export function ModalCriarVeiculo({ isOpen, onRequestClose }) {
                     name="marca"
                     id="marca"
                     className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    placeholder="Digite a marca"
+                    placeholder="Ex.: Mercedes Benz"
                   />
                 </div>
               </div>
 
-              <div className="col-span-2 mb-2">
+              <div className="col-span-1 mb-2 mr-3">
                 <label
                   htmlFor="ano"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
-                  Ano
+                  Ano de fabricação
                 </label>
                 <div className="relative mt-1 rounded-md shadow-sm">
                   <input
@@ -178,12 +188,12 @@ export function ModalCriarVeiculo({ isOpen, onRequestClose }) {
                     name="ano"
                     id="ano"
                     className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    placeholder="Digite o ano"
+                    placeholder="Ex.: 2024"
                   />
                 </div>
               </div>
 
-              <div className="col-span-2 mb-2">
+              <div className="col-span-1 mb-2">
                 <label
                   htmlFor="quilometragem"
                   className="block text-sm font-medium leading-6 text-gray-900"
@@ -197,12 +207,12 @@ export function ModalCriarVeiculo({ isOpen, onRequestClose }) {
                     name="quilometragem"
                     id="quilometragem"
                     className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    placeholder="Digite a quilometragem"
+                    placeholder="Ex.: 78400"
                   />
                 </div>
               </div>
 
-              <div className="col-span-2 mb-2">
+              <div className="col-span-1 mb-2 mr-3">
                 <label
                   htmlFor="dt_aquisicao"
                   className="block text-sm font-medium leading-6 text-gray-900"
@@ -217,6 +227,97 @@ export function ModalCriarVeiculo({ isOpen, onRequestClose }) {
                     id="dt_aquisicao"
                     className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     placeholder="Digite a data"
+                  />
+                </div>
+              </div>
+              <div className="col-span-1 mb-2">
+                <label
+                  htmlFor="cap_passageiros"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Cap. de Passageiros
+                </label>
+                <div className="relative mt-1 rounded-md shadow-sm">
+                  <input
+                    type="number"
+                    onChange={(e) => setCapPassageiros(e.target.value)}
+                    name="cap_passageiros"
+                    id="cap_passageiros"
+                    className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    placeholder="Ex.: 50"
+                  />
+                </div>
+              </div>
+              <div className="col-span-1 mb-2 mr-3">
+                <label
+                  htmlFor="categoria"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Categoria
+                </label>
+                <select
+                  id="categoria"
+                  onChange={(e) => setCategoria(e.target.value)}
+                  name="categoria"
+                  className="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                >
+                  <option value="Gasolina Comum">Urbano</option>
+                  <option value="Etanol">Rodoviário</option>
+                  <option value="Diesel">Micro-Ônibus</option>
+                </select>
+              </div>
+              <div className="col-span-1 mb-2">
+                <label
+                  htmlFor="cor"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Cor
+                </label>
+                <div className="relative mt-1 rounded-md shadow-sm">
+                  <input
+                    type="text"
+                    onChange={(e) => setCor(e.target.value)}
+                    name="cor"
+                    id="cor"
+                    className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    placeholder="Ex.: Preto"
+                  />
+                </div>
+              </div>
+
+              <div className="col-span-2 mb-2">
+                <label
+                  htmlFor="renavam"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Renavam
+                </label>
+                <div className="relative mt-1 rounded-md shadow-sm">
+                  <input
+                    type="number"
+                    onChange={(e) => setRenavam(e.target.value)}
+                    name="renavam"
+                    id="renavam"
+                    className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    placeholder="Ex.: 96985826040"
+                  />
+                </div>
+              </div>
+              <div className="col-span-2 mb-2">
+                <label
+                  htmlFor="nmr_chassi"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Número do Chassi
+                </label>
+                <div className="relative mt-1 rounded-md shadow-sm">
+                  <input
+                    type="string"
+                    onChange={(e) => setNmrChassi(e.target.value)}
+                    name="nmr_chassi"
+                    id="nmr_chassi"
+                    className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    placeholder="Ex.: 7G6 9dXa0K xs 9D1923"
                   />
                 </div>
               </div>

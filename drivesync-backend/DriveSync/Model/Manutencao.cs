@@ -36,8 +36,5 @@ namespace DriveSync.Model
 
         public int veiculoId { get; set; }
 
-
-
-        
     }
 }

@@ -3,6 +3,7 @@ import { Sidebar } from "../components/Sidebar";
 import { ModalCriarVeiculo } from "../components/Veiculos/ModalCriarVeiculos";
 import { ModalEditarVeiculo } from "../components/Veiculos/ModalEditarVeiculos";
 import api from "../services/api";
+import { formatDatePreview } from "../functions";
 
 export function Veiculos() {
   const [searchInput, setSearchInput] = useState("");
@@ -18,11 +19,6 @@ export function Veiculos() {
       Authorization: `Bearer ${token}`,
     },
   };
-
-  function formatDate(dateString) {
-    const [year, month, day] = dateString.split("T")[0].split("-");
-    return `${day}/${month}/${year}`;
-  }
 
   useEffect(() => {
     api
@@ -164,22 +160,22 @@ export function Veiculos() {
                         Placa
                       </th>
                       <th scope="col" className="px-6 py-3">
-                        Marca
+                        Fabricante
                       </th>
                       <th scope="col" className="px-6 py-3">
                         Modelo
                       </th>
                       <th scope="col" className="px-6 py-3">
-                        Ano
+                        Ano de fabricação
                       </th>
                       <th scope="col" className="px-6 py-3">
-                        Quilometragem
+                        KM
                       </th>
                       <th scope="col" className="px-6 py-3">
-                        Aquisição
+                        Data de Aquisição
                       </th>
                       <th scope="col" className="px-6 py-3">
-                        Tipo do Combustível
+                        Tp. do Combustível
                       </th>
                       <th scope="col" className="px-6 py-3">
                         Status
@@ -238,7 +234,7 @@ export function Veiculos() {
                               {veiculo.quilometragem}
                             </td>
                             <td className="px-6 py-4">
-                              {formatDate(veiculo.dt_aquisicao)}
+                              {formatDatePreview(veiculo.dt_aquisicao)}
                             </td>
                             <td className="px-6 py-4">
                               {veiculo.tp_combustivel}

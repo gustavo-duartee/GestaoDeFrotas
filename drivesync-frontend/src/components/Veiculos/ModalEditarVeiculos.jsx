@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import ReactModal from "react-modal";
 import api from "../../services/api";
 import { useNavigate, useParams } from "react-router-dom";
+import { formatDateEdit } from "../../functions";
 
 export function ModalEditarVeiculo({
   isOpen,
@@ -18,6 +19,11 @@ export function ModalEditarVeiculo({
   const [tp_combustivel, setTpCombustivel] = useState("");
   const [dt_aquisicao, setDtAquisicao] = useState("");
   const [status, setStatus] = useState("");
+  const [cap_passageiros, setCapPassageiros] = useState("");
+  const [categoria, setCategoria] = useState("");
+  const [nmr_chassi, setNmrChassi] = useState("");
+  const [renavam, setRenavam] = useState("");
+  const [cor, setCor] = useState("");
 
   const history = useNavigate();
 
@@ -27,11 +33,6 @@ export function ModalEditarVeiculo({
       Authorization: `Bearer ${token}`,
     },
   };
-
-  function formatDate(dateString) {
-    const [year, month, day] = dateString.split("T")[0].split("-");
-    return `${day}/${month}/${year}`;
-  }
 
   useEffect(() => {
     if (veiculoId) {
@@ -55,6 +56,11 @@ export function ModalEditarVeiculo({
       setTpCombustivel(response.data.tp_combustivel);
       setDtAquisicao(response.data.dt_aquisicao);
       setStatus(response.data.status);
+      setCapPassageiros(response.data.cap_passageiros);
+      setCategoria(response.data.categoria);
+      setNmrChassi(response.data.nmr_chassi);
+      setRenavam(response.data.renavam);
+      setCor(response.data.cor);
     } catch (error) {
       alert("Erro ao recuperar o veículo " + error);
       history("/veiculos");
@@ -73,6 +79,11 @@ export function ModalEditarVeiculo({
       tp_combustivel,
       dt_aquisicao,
       status,
+      cap_passageiros,
+      categoria,
+      nmr_chassi,
+      renavam,
+      cor,
     };
 
     try {
@@ -82,7 +93,7 @@ export function ModalEditarVeiculo({
       alert("Veiculo atualizado com sucesso!");
       window.location.reload();
     } catch (error) {
-      alert("Erro ao editar veículo. ");
+      alert(`Erro ao editar o veículo ${id}.`);
     }
     onRequestClose(); // Fechando o modal após a edição do veículo
   }
@@ -129,24 +140,7 @@ export function ModalEditarVeiculo({
             <div className="grid mb-1 w-full">
               {/* Campos de edição habilitados para permitir a alteração */}
               <div className="grid grid-cols-2 gap-4">
-                <div className="col-span-2 mb-2">
-                  <label
-                    htmlFor="marca"
-                    className="block text-sm font-medium leading-6 text-gray-900"
-                  >
-                    Marca
-                  </label>
-                  <input
-                    type="text"
-                    name="marca"
-                    id="marca"
-                    className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 placeholder-gray-400"
-                    value={marca}
-                    onChange={(e) => setMarca(e.target.value)}
-                  />
-                </div>
-
-                <div className="col-span-2 mb-2">
+                <div className="col-span-1 mb-2 mr-3">
                   <label
                     htmlFor="modelo"
                     className="block text-sm font-medium leading-6 text-gray-900"
@@ -157,30 +151,12 @@ export function ModalEditarVeiculo({
                     type="text"
                     name="modelo"
                     id="modelo"
-                    className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 placeholder-gray-400"
+                    className="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     value={modelo}
                     onChange={(e) => setModelo(e.target.value)}
                   />
                 </div>
-
-                <div className="col-span-2 mb-2">
-                  <label
-                    htmlFor="ano"
-                    className="block text-sm font-medium leading-6 text-gray-900"
-                  >
-                    Ano
-                  </label>
-                  <input
-                    type="number"
-                    name="ano"
-                    id="ano"
-                    className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 placeholder-gray-400"
-                    value={ano}
-                    onChange={(e) => setAno(e.target.value)}
-                  />
-                </div>
-
-                <div className="col-span-2 mb-2">
+                <div className="col-span-1 mb-2 mr-3">
                   <label
                     htmlFor="placa"
                     className="block text-sm font-medium leading-6 text-gray-900"
@@ -191,13 +167,64 @@ export function ModalEditarVeiculo({
                     type="text"
                     name="placa"
                     id="placa"
-                    className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 placeholder-gray-400"
+                    className="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     value={placa}
                     onChange={(e) => setPlaca(e.target.value)}
                   />
                 </div>
-
-                <div className="col-span-2 mb-2">
+                <div className="col-span-1 mb-2 mr-3">
+                  <label
+                    htmlFor="tp_combustivel"
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >
+                    Tipo do Combustível
+                  </label>
+                  <select
+                    name="tp_combustivel"
+                    id="tp_combustivel"
+                    className="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    value={tp_combustivel}
+                    onChange={(e) => setTpCombustivel(e.target.value)}
+                  >
+                    <option value="Gasolina Comum">Gasolina Comum</option>
+                    <option value="Etanol">Etanol</option>
+                    <option value="Diesel">Diesel</option>
+                    <option value="Flex">Flex</option>
+                  </select>
+                </div>
+                <div className="col-span-1 mb-2 mr-3">
+                  <label
+                    htmlFor="marca"
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >
+                    Fabricante
+                  </label>
+                  <input
+                    type="text"
+                    name="marca"
+                    id="marca"
+                    className="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    value={marca}
+                    onChange={(e) => setMarca(e.target.value)}
+                  />
+                </div>
+                <div className="col-span-1 mb-2 mr-3">
+                  <label
+                    htmlFor="ano"
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >
+                    Ano de fabricação
+                  </label>
+                  <input
+                    type="number"
+                    name="ano"
+                    id="ano"
+                    className="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    value={ano}
+                    onChange={(e) => setAno(e.target.value)}
+                  />
+                </div>
+                <div className="col-span-1 mb-2 mr-3">
                   <label
                     htmlFor="quilometragem"
                     className="block text-sm font-medium leading-6 text-gray-900"
@@ -208,30 +235,12 @@ export function ModalEditarVeiculo({
                     type="number"
                     name="quilometragem"
                     id="quilometragem"
-                    className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 placeholder-gray-400"
+                    className="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     value={quilometragem}
                     onChange={(e) => setQuilometragem(e.target.value)}
                   />
                 </div>
-
-                <div className="col-span-2 mb-2">
-                  <label
-                    htmlFor="tp_combustivel"
-                    className="block text-sm font-medium leading-6 text-gray-900"
-                  >
-                    Tipo do Combustível
-                  </label>
-                  <input
-                    type="text"
-                    name="tp_combustivel"
-                    id="tp_combustivel"
-                    className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 placeholder-gray-400"
-                    value={tp_combustivel}
-                    onChange={(e) => setTpCombustivel(e.target.value)}
-                  />
-                </div>
-
-                <div className="col-span-2 mb-2">
+                <div className="col-span-1 mb-2 mr-3">
                   <label
                     htmlFor="dt_aquisicao"
                     className="block text-sm font-medium leading-6 text-gray-900"
@@ -242,15 +251,84 @@ export function ModalEditarVeiculo({
                     type="date"
                     name="dt_aquisicao"
                     id="dt_aquisicao"
-                    className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 placeholder-gray-400"
-                    value={dt_aquisicao}
-                    // onChange={(e) => {
-                    //   formatDate.setDtAquisicao(e.target.value);
-                    // }}
+                    className="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    value={formatDateEdit(dt_aquisicao)}
+                    onChange={(e) => setDtAquisicao(e.target.value)}
+                  />
+                </div>
+                <div className="col-span-1 mb-2">
+                  <label
+                    htmlFor="cap_passageiros"
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >
+                    Cap. de passageiros
+                  </label>
+                  <input
+                    type="number"
+                    name="cap_passageiros"
+                    id="cap_passageiros"
+                    className="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    value={cap_passageiros}
+                    onChange={(e) => setCapPassageiros(e.target.value)}
                   />
                 </div>
 
-                <div className="col-span-2 mb-2">
+                <div className="col-span-1 mb-2 mr-3">
+                  <label
+                    htmlFor="categoria"
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >
+                    Categoria
+                  </label>
+                  <select
+                    id="categoria"
+                    onChange={(e) => setCategoria(e.target.value)}
+                    name="categoria"
+                    className="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  >
+                    <option value="Gasolina Comum">Urbano</option>
+                    <option value="Etanol">Rodoviário</option>
+                    <option value="Diesel">Micro-Ônibus</option>
+                  </select>
+                </div>
+                <div className="col-span-1 mb-2">
+                  <label
+                    htmlFor="cor"
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >
+                    Cor
+                  </label>
+                  <div className="relative mt-1 rounded-md shadow-sm">
+                    <input
+                      type="text"
+                      onChange={(e) => setCor(e.target.value)}
+                      name="cor"
+                      id="cor"
+                      className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      placeholder="Ex.: Preto"
+                    />
+                  </div>
+                </div>
+
+                <div className="col-span-1 mb-2">
+                  <label
+                    htmlFor="renavam"
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >
+                    Renavam
+                  </label>
+                  <div className="relative mt-1 rounded-md shadow-sm">
+                    <input
+                      type="number"
+                      onChange={(e) => setRenavam(e.target.value)}
+                      name="renavam"
+                      id="renavam"
+                      className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      placeholder="Ex.: 96985826040"
+                    />
+                  </div>
+                </div>
+                <div className="col-span-1 mb-2 mr-3">
                   <label
                     htmlFor="status"
                     className="block text-sm font-medium leading-6 text-gray-900"
@@ -261,11 +339,30 @@ export function ModalEditarVeiculo({
                     type="text"
                     name="status"
                     id="status"
-                    className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 placeholder-gray-400"
+                    className="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     value={status}
                     onChange={(e) => setStatus(e.target.value)}
                   />
                 </div>
+                <div className="col-span-2 mb-2">
+                  <label
+                    htmlFor="nmr_chassi"
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >
+                    Número do Chassi
+                  </label>
+                  <div className="relative mt-1 rounded-md shadow-sm">
+                    <input
+                      type="string"
+                      onChange={(e) => setNmrChassi(e.target.value)}
+                      name="nmr_chassi"
+                      id="nmr_chassi"
+                      className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      placeholder="Ex.: 7G6 9dXa0K xs 9D1923"
+                    />
+                  </div>
+                </div>
+                {/* <div id="root"></div> */}
               </div>
             </div>
 

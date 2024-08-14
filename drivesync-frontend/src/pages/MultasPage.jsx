@@ -19,6 +19,11 @@ export function Multas() {
     },
   };
 
+  function formatDate(dateString) {
+    const [year, month, day] = dateString.split("T")[0].split("-");
+    return `${day}/${month}/${year}`;
+  }
+
   useEffect(() => {
     api
       .get("api/multas", authorization)
@@ -188,8 +193,10 @@ export function Multas() {
                           <tr key={multa.id} className="bg-white border-b">
                             <td className="px-6 py-4">{multa.idviagem}</td>
                             <td className="px-6 py-4">{multa.codigo}</td>
-                            <td className="px-6 py-4">{multa.DtMulta}</td>
-                            <td className="px-6 py-4">{multa.TpInfracao}</td>
+                            <td className="px-6 py-4">
+                              {formatDate(multa.dtmulta)}
+                            </td>
+                            <td className="px-6 py-4">{multa.tpinfracao}</td>
                             <td className="px-6 py-4">{multa.valor}</td>
                             <td className="px-6 py-4">{multa.ptscarteira}</td>
                             <td className="px-6 py-4">{multa.descricao}</td>
@@ -218,7 +225,9 @@ export function Multas() {
                           <tr key={multa.id} className="bg-white border-b">
                             <td className="px-6 py-4">{multa.idviagem}</td>
                             <td className="px-6 py-4">{multa.codigo}</td>
-                            <td className="px-6 py-4">{multa.dtmulta}</td>
+                            <td className="px-6 py-4">
+                              {formatDate(multa.dtmulta)}
+                            </td>
                             <td className="px-6 py-4">{multa.tpinfracao}</td>
                             <td className="px-6 py-4">{multa.valor}</td>
                             <td className="px-6 py-4">{multa.ptscarteira}</td>
