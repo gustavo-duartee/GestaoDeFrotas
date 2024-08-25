@@ -110,7 +110,7 @@ export function ModalEditarVeiculo({
       <div className="modal-content bg-white shadow-lg rounded-lg w-full max-w-md">
         <div className="modal-header flex justify-between items-center px-6 py-4 bg-gray-50 rounded-t-lg">
           <h3 className="modal-title text-lg font-semibold text-gray-900">
-            Editar veículo
+            Editar Ônibus
           </h3>
           <button
             onClick={onRequestClose}
@@ -272,7 +272,6 @@ export function ModalEditarVeiculo({
                     onChange={(e) => setCapPassageiros(e.target.value)}
                   />
                 </div>
-
                 <div className="col-span-1 mb-2 mr-3">
                   <label
                     htmlFor="categoria"
@@ -281,16 +280,16 @@ export function ModalEditarVeiculo({
                     Categoria
                   </label>
                   <select
+                    name="categoria"
                     id="categoria"
                     onChange={(e) => setCategoria(e.target.value)}
-                    name="categoria"
                     className="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   >
-                    <option value="Gasolina Comum">Urbano</option>
-                    <option value="Etanol">Rodoviário</option>
-                    <option value="Diesel">Micro-Ônibus</option>
+                    <option value="Urbano">Urbano</option>
+                    <option value="Rodoviario">Rodoviário</option>
+                    <option value="Micro-Ônibus">Micro-Ônibus</option>
                   </select>
-                </div>
+                </div>{" "}
                 <div className="col-span-1 mb-2">
                   <label
                     htmlFor="cor"
@@ -305,11 +304,11 @@ export function ModalEditarVeiculo({
                       name="cor"
                       id="cor"
                       className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      value={cor}
                       placeholder="Ex.: Preto"
                     />
                   </div>
                 </div>
-
                 <div className="col-span-1 mb-2">
                   <label
                     htmlFor="renavam"
@@ -324,11 +323,12 @@ export function ModalEditarVeiculo({
                       name="renavam"
                       id="renavam"
                       className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      value={renavam}
                       placeholder="Ex.: 96985826040"
                     />
                   </div>
                 </div>
-                <div className="col-span-1 mb-2 mr-3">
+                {/* <div className="col-span-1 mb-2 mr-3">
                   <label
                     htmlFor="status"
                     className="block text-sm font-medium leading-6 text-gray-900"
@@ -343,6 +343,25 @@ export function ModalEditarVeiculo({
                     value={status}
                     onChange={(e) => setStatus(e.target.value)}
                   />
+                </div> */}
+                <div className="col-span-1 mb-2 mr-3">
+                  <label
+                    htmlFor="status"
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >
+                    Status
+                  </label>
+                  <select
+                    name="status"
+                    id="status"
+                    className="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    value={status}
+                    onChange={(e) => setStatus(e.target.value)}
+                  >
+                    <option value="Em uso">Em uso</option>
+                    <option value="Disponivel">Disponível</option>
+                    <option value="Manutencao">Manutenção</option>
+                  </select>
                 </div>
                 <div className="col-span-2 mb-2">
                   <label
@@ -358,6 +377,7 @@ export function ModalEditarVeiculo({
                       name="nmr_chassi"
                       id="nmr_chassi"
                       className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      value={nmr_chassi}
                       placeholder="Ex.: 7G6 9dXa0K xs 9D1923"
                     />
                   </div>

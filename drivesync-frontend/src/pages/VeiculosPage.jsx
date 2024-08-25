@@ -110,7 +110,7 @@ export function Veiculos() {
               {/* Header da página */}
               <div className="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4">
                 <h1 className="text-2xl font-medium tracking-tight text-gray-900">
-                  Veículos
+                  Ônibus
                 </h1>
                 <div className="relative">
                   <div className="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">

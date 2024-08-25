@@ -165,7 +165,7 @@ export function Manutencoes() {
                         Tipo da Manutenção
                       </th>
                       <th scope="col" className="px-6 py-3">
-                        Veículo
+                        Ônibus
                       </th>
                       <th scope="col" className="px-6 py-3">
                         Serviço
@@ -192,7 +192,10 @@ export function Manutencoes() {
                             <td className="px-6 py-4">
                               {manutencao.tp_manutencao}
                             </td>
-                            <td className="px-6 py-4">{manutencao.veiculo}</td>
+                            <td className="px-6 py-4">
+                              {manutencao.veiculoId}
+                            </td>
+
                             <td className="px-6 py-4">{manutencao.servico}</td>
                             <td className="px-6 py-4">{manutencao.valor}</td>
                             <td className="px-6 py-4">
@@ -211,7 +214,43 @@ export function Manutencoes() {
                             <td className="px-6 py-4">
                               {manutencao.tp_manutencao}
                             </td>
-                            <td className="px-6 py-4">{manutencao.veiculo}</td>
+                            <td className="px-6 py-4">
+                              {manutencao.veiculoId}
+
+                              {/* // id="veiculoId"
+                              // name="veiculoId"
+                              // onChange={(e) => setVeiculoId(e.target.value)}
+                              // className="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                               */}
+                              {/* Opção selecionada, que vem do banco de dados */}
+                              {/* <option value={veiculoId} selected>
+                                {
+                                  getVeiculo.find(
+                                    (veiculo) => veiculo.id === veiculoId
+                                  )?.marca
+                                }{" "}
+                                {
+                                  getVeiculo.find(
+                                    (veiculo) => veiculo.id === veiculoId
+                                  )?.modelo
+                                }
+                              </option> */}
+                              {/* <td>
+                                {getVeiculo.find(
+                                  (veiculo) => veiculo.id === veiculoId
+                                )
+                                  ? `${
+                                      getVeiculo.find(
+                                        (veiculo) => veiculo.id === veiculoId
+                                      ).marca
+                                    } ${
+                                      getVeiculo.find(
+                                        (veiculo) => veiculo.id === veiculoId
+                                      ).modelo
+                                    }`
+                                  : "Veículo não encontrado"}
+                              </td> */}
+                            </td>
                             <td className="px-6 py-4">{manutencao.servico}</td>
                             <td className="px-6 py-4">{manutencao.valor}</td>
                             <td className="px-6 py-4">

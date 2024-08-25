@@ -12,12 +12,14 @@ export function ModalEditarManutencao({
 }) {
   const [id, setId] = useState(null);
   const [dt_manutencao, setDtManutencao] = useState("");
-  const [dt_prox_manutencao, setDtProxManutencao] = useState("");
+  const [dt_prox_manutencao, setProxDtManutencao] = useState("");
   const [tp_manutencao, setTpManutencao] = useState("");
   const [veiculo, setVeiculo] = useState("");
+  const [veiculoId, setVeiculoId] = useState("");
   const [servico, setServico] = useState("");
   const [valor, setValor] = useState(0);
   const [descricao, setDescricao] = useState("");
+  const [getVeiculo, setVeiculos] = useState([]);
 
   const history = useNavigate();
 
@@ -27,6 +29,13 @@ export function ModalEditarManutencao({
       Authorization: `Bearer ${token}`,
     },
   };
+
+  const opcoes = [
+    "Manutenção Preventiva",
+    "Manutenção Corretiva",
+    "Manutenção Preditiva",
+    "Manutenção Detectiva",
+  ];
 
   useEffect(() => {
     if (manutencaoId) {
@@ -43,9 +52,10 @@ export function ModalEditarManutencao({
 
       setId(response.data.id);
       setDtManutencao(response.data.dt_manutencao);
-      //setProxDtManutencao(response.data.dt_prox_manutencao);
+      setProxDtManutencao(response.data.dt_prox_manutencao);
       setTpManutencao(response.data.tp_manutencao);
       setVeiculo(response.data.veiculo);
+      setVeiculoId(response.data.veiculoId);
       setServico(response.data.servico);
       setValor(response.data.valor);
       setDescricao(response.data.descricao);
@@ -55,6 +65,20 @@ export function ModalEditarManutencao({
     }
   }
 
+  const opcoesFiltradas = opcoes.filter((opcao) => opcao !== tp_manutencao);
+
+  useEffect(() => {
+    api
+      .get("api/veiculos", authorization)
+      .then((response) => {
+        setVeiculos(response.data);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error("Erro ao obter veiculo: ", error);
+      });
+  }, []);
+
   async function updateManutencao(event) {
     event.preventDefault();
 
@@ -63,6 +87,7 @@ export function ModalEditarManutencao({
       dt_prox_manutencao,
       tp_manutencao,
       veiculo,
+      veiculoId,
       servico,
       valor,
       descricao,
@@ -127,7 +152,7 @@ export function ModalEditarManutencao({
                     htmlFor="dt_manutencao"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
-                    Data de Manutenção
+                    Data da Manutenção
                   </label>
                   <input
                     required
@@ -144,16 +169,16 @@ export function ModalEditarManutencao({
                     htmlFor="dt_prox_manutencao"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
-                    Data de Manutenção
+                    Data da Próxima Manutenção
                   </label>
                   <input
                     required
                     type="date"
-                    name=""
+                    name="dt_prox_manutencao"
                     id="dt_prox_manutencao"
                     className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 placeholder-gray-400"
                     value={formatDateEdit(dt_prox_manutencao)}
-                    onChange={(e) => setDtProxManutencao(e.target.value)}
+                    onChange={(e) => setProxDtManutencao(e.target.value)}
                   />
                 </div>
 
@@ -171,37 +196,49 @@ export function ModalEditarManutencao({
                     placeholder="Selecione um tipo"
                     className="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   >
-                    <option value="Manutenção Preventiva">
-                      Manutenção Preventiva
-                    </option>
-                    <option value="Manutenção Corretiva">
-                      Manutenção Corretiva
-                    </option>
-                    <option value="Manutenção Preditiva">
-                      Manutenção Preditiva
-                    </option>
-                    <option value="Manutenção Detectiva">
-                      Manutenção Detectiva
-                    </option>
+                    <option value={tp_manutencao}>{tp_manutencao}</option>
+                    {opcoesFiltradas.map((opcao) => (
+                      <option key={opcao} value={opcao}>
+                        {opcao}
+                      </option>
+                    ))}
                   </select>
                 </div>
 
                 <div className="col-span-2 mb-2">
                   <label
-                    htmlFor="veiculo"
+                    htmlFor="veiculoId"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
                     Veículo
                   </label>
-                  <input
-                    required
-                    type="text"
-                    name="veiculo"
-                    id="veiculo"
-                    className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 placeholder-gray-400"
-                    value={veiculo}
-                    onChange={(e) => setVeiculo(e.target.value)}
-                  />
+                  <select
+                    id="veiculoId"
+                    name="veiculoId"
+                    onChange={(e) => setVeiculoId(e.target.value)}
+                    className="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  >
+                    {/* Opção selecionada, que vem do banco de dados */}
+                    <option value={veiculoId} selected>
+                      {
+                        getVeiculo.find((veiculo) => veiculo.id === veiculoId)
+                          ?.marca
+                      }{" "}
+                      {
+                        getVeiculo.find((veiculo) => veiculo.id === veiculoId)
+                          ?.modelo
+                      }
+                    </option>
+
+                    {/* Opções filtradas, excluindo a opção selecionada */}
+                    {getVeiculo
+                      .filter((veiculo) => veiculo.id !== veiculoId)
+                      .map((veiculo) => (
+                        <option key={veiculo.id} value={veiculo.id}>
+                          {veiculo.marca} {veiculo.modelo}
+                        </option>
+                      ))}
+                  </select>
                 </div>
 
                 <div className="col-span-2 mb-2">

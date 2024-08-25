@@ -69,7 +69,7 @@ export function ModalCriarVeiculo({ isOpen, onRequestClose }) {
       <div className="modal-content bg-white shadow-lg rounded-lg w-full max-w-md ">
         <div className="modal-header flex justify-between items-center px-6 py-4 bg-gray-50 rounded-t-lg">
           <h3 className="modal-title text-lg font-semibold text-gray-900">
-            Adicionar novo veículo
+            Adicionar novo Ônibus
           </h3>
           <button
             onClick={onRequestClose}
