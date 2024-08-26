@@ -1,23 +1,19 @@
-import { StyleSheet } from "react-native";
-import styled from "styled-components/native";
+import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
-  container: {
+  scrollView: {
     flex: 1,
     backgroundColor: "#202024",
+  },
+  container: {
+    flex: 1,
     paddingHorizontal: 15,
     paddingTop: 20,
   },
-  subtitle: {
-    color: '#E1E1E6',
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginBottom: 20,
-  },
   inputsContainer: {
     flexDirection: 'column',
-    alignItems: 'center',
-    width: '100%',
+    alignItems: 'stretch',
+    marginBottom: 20,
   },
   input: {
     backgroundColor: '#29292E',
@@ -27,69 +23,29 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     fontSize: 16,
     marginBottom: 16,
-    width: '100%',
   },
-  pickerContainer: {
-    backgroundColor: '#29292E',
-    color: '#fff',
-    borderRadius: 5,
-    paddingVertical: 0,
-    paddingHorizontal: 15,
-    fontSize: 16,
-    marginBottom: 16,
-    width: '100%',
-  },
-  picker: {
-    color: '#aaa',
-    backgroundColor: '#29292E',
-  },
-  checkListContainer: {
-  },
-  checkListItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: 10,
-    borderRadius: 8,
-    marginBottom: 10,
-  },
-  checkListText: {
-    color: '#fff',
-    fontSize: 16,
-  },
-  checkBox: {
-    width: 24,
-    height: 24,
-  },
-  obsInput: {
-    backgroundColor: '#29292E',
-    color: '#fff',
-    borderRadius: 5,
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    fontSize: 16,
-    marginBottom: 20,
-    width: '100%',
-    textAlignVertical: 'top',
-  },
-  planButton: {
+  button: {
     backgroundColor: '#4CAF50',
     borderRadius: 8,
-    paddingVertical: 10,
+    paddingVertical: 15,
     alignItems: 'center',
     marginBottom: 20,
   },
-  planButtonText: {
+  buttonText: {
     color: '#fff',
     fontSize: 16,
     fontWeight: 'bold',
   },
-  divider: {
-    height: 1,
-    backgroundColor: '#444',
-    marginVertical: 20,
+  pickerContainer: {
+    marginVertical: 10,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5,
+  },
+  picker: {
+    height: 50,
+    width: '100%',
   },
 });
 
 export default styles;
-

@@ -11,13 +11,13 @@ export const Info = styled.View`
 `;
 
 export const Label = styled.Text`
-    color: '#8D8D99';
+    color: #8D8D99; /* Removidas as aspas ao redor da cor */
     font-size: 14px;
     font-family: 'Roboto_400Regular';
 `;
 
 export const Description = styled.Text`
-    color: '#E1E1E6'
+    color: #E1E1E6; /* Removidas as aspas ao redor da cor */
     font-size: 14px;
     font-family: 'Roboto_400Regular';
 `;

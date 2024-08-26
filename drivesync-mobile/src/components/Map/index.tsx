@@ -1,21 +1,19 @@
-import MapView, { MapViewProps, Marker, PROVIDER_GOOGLE, LatLng, Polyline } from 'react-native-maps';
+import React, { useRef } from 'react';
+import MapView, { Marker, PROVIDER_GOOGLE, Polyline, LatLng } from 'react-native-maps';
 import { IconBox } from '../IconBox';
 import { Bus, FlagCheckered } from 'phosphor-react-native';
-import { useRef } from 'react';
-import { useTheme } from 'styled-components/native';
 
-type Props = MapViewProps & {
+type Props = {
     coordinates: LatLng[];
 }
 
-export function Map({ coordinates, ...rest }: Props) {
-    const { COLORS } = useTheme();
+export function Map({ coordinates }: Props) {
     const mapRef = useRef<MapView>(null);
     const lastCoordinate = coordinates[coordinates.length - 1];
 
     async function onMapLoaded() {
-        if (coordinates.length > 1) {
-            mapRef.current?.fitToSuppliedMarkers(['partida', 'chegada'], {
+        if (coordinates.length > 1 && mapRef.current) {
+            mapRef.current.fitToSuppliedMarkers(['partida', 'chegada'], {
                 edgePadding: { top: 50, right: 50, bottom: 50, left: 50 },
             });
         }
@@ -33,27 +31,23 @@ export function Map({ coordinates, ...rest }: Props) {
                 longitudeDelta: 0.005
             }}
             onMapLoaded={onMapLoaded}
-            {...rest}
         >
             <Marker identifier='partida' coordinate={coordinates[0]}>
                 <IconBox size="SMALL" icon={Bus} />
             </Marker>
 
-            {
-                coordinates.length > 1 &&
+            {coordinates.length > 1 && (
                 <>
-                    <Marker identifier='chegada' coordinate={lastCoordinate} >
+                    <Marker identifier='chegada' coordinate={lastCoordinate}>
                         <IconBox size="SMALL" icon={FlagCheckered} />
                     </Marker>
-
                     <Polyline
-                        coordinates={[...coordinates]}
-                        strokeColor={COLORS.GRAY_700}
+                        coordinates={coordinates}
+                        strokeColor="#4CAF50" // Definido diretamente aqui
                         strokeWidth={7}
                     />
                 </>
-
-            }
+            )}
         </MapView>
-    )
+    );
 }

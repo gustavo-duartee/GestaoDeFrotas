@@ -11,7 +11,7 @@ type Props = LocationInfoProps & {
     icon: IconBoxProps;
 };
 
-export function LocationInfo({ label, icon, description}: Props) {
+export function LocationInfo({ label, icon, description }: Props) {
   return (
     <Container>
         <IconBox icon={icon} />
@@ -21,7 +21,7 @@ export function LocationInfo({ label, icon, description}: Props) {
                 {label}
             </Label>
 
-            <Description umberOfLines={1}>
+            <Description numberOfLines={1}>
                 {description}
             </Description>
         </Info>
