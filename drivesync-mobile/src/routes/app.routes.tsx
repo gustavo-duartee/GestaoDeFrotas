@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
 
-import Viagem from '../screens/Viagem';
+import { Departure } from '../screens/Partida';
 import MinhaConta from '../screens/Conta';
 import Atividades from '../screens/Atividades';
 import Veiculo from '../screens/Veiculos';
@@ -77,7 +77,7 @@ const AppRoutes: React.FC = () => (
       />
       <Tab.Screen
         name="Nova Viagem"
-        component={Viagem}
+        component={Departure}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="add-outline" size={30} color={color} />

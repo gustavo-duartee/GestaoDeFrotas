@@ -14,7 +14,7 @@
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
-        "NSLocationWhenInUseUsageDescription": "Este aplicativo precisa acessar sua localização."
+        "NSLocationWhenInUseUsageDescription": "Este aplicativo precisa acessar sua localização.",
       }
     },
     "android": {

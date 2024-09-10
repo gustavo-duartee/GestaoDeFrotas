@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.Design;
 using DriveSync.Migrations;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using YourNamespace.Models;
 
 namespace DriveSync.Context
 {
@@ -19,6 +20,8 @@ namespace DriveSync.Context
         public DbSet<Multa> Multas { get; set; }
         public DbSet<Manutencao> Manutencoes { get; set; }
         public DbSet<Viagem> Viagens { get; set; }
+        public DbSet<Historico> Histories { get; set; }
+        public DbSet<Coords> Coordinates { get; set; }
     }
 
 
