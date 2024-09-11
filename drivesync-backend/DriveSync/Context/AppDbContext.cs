@@ -20,8 +20,8 @@ namespace DriveSync.Context
         public DbSet<Multa> Multas { get; set; }
         public DbSet<Manutencao> Manutencoes { get; set; }
         public DbSet<Viagem> Viagens { get; set; }
-        public DbSet<Historico> Histories { get; set; }
-        public DbSet<Coords> Coordinates { get; set; }
+        //public DbSet<Historico> Histories { get; set; }
+        //public DbSet<Coords> Coordinates { get; set; }
     }
 
 

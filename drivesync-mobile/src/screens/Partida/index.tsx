@@ -6,7 +6,6 @@ import { TextAreaInput } from "../../components/TextAreaInput";
 import { Container, Content, Message, MessageContent } from "./styles";
 import { TextInput, ScrollView, Alert } from "react-native";
 import { licensePlateValidate } from "../../utils/licensePlateValidate";
-import { useUser } from "@realm/react";
 import { useNavigation } from "@react-navigation/native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import {
