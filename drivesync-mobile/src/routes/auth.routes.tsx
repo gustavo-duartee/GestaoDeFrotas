@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 import OnboardingScreen from '../screens/Inicial';
 import SignIn from '../screens/Login';
+import {Departure} from '../screens/Partida';
 
 const AuthStack = createStackNavigator();
 

@@ -3,7 +3,7 @@ import { Button } from "../../components/Button";
 import { Header } from "../../components/Header";
 import { LicensePlateInput } from "../../components/LicensePlateInput";
 import { TextAreaInput } from "../../components/TextAreaInput";
-import { Container, Content, Message, MessageContent } from "./styles";
+import { Container, Content, LocationContainer, Message, MessageContent } from "./styles";
 import { TextInput, ScrollView, Alert } from "react-native";
 import { licensePlateValidate } from "../../utils/licensePlateValidate";
 import { useNavigation } from "@react-navigation/native";
@@ -19,6 +19,7 @@ import {
 import { getAddressLocation } from "../../utils/getAddressLocation";
 import { Loading } from "../../components/Loading";
 import { LocationInfo } from "../../components/LocationInfo";
+import { KmInicialInput } from "../../components/KmInicialInput";
 import { Car } from "phosphor-react-native";
 import { Map } from "../../components/Map";
 import { startLocationTask } from "../../tasks/backgroundLocationTask";
@@ -30,8 +31,8 @@ export function Departure() {
   const licensePlateRef = useRef<TextInput>(null);
   const [description, setDescription] = useState("");
   const [licensePlate, setLicensePlate] = useState("");
+  const [kmInicial, setKmInicial] = useState("");
   const [isRegistering, setIsRegistering] = useState(false);
-  const user = useUser();
   const { goBack } = useNavigation();
   const [locationForegroundPermission, requestLocationForegroundPermission] =
     useForegroundPermissions();
@@ -82,18 +83,18 @@ export function Departure() {
       await startLocationTask();
 
       // Use a função de serviço para registrar a partida
-      await registerDeparture({
-        user_id: user!.id,
-        license_plate: licensePlate.toUpperCase(),
-        description,
-        coords: [
-          {
-            latitude: currentCoords.latitude,
-            longitude: currentCoords.longitude,
-            timestamp: new Date().getTime(),
-          },
-        ],
-      });
+      //await registerDeparture({
+       // user_id: user!.id,
+        //license_plate: licensePlate.toUpperCase(),
+        //description,
+        //coords: [
+          //{
+            //latitude: currentCoords.latitude,
+            //longitude: currentCoords.longitude,
+            //timestamp: new Date().getTime(),
+          //},
+        //],
+      //});
 
       Alert.alert("Saída", "Saída do veículo registrada com sucesso!");
       goBack();
@@ -141,7 +142,6 @@ export function Departure() {
   if (!locationForegroundPermission?.granted) {
     return (
       <Container>
-        <Header title="Saída" />
         <MessageContent>
           <Message>
             Você precisa permitir que o aplicativo tenha acesso a localização
@@ -161,29 +161,40 @@ export function Departure() {
 
   return (
     <Container>
-      <Header title="Saída" />
       <KeyboardAwareScrollView extraHeight={100}>
         <ScrollView>
-          {currentCoords && <Map coordinates={[currentCoords]} />}
           <Content>
-            {currentAddress && (
+            <LocationContainer>
+              {currentCoords && <Map coordinates={[currentCoords]} />}
+
+              {currentAddress && (
               <LocationInfo
                 icon={Car}
                 label="Localização atual"
                 description={currentAddress}
               />
             )}
+            </LocationContainer>
             <LicensePlateInput
               ref={licensePlateRef}
-              label="Placa do veículo"
+              label="Veículo"
               placeholder="BRA1234"
               onSubmitEditing={() => descriptionRef.current?.focus()}
               returnKeyType="next"
               onChangeText={setLicensePlate}
             />
+
+            <KmInicialInput
+              label="Quilometragem Atual"
+              placeholder="85.642L"
+              onSubmitEditing={() => descriptionRef.current?.focus()}
+              returnKeyType="next"
+              onChangeText={setKmInicial}
+            />
+            
             <TextAreaInput
               ref={descriptionRef}
-              label="Finalidade"
+              label="Observações"
               placeholder="Vou utilizar o veículo para..."
               onSubmitEditing={handleDepartureRegister}
               returnKeyType="send"

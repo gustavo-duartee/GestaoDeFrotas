@@ -1,27 +1,23 @@
 import styled from "styled-components/native";
-import theme from "../../theme";
 
 export const Container = styled.View`
   width: 100%;
   height: 150px;
-
   padding: 16px;
   border-radius: 6px;
-
-  background-color: ${theme.COLORS.GRAY_700};
+  background-color: #292929; 
 `;
 
 export const Label = styled.Text`
-  font-size: ${theme.FONT_SIZE.SM}px;
-  color: ${theme.COLORS.GRAY_300};
-  font-family: ${theme.FONT_FAMILY.REGULAR};
+  font-size: 16px; 
+  color: #B0BEC5; 
+  font-family: 'Roboto-Regular'; 
 `;
 
 export const Input = styled.TextInput`
-  font-size: ${theme.FONT_SIZE.MD}px;
-  color: ${theme.COLORS.GRAY_200};
-  font-family: ${theme.FONT_FAMILY.REGULAR};
-
+  font-size: 18px; 
+  color: #fff; 
+  font-family: 'Roboto-Regular';
   vertical-align: top;
   margin-top: 16px;
 `;

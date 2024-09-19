@@ -21,7 +21,7 @@ const variantSizeStyles = (size: SizeProps) => {
 
 export const Container = styled.View<Props>`
   border-radius: 6px;
-  background-color: #4F4F4F;
+  background-color: #383838;
 
   justify-content: center;
   align-items: center;

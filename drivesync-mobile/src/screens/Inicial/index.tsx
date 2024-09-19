@@ -8,18 +8,18 @@ const OnboardingScreen = () => {
 
   return (
     <ImageBackground 
-      source={{ uri: 'https://example.com/your-image.jpg' }} 
+      source={{ uri: 'https://example.com/your-image.jpg' }} // Substitua pelo URL da sua imagem
       style={styles.background}
     >
       <View style={styles.overlay}>
         <View style={styles.content}>
-          <Text style={styles.title}>Controle sua rotina de viagens com o DriveSync</Text>
-          <Text style={styles.subtitle}>O aplicativo que facilita seu dia a dia.</Text>
+          <Text style={styles.title}>A new generation of car control</Text> // Texto atualizado
+          <Text style={styles.subtitle}>Now you can monitor your vehicle voltage and remaining remote start runtime, see the temperature and a lot more.</Text> // Texto atualizado
           <TouchableOpacity 
             style={styles.button}
             onPress={() => navigation.navigate('Login')}
           >
-            <Text style={styles.buttonText}>Login</Text>
+            <Text style={styles.buttonText}>Get started</Text> // Texto atualizado
           </TouchableOpacity>
         </View>
       </View>

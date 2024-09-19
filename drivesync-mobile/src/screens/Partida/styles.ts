@@ -1,22 +1,27 @@
 import styled from "styled-components/native";
-import theme from "../../theme";
 
 export const Container = styled.View`
   flex: 1;
-  background-color: ${theme.COLORS.GRAY_800};
+  background-color: #161616;
 `;
 
 export const Content = styled.View`
   flex: 1;
   gap: 16px;
-  padding: 32px;
+  padding: 15px;
   margin-top: 16px;
 `;
 
+export const LocationContainer = styled.View`
+  border: 2px; 
+  padding: 12px;
+  border-color: #2c2c2c;
+  border-radius: 10px;
+`;
+
 export const Message = styled.Text`
-  color: ${theme.COLORS.WHITE};
-  font-family: ${theme.FONT_FAMILY.REGULAR};
-  textalign: center;
+  color: #f0f; 
+  text-align: center;
   margin-bottom: 44px;
 `;
 
@@ -24,4 +29,5 @@ export const MessageContent = styled.View`
   flex: 1;
   justify-content: center;
   padding: 24px;
+  background-color: #161616;
 `;

@@ -43,7 +43,7 @@ const AppRoutes: React.FC = () => (
     <StatusBar backgroundColor="#161616" barStyle="light-content" />
     <Tab.Navigator
       screenOptions={{
-        tabBarActiveTintColor: '#04D361',
+        tabBarActiveTintColor: '#4CAF50',
         tabBarInactiveTintColor: '#C4C4CC',
         tabBarStyle: {
           backgroundColor: '#161616',

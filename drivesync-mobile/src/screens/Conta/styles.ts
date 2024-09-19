@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
       justifyContent: "center",
       alignItems: "center",
       padding: 20,
-      backgroundColor: '#202024'
+      backgroundColor: '#161616'
     },
     text: {
       fontSize: 25,
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
       color: '#fff'
     },
     button: {
-      backgroundColor: '#00875F',
+      backgroundColor: '#4CAF50',
       paddingVertical: 10,
       paddingHorizontal: 50,
       borderRadius: 5,
