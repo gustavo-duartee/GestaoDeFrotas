@@ -1,4 +1,3 @@
-// OnboardingScreen.js
 import React from 'react';
 import { View, Text, StyleSheet, ImageBackground, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -8,18 +7,18 @@ const OnboardingScreen = () => {
 
   return (
     <ImageBackground 
-      source={{ uri: 'https://example.com/your-image.jpg' }} // Substitua pelo URL da sua imagem
+      source={{ uri: 'https://example.com/your-image.jpg' }} 
       style={styles.background}
     >
       <View style={styles.overlay}>
         <View style={styles.content}>
-          <Text style={styles.title}>A new generation of car control</Text> // Texto atualizado
-          <Text style={styles.subtitle}>Now you can monitor your vehicle voltage and remaining remote start runtime, see the temperature and a lot more.</Text> // Texto atualizado
+          <Text style={styles.title}>Controle sua rotina de viagens com o DriveSync</Text>
+          <Text style={styles.subtitle}>O aplicativo que facilita seu dia a dia.</Text>
           <TouchableOpacity 
             style={styles.button}
             onPress={() => navigation.navigate('Login')}
           >
-            <Text style={styles.buttonText}>Get started</Text> // Texto atualizado
+            <Text style={styles.buttonText}>Entrar</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -35,7 +34,9 @@ const styles = StyleSheet.create({
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(0, 0, 0, 0.6)', // Overlay semi-transparente
+    backgroundColor: '#161616', // Overlay semi-transparente
+    justifyContent: 'center', // Centraliza verticalmente o conteúdo
+    alignItems: 'center', // Centraliza horizontalmente o conteúdo
   },
   content: {
     alignItems: 'center',
@@ -55,7 +56,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   button: {
-    backgroundColor: '#6200EE',
+    backgroundColor: '#4CAF50',
     paddingVertical: 15,
     paddingHorizontal: 40,
     borderRadius: 30,
