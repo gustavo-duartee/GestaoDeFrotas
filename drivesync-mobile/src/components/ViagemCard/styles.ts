@@ -2,33 +2,21 @@ import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#202024",
-    alignItems: "center",
-    marginBottom: 10,
+    marginBottom: 5,
   },
   card: {
-    backgroundColor: "#29292E",
+    backgroundColor: "#161616",
     borderRadius: 10,
     padding: 15,
-    width: 364,
-    height: 100,
     flexDirection: "row",
-    position: 'relative', // Para permitir posicionamento absoluto do border
-  },
-  leftBorder: {
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    bottom: 0,
-    width: 5, // Largura da borda
-    backgroundColor: '#00B37E',
-    borderTopLeftRadius: 10,
-    borderBottomLeftRadius: 10,
+    position: 'relative',
+    borderBottomColor: '#383838',
+    borderBottomWidth: 1,
   },
   iconSquare: {
     width: 70,
     height: 70,
-    backgroundColor: "#323238",
+    backgroundColor: "#383838",
     marginRight: 15,
     borderRadius: 6,
     justifyContent: 'center',
@@ -41,7 +29,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   icon: {
-    color: '#00B37E',
+    color: '#f4f5f7',
   },
   iconCheck: {
     color: '#00B37E',
@@ -58,13 +46,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#C4C4CC",
   },
-  valueDescricao: {
-    fontSize: 16,
-    color: "#C4C4CC",
-    marginTop: 10,
-    borderRadius: 6,
-    borderColor: '#aaa',
-  },
   valueTitle: {
     color: '#FFFFFF',
     fontSize: 18,
@@ -73,7 +54,7 @@ const styles = StyleSheet.create({
   valueDate: {
     fontSize: 16,
     color: "#C4C4CC",
-  },
+  }
 });
 
 export default styles;

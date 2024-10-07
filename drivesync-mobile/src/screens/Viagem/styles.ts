@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#202024",
+    backgroundColor: "#161616",
     paddingHorizontal: 15,
     paddingTop: 20,
   },
@@ -18,8 +18,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
   },
+
+  locationContainer:{
+    flexDirection: 'column',
+    alignItems: 'center',
+    width: '100%',
+    padding: 10,
+    borderWidth: 1,
+    borderRadius: 10,
+    borderColor: '#444'
+  },
+
   input: {
-    backgroundColor: '#29292E',
+    backgroundColor: '#292929',
     color: '#fff',
     borderRadius: 5,
     paddingVertical: 10,
@@ -29,7 +40,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   pickerContainer: {
-    backgroundColor: '#29292E',
+    backgroundColor: '#292929',
     color: '#fff',
     borderRadius: 5,
     paddingVertical: 0,
@@ -40,7 +51,7 @@ const styles = StyleSheet.create({
   },
   picker: {
     color: '#aaa',
-    backgroundColor: '#29292E',
+    backgroundColor: '#292929',
   },
   checkListContainer: {
   },
@@ -60,19 +71,21 @@ const styles = StyleSheet.create({
     width: 24,
     height: 24,
   },
+
   obsInput: {
-    backgroundColor: '#29292E',
+    backgroundColor: '#292929',
     color: '#fff',
     borderRadius: 5,
     paddingVertical: 10,
     paddingHorizontal: 15,
     fontSize: 16,
-    marginBottom: 20,
+    marginBottom: 10,
     width: '100%',
     textAlignVertical: 'top',
   },
+
   button: {
-    backgroundColor: '#00875F',
+    backgroundColor: '#4CAF50',
     paddingVertical: 10,
     paddingHorizontal: 50,
     borderRadius: 5,
@@ -89,7 +102,7 @@ const styles = StyleSheet.create({
   divider: {
     height: 1,
     backgroundColor: '#444',
-    marginVertical: 20,
+    marginVertical: 0,
   },
 });
 

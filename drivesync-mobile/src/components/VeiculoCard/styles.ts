@@ -8,18 +8,18 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   card: {
-    backgroundColor: "#29292E",
-    borderRadius: 6,
+    backgroundColor: "#161616",
+    borderRadius: 10,
     padding: 15,
-    width: 350,
-    height: 100,
     flexDirection: "row",
-    position: 'relative', // Para permitir posicionamento absoluto do border
+    position: 'relative',
+    borderBottomColor: '#383838',
+    borderBottomWidth: 1,
   },
   iconSquare: {
     width: 70,
     height: 70,
-    backgroundColor: "#323238",
+    backgroundColor: "#383838",
     marginRight: 15,
     borderRadius: 6,
     justifyContent: 'center',
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   icon: {
-    color: '#00B37E',
+    color: '#f4f5f7',
   },
   content: {
     flex: 1,

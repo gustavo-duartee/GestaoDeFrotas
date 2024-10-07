@@ -2,18 +2,20 @@ import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#202024",
+    backgroundColor: "#161616",
     alignItems: "center",
     marginBottom: 20
   },
   card: {
-    backgroundColor: "#29292E",
+    backgroundColor: "#161616",
     borderRadius: 6,
     padding: 15,
     width: 364,
     height: 100,
     flexDirection: "row",
-    alignItems: "center", // Centralizar verticalmente o conteúdo dentro do card
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: '#383838',
   },
   iconSquare: {
     width: 70,

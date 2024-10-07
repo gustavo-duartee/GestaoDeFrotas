@@ -1,17 +1,15 @@
 import React from "react";
-import { View, Text, TextInput } from "react-native";
+import { View, Text, TextInput, ScrollView } from "react-native";
 import styles from './styles';
 
-import axios from "axios";
 import ViagemCard from "../../components/ViagemCard";
 import ViagemStatus from "../../components/ViagemStatus";
 
 export default function Atividades() {
-
   return (
     <View style={styles.container}>
-
       <ViagemStatus />
+
       <View style={styles.searchContainer}>
         <TextInput
           style={styles.input}
@@ -20,13 +18,13 @@ export default function Atividades() {
         />
       </View>
 
-      <Text style={styles.subtitle}>Histórico</Text>
+      <Text style={styles.subtitle}>Anteriores</Text>
 
-      <View style={styles.cardContainer}>
+      <ScrollView style={styles.cardContainer}>
         <ViagemCard />
         <ViagemCard />
         <ViagemCard />
-      </View>
+      </ScrollView>
     </View>
   );
 }

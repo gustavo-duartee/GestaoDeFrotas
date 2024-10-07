@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using DriveSync.Models;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DriveSync.Model
@@ -34,6 +35,8 @@ namespace DriveSync.Model
         public string nmr_chassi { get; set; }
         public string renavam { get; set; }
         public string cor { get; set; }
-        public ICollection<Manutencao> manutencoes { get; } = new List<Manutencao>(); 
+        public ICollection<Manutencao> manutencoes { get; } = new List<Manutencao>();
+        public ICollection<Viagem> Viagens { get; set; }
+
     }
 }

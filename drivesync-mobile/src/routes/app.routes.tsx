@@ -21,16 +21,17 @@ const VeiculoStack = () => (
       name="Veiculos"
       component={Veiculo}
       options={{
-        headerStyle: { backgroundColor: '#29292E' },
+        headerStyle: { backgroundColor: '#161616' },
         headerTintColor: '#FFFFFF',
-        title: 'Veículos'
+        title: 'Veículos',
+        headerShown: false
       }}
     />
     <Stack.Screen
       name="DetalhesVeiculo"
       component={DetalhesVeiculo}
       options={{
-        headerStyle: { backgroundColor: '#29292E' },
+        headerStyle: { backgroundColor: '#161616' },
         headerTintColor: '#FFFFFF',
         title: 'Detalhes do Veículo'
       }}
@@ -40,17 +41,22 @@ const VeiculoStack = () => (
 
 const AppRoutes: React.FC = () => (
   <>
-    <StatusBar backgroundColor="#202024" barStyle="light-content" />
+    <StatusBar backgroundColor="#161616" barStyle="light-content" />
     <Tab.Navigator
-      screenOptions={({ route }) => ({
-        tabBarActiveTintColor: '#00B37E',
-        tabBarInactiveTintColor: '#aaaaaa',
+      screenOptions={{
+        tabBarActiveTintColor: '#4CAF50',
+        tabBarInactiveTintColor: '#C4C4CC',
         tabBarStyle: {
-          backgroundColor: '#29292E',
+          backgroundColor: '#161616',
         },
-        tabBarShowLabel: false,
-        headerShown: route.name !== 'Veículos', // Oculta o cabeçalho para a tela 'Veículos'
-      })}
+        tabBarShowLabel: true,
+        headerStyle: { backgroundColor: '#161616' },
+          headerTintColor: '#E1E1E6',
+          headerTitleStyle: {
+            fontSize: 28,
+            fontWeight: 'bold',
+          },
+      }}
     >
       <Tab.Screen
         name="Início"
@@ -60,7 +66,7 @@ const AppRoutes: React.FC = () => (
             <Ionicons name="home" size={25} color={color} />
           ),
           title: 'Início',
-          headerStyle: { backgroundColor: '#29292E' },
+          headerStyle: { backgroundColor: '#161616' },
           headerTintColor: '#FFFFFF'
         }}
       />
@@ -72,7 +78,7 @@ const AppRoutes: React.FC = () => (
             <Ionicons name="list" size={25} color={color} />
           ),
           title: 'Atividades', // Adiciona o título para a tela 'Atividades'
-          headerStyle: { backgroundColor: '#29292E' },
+          headerStyle: { backgroundColor: '#161616' },
           headerTintColor: '#FFFFFF'
         }}
       />
@@ -81,10 +87,10 @@ const AppRoutes: React.FC = () => (
         component={Viagem}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="add-outline" size={40} color={color} />
+            <Ionicons name="add-outline" size={35} color={color} />
           ),
           title: 'Nova Viagem', // Adiciona o título para a tela 'Nova Viagem'
-          headerStyle: { backgroundColor: '#29292E' },
+          headerStyle: { backgroundColor: '#161616' },
           headerTintColor: '#FFFFFF'
         }}
       />
@@ -93,7 +99,7 @@ const AppRoutes: React.FC = () => (
         component={VeiculoStack}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="car" size={25} color={color} />
+            <Ionicons name="bus" size={25} color={color} />
           ),
         }}
       />
@@ -105,7 +111,7 @@ const AppRoutes: React.FC = () => (
             <Ionicons name="person" size={25} color={color} />
           ),
           title: 'Minha Conta', // Adiciona o título para a tela 'Minha Conta'
-          headerStyle: { backgroundColor: '#29292E' },
+          headerStyle: { backgroundColor: '#161616' },
           headerTintColor: '#FFFFFF'
         }}
       />

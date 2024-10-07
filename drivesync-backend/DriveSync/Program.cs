@@ -57,6 +57,7 @@ builder.Services.AddScoped<IVeiculoService, VeiculosService>();
 builder.Services.AddScoped<IManutencaoService, ManutencaoService>();
 builder.Services.AddScoped<IEmpresaService, EmpresaService>();
 builder.Services.AddScoped<IMultaService, MultaService>();
+builder.Services.AddScoped<IViagemService, ViagemService>();
 
 builder.Services.AddCors(options =>
 {
