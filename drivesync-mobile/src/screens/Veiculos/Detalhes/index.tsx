@@ -53,7 +53,7 @@ export default function DetalhesVeiculo({ route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#202024",
+    backgroundColor: "#161616",
     padding: 20,
   },
   cardContainer: {
@@ -82,10 +82,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 10,
     padding: 2,
-    marginTop: 6
   },
   divider: {
-    height: 2,
+    height: 1,
     backgroundColor: '#444',
     marginVertical: 20,
   },

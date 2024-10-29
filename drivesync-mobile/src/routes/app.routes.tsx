@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
 
-import Viagem from '../screens/Viagem';
+import Viagem from '../screens/Partida';
 import MinhaConta from '../screens/Conta';
 import Atividades from '../screens/Atividades';
 import Veiculo from '../screens/Veiculos';

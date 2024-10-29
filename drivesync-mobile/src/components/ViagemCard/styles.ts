@@ -4,14 +4,26 @@ const styles = StyleSheet.create({
   container: {
     marginBottom: 5,
   },
+  noViagemText: {
+    fontSize: 18,
+    textAlign: 'center',
+    marginVertical: 20,
+  },
   card: {
-    backgroundColor: "#161616",
-    borderRadius: 10,
-    padding: 15,
-    flexDirection: "row",
-    position: 'relative',
-    borderBottomColor: '#383838',
-    borderBottomWidth: 1,
+    backgroundColor: '#fff',
+    borderRadius: 8,
+    padding: 16,
+    marginVertical: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 5,
   },
   iconSquare: {
     width: 70,
@@ -22,17 +34,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  iconSquareCheck: {
-    marginRight: 10,
-    borderRadius: 6,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   icon: {
     color: '#f4f5f7',
-  },
-  iconCheck: {
-    color: '#00B37E',
   },
   content: {
     flex: 1,
@@ -47,13 +50,29 @@ const styles = StyleSheet.create({
     color: "#C4C4CC",
   },
   valueTitle: {
-    color: '#FFFFFF',
+    color: '#1C1C1E',
     fontSize: 18,
     fontWeight: 'bold',
   },
-  valueDate: {
+  valueSubtitle: {
     fontSize: 16,
-    color: "#C4C4CC",
+    color: "#8D8D99",
+  },
+  valueStatusBadge: {
+    marginTop: 10,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 4,
+    alignSelf: 'flex-start',
+  },
+  valueStatus: {
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
+  iconChevron: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 10,
   }
 });
 

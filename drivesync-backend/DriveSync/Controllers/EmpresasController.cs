@@ -10,7 +10,7 @@ namespace DriveSync.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class EmpresasController : ControllerBase 
     {
         private readonly ILogger<EmpresasController> _logger;

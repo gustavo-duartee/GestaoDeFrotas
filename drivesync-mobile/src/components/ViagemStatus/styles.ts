@@ -1,59 +1,75 @@
-import { StyleSheet } from "react-native";
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "#161616",
-    alignItems: "center",
-    marginBottom: 20
-  },
-  card: {
-    backgroundColor: "#161616",
-    borderRadius: 6,
+const styles = {
+  cardContainer: {
+    backgroundColor: '#202024',
+    borderRadius: 8,
     padding: 15,
-    width: 364,
-    height: 100,
-    flexDirection: "row",
-    alignItems: "center",
+    marginBottom: 20,
+    width: '90%',
+    alignSelf: 'center',
     borderWidth: 1,
     borderColor: '#383838',
   },
   iconSquare: {
-    width: 70,
-    height: 70,
-    backgroundColor: "#323238",
-    marginRight: 15,
+    width: 60,
+    height: 60,
+    backgroundColor: '#323238',
     borderRadius: 6,
     justifyContent: 'center',
-    alignItems: 'center'
-  },
-  iconSquareCheck: {
-    marginRight: 10,
-    borderRadius: 6,
-    justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginBottom: 15,
   },
   icon: {
     color: '#00B37E',
   },
-
-  content: {
+  cardContent: {
     flex: 1,
+    marginLeft: 10,
+  },
+  cardTitle: {
+    color: '#E1E1E6',
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 8,
+  },
+  cardInfo: {
+    color: '#A8A8B3',
+    fontSize: 14,
+    marginBottom: 4,
+  },
+  button: {
+    backgroundColor: '#007BFF',
+    borderRadius: 6,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    marginTop: 10,
+  },
+  buttonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  detailsContainer: {
+    marginTop: 20,
   },
   row: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 6,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 8,
   },
-  title:{
-    color: '#E1E1E6',
-    fontSize: 15,
-    fontWeight: 'bold'
-  },
-  subtitle:{
+  valueTitle: {
     color: '#00B37E',
-    fontSize: 15,
-    fontWeight: 'bold'
-  }
-});
+    fontSize: 16,
+  },
+  valueDate: {
+    color: '#A8A8B3',
+    fontSize: 14,
+    marginBottom: 8,
+  },
+  value: {
+    color: '#A8A8B3',
+    fontSize: 14,
+  },
+};
 
 export default styles;

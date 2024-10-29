@@ -36,6 +36,12 @@ const styles = StyleSheet.create({
   cardContainer: {
     flex: 1,
   },
+  noViagemText: {
+    fontSize: 18,
+    textAlign: 'center',
+    marginVertical: 20,
+    color: '#E1E1E6'
+  },
 });
 
 export default styles;

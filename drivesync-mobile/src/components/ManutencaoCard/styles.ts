@@ -3,22 +3,24 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
   card: {
     flexDirection: 'row',
-    backgroundColor: "#29292E",
+    backgroundColor: "#161616",
     borderRadius: 10,
     padding: 14,
     marginBottom: 10,
+    borderBottomColor: '#383838',
+    borderBottomWidth: 1,
   },
   iconSquare: {
     width: 60,
     height: 60,
-    backgroundColor: "#323238",
-    alignItems: 'center',
+    backgroundColor: "#383838",
+    marginRight: 15,
+    borderRadius: 6,
     justifyContent: 'center',
-    borderRadius: 10,
-    marginRight: 10,
+    alignItems: 'center',
   },
   icon: {
-    color: '#00B37E',
+    color: '#f4f5f7',
   },
   content: {
     flex: 1,

@@ -1,45 +1,77 @@
 import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text } from "react-native";
 import { Ionicons } from '@expo/vector-icons';
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { useNavigation } from '@react-navigation/native';
 import styles from './styles';
+import { StackNavigationProp } from '../../@type/navigation';
 
-export default function ViagemCard() {
-    const viagemExemplo = {
-        origem: "Resende",
-        destino: "Quatis",
-        dataSaida: "25/05/2023",
-        horaSaida: "09:00",
-        horaChegada: "10:00",
-        preco: "R$14,90"
-    };
+type NavigationProp = StackNavigationProp<RootStackParamList, 'DetalhesViagem'>;
 
-    return (
-        <View style={styles.container}>
-            <View style={styles.card}>
-                <View style={styles.iconSquare}>
-                    <Ionicons style={styles.icon} name="map-outline" size={40} />
-                </View>
+interface ViagemCardProps {
+  viagem: {
+    id: number;
+    origem: string;
+    destino: string;
+    motorista: string;
+    veiculo: string;
+    dataInicio: string;
+    status: string;
+  };
+}
 
-                <View style={styles.content}>
-                    <View style={styles.row}>
-                        <Text style={styles.valueTitle}>{viagemExemplo.origem}</Text>
-                        <Ionicons name="arrow-forward-outline" size={20} color="white" />
-                        <Text style={styles.valueTitle}>{viagemExemplo.destino}</Text>
-                    </View>
+export default function ViagemCard({ viagem }: ViagemCardProps) {
+  const navigation = useNavigation<NavigationProp>();
 
-                    <Text style={styles.valueDate}>{viagemExemplo.dataSaida}</Text>
+  const handleCardPress = () => {
+    navigation.navigate('DetalhesViagem', { viagem });
+  };
 
-                    <View style={styles.row}>
-                        <Text style={styles.value}>{viagemExemplo.horaSaida}</Text>
-                        <Text style={styles.value}>{viagemExemplo.horaChegada}</Text>
-                    </View>
-                </View>
+  // Função para definir as cores com base no status
+  const getStatusStyles = (status: string) => {
+    switch (status) {
+      case 'Em andamento':
+        return { backgroundColor: '#FFD70050', color: '#FFD700' }; // Amarelo
+      case 'Encerrada':
+        return { backgroundColor: '#FF450050', color: '#FF4500' }; // Vermelho
+      default:
+        return { backgroundColor: '#00B37E50', color: '#00B37E' }; // Verde (Disponível)
+    }
+  };
 
-                <View style={styles.iconSquareCheck}>
-                    <Ionicons style={styles.iconCheck} name="checkmark-outline" size={30} />
-                </View>
+  const statusStyles = getStatusStyles(viagem.status);
+
+  return (
+    <TouchableOpacity onPress={handleCardPress}>
+      <View style={styles.container}>
+        <View style={styles.card}>
+          <View style={styles.iconSquare}>
+            <Ionicons style={styles.icon} name="car-outline" size={40} color="white" />
+          </View>
+
+          <View style={styles.content}>
+            <View style={styles.row}>
+              <Text style={styles.valueTitle}>{viagem.origem}</Text>
+              <Text style={styles.valueTitle}>➡️</Text>
+              <Text style={styles.valueTitle}>{viagem.destino}</Text>
             </View>
+            <View style={styles.row}>
+              <Text style={styles.valueSubtitle}>Motorista: {viagem.motorista}</Text>
+              <Text style={styles.valueSubtitle}>Veículo: {viagem.veiculo}</Text>
+            </View>
+            <View style={styles.row}>
+              <Text style={styles.valueSubtitle}>Data: {viagem.dataInicio}</Text>
+            </View>
+            <View style={[styles.valueStatusBadge, { backgroundColor: statusStyles.backgroundColor }]}>
+              <Text style={[styles.valueStatus, { color: statusStyles.color }]}>{viagem.status}</Text>
+            </View>
+          </View>
 
+          <View style={styles.iconChevron}>
+            <Ionicons name="chevron-forward-outline" size={30} color="#8D8D99" />
+          </View>
         </View>
-    );
+      </View>
+    </TouchableOpacity>
+  );
 }

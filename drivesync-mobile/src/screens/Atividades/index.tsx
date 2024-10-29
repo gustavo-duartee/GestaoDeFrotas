@@ -1,30 +1,61 @@
-import React from "react";
-import { View, Text, TextInput, ScrollView } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Text, TextInput, FlatList, ActivityIndicator, TouchableOpacity } from "react-native";
 import styles from './styles';
-
 import ViagemCard from "../../components/ViagemCard";
-import ViagemStatus from "../../components/ViagemStatus";
+import api from "../../services/api";
 
-export default function Atividades() {
+const Atividade: React.FC = () => {
+  const [viagens, setViagens] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [filtroStatus, setFiltroStatus] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchAtividades() {
+      try {
+        const response = await api.get('/api/Viagens');
+        setViagens(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.error(error);
+        setLoading(false);
+      }
+    }
+
+    fetchAtividades();
+  }, []);
+
+  const handleFiltrar = (status: string | null) => {
+    setFiltroStatus(status);
+  };
+
+  const atividadesFiltradas = filtroStatus ? viagens.filter(viagem => viagem.status === filtroStatus) : viagens;
+
+  if (loading) {
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator size="large" color="#00ff00" />
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
-      <ViagemStatus />
-
       <View style={styles.searchContainer}>
         <TextInput
           style={styles.input}
-          placeholder="Pesquisar Viagem"
+          placeholder="Pesquise atividades"
           placeholderTextColor="#aaa"
         />
       </View>
 
-      <Text style={styles.subtitle}>Anteriores</Text>
-
-      <ScrollView style={styles.cardContainer}>
-        <ViagemCard />
-        <ViagemCard />
-        <ViagemCard />
-      </ScrollView>
+      <FlatList
+        data={atividadesFiltradas}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={({ item }) => <ViagemCard viagem={item} />}
+        contentContainerStyle={styles.cardContainer}
+      />
     </View>
   );
 }
+
+export default Atividade;

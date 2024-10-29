@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace DriveSync.Controllers
 {
@@ -13,7 +14,6 @@ namespace DriveSync.Controllers
     public class VeiculosController : ControllerBase
     {
         private readonly ILogger<VeiculosController> _logger;
-
         private IVeiculoService _veiculoService;
 
         public VeiculosController(IVeiculoService veiculoService)
@@ -29,62 +29,63 @@ namespace DriveSync.Controllers
                 var veiculos = await _veiculoService.GetVeiculos();
                 return Ok(veiculos);
             }
-            catch
+            catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError,
-                    "Erro ao obter veiculos");
+                return StatusCode(500, "Internal server error");
             }
         }
 
+
+
         [HttpGet("VeiculoPorPlaca")]
-        public async Task<ActionResult<IAsyncEnumerable<Veiculo>>> GetVeiculosByPlaca([FromQuery] string placa)
+        public async Task<ActionResult<IEnumerable<Veiculo>>> GetVeiculosByPlaca([FromQuery] string placa)
         {
             try
             {
                 var veiculos = await _veiculoService.GetVeiculosByPlaca(placa);
-                if (veiculos.Count() == 0)
+                if (!veiculos.Any())
                 {
-                    return NotFound($"Não existem veiculos com o critério {placa}");
-
+                    return NotFound($"Não existem veículos com o critério {placa}");
                 }
                 return Ok(veiculos);
             }
-            catch
+            catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError,
-                    "Erro ao obter veiculo");
+                _logger.LogError(ex, "Erro ao obter veículo por placa");
+                return StatusCode(StatusCodes.Status500InternalServerError, "Erro ao obter veículo");
             }
         }
 
         [HttpGet("{id:int}", Name = "GetVeiculo")]
-        public async Task<ActionResult<IAsyncEnumerable<Veiculo>>> GetVeiculo(int id)
+        public async Task<ActionResult<Veiculo>> GetVeiculo(int id)
         {
             try
             {
                 var veiculo = await _veiculoService.GetVeiculo(id);
-
                 if (veiculo == null)
                 {
                     return NotFound($"Não existe um veículo com o id={id}");
                 }
                 return Ok(veiculo);
             }
-            catch
+            catch (Exception ex)
             {
+                _logger.LogError(ex, "Erro ao obter veículo");
                 return BadRequest("Request inválido");
             }
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create (Veiculo veiculo)
+        public async Task<ActionResult> Create(Veiculo veiculo)
         {
             try
             {
                 await _veiculoService.CreateVeiculo(veiculo);
-                return CreatedAtRoute(nameof(GetVeiculo), new { Id = veiculo.id }, veiculo);
+                return CreatedAtRoute(nameof(GetVeiculo), new { Id = veiculo.Id }, veiculo);
             }
-            catch
+            catch (Exception ex)
             {
+                _logger.LogError(ex, "Erro ao criar veículo");
                 return BadRequest("Request inválido");
             }
         }
@@ -94,37 +95,38 @@ namespace DriveSync.Controllers
         {
             try
             {
-               if(veiculo.id == id)
+                if (veiculo.Id == id)
                 {
                     await _veiculoService.UpdateVeiculo(veiculo);
-                    return Ok($"Veiculo com id={id} foi atualizado com sucesso");
+                    return Ok($"Veículo com id={id} foi atualizado com sucesso");
                 }
-               return BadRequest("Dados inconsistentes");
+                return BadRequest("Dados inconsistentes");
             }
-            catch
+            catch (Exception ex)
             {
+                _logger.LogError(ex, "Erro ao atualizar veículo");
                 return BadRequest("Request inválido");
             }
         }
 
         [HttpDelete("{id:int}")]
-        public async Task<ActionResult> Delete (int id)
+        public async Task<ActionResult> Delete(int id)
         {
             try
             {
                 var veiculo = await _veiculoService.GetVeiculo(id);
-                if(veiculo != null)
+                if (veiculo != null)
                 {
                     await _veiculoService.DeleteVeiculo(veiculo);
-                    return Ok($"Veiculo de id={id} foi excluido com sucesso");
+                    return Ok($"Veículo de id={id} foi excluído com sucesso");
                 }
-                return NotFound($"Veiculo com id={id} não encontrado");
+                return NotFound($"Veículo com id={id} não encontrado");
             }
-            catch
+            catch (Exception ex)
             {
+                _logger.LogError(ex, "Erro ao excluir veículo");
                 return BadRequest("Request inválido");
             }
         }
-
     }
 }
