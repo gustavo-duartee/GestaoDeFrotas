@@ -63,5 +63,28 @@ namespace DriveSync.Service
         {
             return await _context.Viagens.Include(v => v.Checklist).FirstOrDefaultAsync(v => v.Id == id);
         }
+
+
+        public async Task<Viagem> EncerrarViagemAsync(int viagemId)
+        {
+            // Busca a viagem pelo ID
+            var viagem = await _context.Viagens.FirstOrDefaultAsync(v => v.Id == viagemId);
+
+            // Verifica se a viagem existe
+            if (viagem == null)
+            {
+                throw new Exception("Viagem não encontrada.");
+            }
+
+            // Atualiza o status e a data de encerramento
+            viagem.Status = "Encerrada";
+            viagem.DataEncerramento = DateTime.UtcNow;
+
+            // Salva as alterações no banco de dados
+            await _context.SaveChangesAsync();
+
+            return viagem;
+        }
+
     }
 }

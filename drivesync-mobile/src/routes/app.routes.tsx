@@ -11,6 +11,7 @@ import Atividades from '../screens/Atividades';
 import Veiculo from '../screens/Veiculos';
 import DetalhesVeiculo from '../screens/Veiculos/Detalhes';
 import Home from '../screens/Home';
+import DetalhesViagem from '../screens/DetalhesViagem';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -34,6 +35,30 @@ const VeiculoStack = () => (
         headerStyle: { backgroundColor: '#161616' },
         headerTintColor: '#FFFFFF',
         title: 'Detalhes do Veículo'
+      }}
+    />
+  </Stack.Navigator>
+);
+
+const ViagemStack = () => (
+  <Stack.Navigator>
+    <Stack.Screen
+      name="Atividade"
+      component={Atividades}
+      options={{
+        headerStyle: { backgroundColor: '#161616' },
+        headerTintColor: '#FFFFFF',
+        title: 'Veículos',
+        headerShown: false
+      }}
+    />
+    <Stack.Screen
+      name="DetalhesViagem"
+      component={DetalhesViagem}
+      options={{
+        headerStyle: { backgroundColor: '#161616' },
+        headerTintColor: '#FFFFFF',
+        title: 'Detalhes da Viagem'
       }}
     />
   </Stack.Navigator>
@@ -72,7 +97,7 @@ const AppRoutes: React.FC = () => (
       />
       <Tab.Screen
         name="Atividades"
-        component={Atividades}
+        component={ViagemStack}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="list" size={25} color={color} />

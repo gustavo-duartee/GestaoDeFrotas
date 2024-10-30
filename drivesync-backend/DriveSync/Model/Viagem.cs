@@ -15,17 +15,17 @@ namespace DriveSync.Model
         public int VeiculoId { get; set; }
         public virtual Veiculo Veiculo { get; set; }
 
-
         [Required]
         public DateTime DataInicio { get; set; }
+
+        public DateTime? DataEncerramento { get; set; } // Novo campo para data de encerramento
 
         public string? Localizacao { get; set; }
 
         [Required]
         public string Status { get; set; } = "Em_andamento";
 
-
-        public int ChecklistId { get; set; } 
+        public int ChecklistId { get; set; }
         public virtual Checklists Checklist { get; set; }
 
         public string? Observacoes { get; set; }

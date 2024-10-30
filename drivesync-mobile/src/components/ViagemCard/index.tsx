@@ -60,7 +60,7 @@ export default function ViagemCard({ viagem }: ViagemCardProps) {
               <Text style={styles.valueSubtitle}>Veículo: {viagem.veiculo}</Text>
             </View>
             <View style={styles.row}>
-              <Text style={styles.valueSubtitle}>Data: {viagem.dataInicio}</Text>
+              <Text style={styles.valueSubtitle}>Data: {new Date(viagem.dataInicio).toLocaleString()}</Text>
             </View>
             <View style={[styles.valueStatusBadge, { backgroundColor: statusStyles.backgroundColor }]}>
               <Text style={[styles.valueStatus, { color: statusStyles.color }]}>{viagem.status}</Text>

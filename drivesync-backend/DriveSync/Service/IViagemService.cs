@@ -10,6 +10,7 @@ namespace DriveSync.Service
         Task<Viagem> IniciarViagemAsync(ViagemDto viagemDto);
         Task<IEnumerable<Viagem>> ListarViagensAsync();
         Task<Viagem> ObterViagemPorIdAsync(int id);
-        // Outros métodos que possam ser necessários, como EncerrarViagemAsync
+        Task<Viagem> EncerrarViagemAsync(int viagemId); // Novo método
     }
+
 }

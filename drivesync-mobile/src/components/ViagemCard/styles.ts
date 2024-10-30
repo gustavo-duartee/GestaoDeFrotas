@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
     marginVertical: 20,
   },
   card: {
-    backgroundColor: '#fff',
+    backgroundColor: '#ffffff',
     borderRadius: 8,
     padding: 16,
     marginVertical: 10,
@@ -24,18 +24,20 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 4,
     elevation: 5,
+    borderBottomColor: '#f5f5f5',
+    borderWidth: 2
   },
   iconSquare: {
     width: 70,
     height: 70,
-    backgroundColor: "#383838",
+    backgroundColor: "#e8e8e8",
     marginRight: 15,
     borderRadius: 6,
     justifyContent: 'center',
     alignItems: 'center',
   },
   icon: {
-    color: '#f4f5f7',
+    color: '#000000',
   },
   content: {
     flex: 1,
@@ -50,13 +52,13 @@ const styles = StyleSheet.create({
     color: "#C4C4CC",
   },
   valueTitle: {
-    color: '#1C1C1E',
+    color: '#0a0a0a',
     fontSize: 18,
     fontWeight: 'bold',
   },
   valueSubtitle: {
     fontSize: 16,
-    color: "#8D8D99",
+    color: "#545454",
   },
   valueStatusBadge: {
     marginTop: 10,
