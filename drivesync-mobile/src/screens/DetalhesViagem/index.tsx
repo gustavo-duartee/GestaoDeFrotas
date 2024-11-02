@@ -6,34 +6,29 @@ const DetalhesViagem = ({ route }) => {
 
   return (
     <ScrollView style={styles.container}>
+      <Text style={styles.title}>Informações da Viagem</Text>
       <View style={styles.detailContainer}>
-        <Text style={styles.label}>ID da Viagem:</Text>
-        <Text style={styles.detail}>{viagem.id}</Text>
-      </View>
-      <View style={styles.detailContainer}>
-        <Text style={styles.label}>Motorista ID:</Text>
-        <Text style={styles.detail}>{viagem.motoristaId}</Text>
-      </View>
-      <View style={styles.detailContainer}>
-        <Text style={styles.label}>Veículo ID:</Text>
+        <Text style={styles.label}>Veículo ID</Text>
         <Text style={styles.detail}>{viagem.veiculoId}</Text>
       </View>
       <View style={styles.detailContainer}>
-        <Text style={styles.label}>Data de Início:</Text>
+        <Text style={styles.label}>Data de Início</Text>
         <Text style={styles.detail}>{new Date(viagem.dataInicio).toLocaleString()}</Text>
       </View>
       <View style={styles.detailContainer}>
-        <Text style={styles.label}>Localização:</Text>
-        <Text style={styles.detail}>{viagem.localizacao}</Text>
-      </View>
-      <View style={styles.detailContainer}>
-        <Text style={styles.label}>Status:</Text>
+        <Text style={styles.label}>Status</Text>
         <Text style={styles.detail}>{viagem.status}</Text>
       </View>
       <View style={styles.detailContainer}>
-        <Text style={styles.label}>Observações:</Text>
+        <Text style={styles.label}>Localização</Text>
+        <Text style={styles.detail}>{viagem.localizacao}</Text>
+      </View>
+
+      <View style={styles.detailContainer}>
+        <Text style={styles.label}>Observações</Text>
         <Text style={styles.detail}>{viagem.observacoes}</Text>
       </View>
+
       <View style={styles.checklistContainer}>
         <Text style={styles.label}>Checklist:</Text>
         {Object.entries(viagem.checklist).map(([key, value]) => (
@@ -42,6 +37,7 @@ const DetalhesViagem = ({ route }) => {
           </Text>
         ))}
       </View>
+
     </ScrollView>
   );
 };
@@ -49,31 +45,43 @@ const DetalhesViagem = ({ route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    padding: 0,
+    paddingHorizontal: 12,
     backgroundColor: '#fff',
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 16,
+    color: '#000',
+    textAlign: 'left',
   },
   detailContainer: {
     marginBottom: 12,
+    paddingVertical: 10,
+    backgroundColor: '#fff',
+    borderRadius: 8
   },
   label: {
     fontSize: 16,
     fontWeight: '600',
+    color: '#333',
   },
   detail: {
     fontSize: 16,
     color: '#555',
+    marginTop: 4,
   },
   checklistContainer: {
     marginTop: 20,
+    paddingVertical: 10,
+    backgroundColor: '#fff',
+    borderRadius: 8
   },
   checklistItem: {
     fontSize: 16,
     color: '#555',
+    marginTop: 4,
   },
 });
 

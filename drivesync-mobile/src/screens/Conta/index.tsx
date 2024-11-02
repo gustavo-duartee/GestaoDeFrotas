@@ -39,6 +39,11 @@ const MinhaConta: React.FC = () => {
         <Text style={styles.info}>{user?.email}</Text>
       </View>
 
+      <View style={styles.userInfo}>
+        <Text style={styles.titleInfo}> Empresa</Text>
+        <Text style={styles.info}>{user?.empresa}</Text>
+      </View>
+
       <TouchableOpacity style={styles.button} onPress={handleSignOut}>
         <Text style={styles.buttonText}>Desconectar</Text>
         <Ionicons name="log-out-outline" size={25} color="white" />
