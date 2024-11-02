@@ -189,6 +189,76 @@ namespace DriveSync.Migrations
                     b.ToTable("Multas");
                 });
 
+            modelBuilder.Entity("DriveSync.Model.Veiculo", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<int?>("ano")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<string>("cap_passageiros")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("categoria")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("cor")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("dt_aquisicao")
+                        .IsRequired()
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("marca")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("nvarchar(80)");
+
+                    b.Property<string>("modelo")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("nvarchar(80)");
+
+                    b.Property<string>("nmr_chassi")
+                        .IsRequired()
+                        .HasMaxLength(12)
+                        .HasColumnType("nvarchar(12)");
+
+                    b.Property<string>("placa")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("nvarchar(80)");
+
+                    b.Property<int?>("quilometragem")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<string>("renavam")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("tp_combustivel")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("nvarchar(80)");
+
+                    b.HasKey("id");
+
+                    b.ToTable("Veiculos");
+                });
+
             modelBuilder.Entity("DriveSync.Model.Viagem", b =>
                 {
                     b.Property<int>("Id")
@@ -430,79 +500,10 @@ namespace DriveSync.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Veiculo", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("Ano")
-                        .IsRequired()
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CapPassageiros")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Categoria")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Cor")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("DtAquisicao")
-                        .IsRequired()
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Marca")
-                        .IsRequired()
-                        .HasMaxLength(80)
-                        .HasColumnType("nvarchar(80)");
-
-                    b.Property<string>("Modelo")
-                        .IsRequired()
-                        .HasMaxLength(80)
-                        .HasColumnType("nvarchar(80)");
-
-                    b.Property<string>("NmrChassi")
-                        .IsRequired()
-                        .HasMaxLength(12)
-                        .HasColumnType("nvarchar(12)");
-
-                    b.Property<string>("Placa")
-                        .IsRequired()
-                        .HasMaxLength(80)
-                        .HasColumnType("nvarchar(80)");
-
-                    b.Property<int?>("Quilometragem")
-                        .IsRequired()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Renavam")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TpCombustivel")
-                        .IsRequired()
-                        .HasMaxLength(80)
-                        .HasColumnType("nvarchar(80)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Veiculos");
-                });
-
             modelBuilder.Entity("DriveSync.Model.Manutencao", b =>
                 {
-                    b.HasOne("Veiculo", null)
-                        .WithMany("Manutencoes")
+                    b.HasOne("DriveSync.Model.Veiculo", null)
+                        .WithMany("manutencoes")
                         .HasForeignKey("veiculoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -516,8 +517,8 @@ namespace DriveSync.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Veiculo", "Veiculo")
-                        .WithMany("Viagens")
+                    b.HasOne("DriveSync.Model.Veiculo", "Veiculo")
+                        .WithMany()
                         .HasForeignKey("VeiculoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -578,11 +579,9 @@ namespace DriveSync.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Veiculo", b =>
+            modelBuilder.Entity("DriveSync.Model.Veiculo", b =>
                 {
-                    b.Navigation("Manutencoes");
-
-                    b.Navigation("Viagens");
+                    b.Navigation("manutencoes");
                 });
 #pragma warning restore 612, 618
         }

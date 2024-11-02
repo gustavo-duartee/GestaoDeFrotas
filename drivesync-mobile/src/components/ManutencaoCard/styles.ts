@@ -3,11 +3,11 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
   card: {
     flexDirection: 'row',
-    backgroundColor: "#161616",
+    backgroundColor: "#fff",
     borderRadius: 10,
     padding: 14,
     marginBottom: 10,
-    borderBottomColor: '#383838',
+    borderBottomColor: '#e8e8e8',
     borderBottomWidth: 1,
   },
   iconSquare: {
@@ -27,17 +27,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   valueTitle: {
-    color: '#E1E1E6',
-    fontSize: 16,
+    color: '#000',
+    fontSize: 18,
     fontWeight: 'bold',
   },
   value: {
-    color: '#E1E1E6',
+    color: '#000',
     fontSize: 15,
   },
   valueDate: {
     color: '#888',
-    fontSize: 13,
+    fontSize: 15,
     marginBottom: 5,
   },
   contentDescription: {

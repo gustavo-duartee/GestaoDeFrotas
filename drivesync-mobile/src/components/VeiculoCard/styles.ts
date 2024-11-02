@@ -3,23 +3,23 @@ import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#202024",
+    backgroundColor: "#fff",
     alignItems: "center",
     marginBottom: 10,
   },
   card: {
-    backgroundColor: "#161616",
+    backgroundColor: "#fff",
     borderRadius: 10,
     padding: 15,
     flexDirection: "row",
     position: 'relative',
-    borderBottomColor: '#383838',
+    borderBottomColor: '#e8e8e8',
     borderBottomWidth: 1,
   },
   iconSquare: {
-    width: 70,
-    height: 70,
-    backgroundColor: "#383838",
+    width: 60,
+    height: 60,
+    backgroundColor: "#e8e8e8",
     marginRight: 15,
     borderRadius: 6,
     justifyContent: 'center',
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   icon: {
-    color: '#f4f5f7',
+    color: '#727272',
   },
   content: {
     flex: 1,
@@ -44,13 +44,13 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   valueTitle: {
-    color: '#FFFFFF',
+    color: '#000',
     fontSize: 18,
     fontWeight: 'bold',
   },
   valueSubtitle: {
     fontSize: 16,
-    color: "#C4C4CC",
+    color: "#000",
   },
   valueStatus: {
     fontSize: 15,

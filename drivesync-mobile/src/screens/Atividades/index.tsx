@@ -58,7 +58,6 @@ const Atividade: React.FC = () => {
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => <ViagemCard viagem={item} />}
         contentContainerStyle={styles.cardContainer}
-        
       />
     </View>
   );

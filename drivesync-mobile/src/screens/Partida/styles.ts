@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
     color: '#000000',
     fontSize: 20,
     fontWeight: 'bold',
-    marginBottom: 20,
+    marginBottom: 16,
   },
   inputsContainer: {
     flexDirection: 'column',
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
 
-  locationContainer:{
+  locationContainer: {
     flexDirection: 'column',
     alignItems: 'center',
     width: '100%',
@@ -27,12 +27,12 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 10,
     borderColor: '#f3f3f3',
-    marginBottom: 20
+    marginBottom: 20,
   },
 
   input: {
     backgroundColor: '#f3f3f3',
-    color: '#fff',
+    color: '#000000',
     borderRadius: 5,
     paddingVertical: 10,
     paddingHorizontal: 15,
@@ -42,10 +42,7 @@ const styles = StyleSheet.create({
   },
   pickerContainer: {
     backgroundColor: '#f3f3f3',
-    color: '#fff',
     borderRadius: 5,
-    paddingVertical: 0,
-    paddingHorizontal: 15,
     fontSize: 16,
     marginBottom: 16,
     width: '100%',
@@ -55,12 +52,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#f3f3f3',
   },
   checkListContainer: {
+    paddingVertical: 10,
+    marginBottom: 20,
   },
   checkListItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 10,
+    backgroundColor: '#ffffff',
+    borderWidth: 1,
+    borderColor: '#ddd',
     borderRadius: 8,
     marginBottom: 10,
   },
@@ -75,7 +77,7 @@ const styles = StyleSheet.create({
 
   obsInput: {
     backgroundColor: '#f3f3f3',
-    color: '#fff',
+    color: '#000000',
     borderRadius: 5,
     paddingVertical: 10,
     paddingHorizontal: 15,
@@ -94,16 +96,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 20,
-    marginBottom: 40
+    marginBottom: 40,
   },
   buttonText: {
     color: 'white',
     fontSize: 16,
+    fontWeight: '600',
   },
   divider: {
     height: 1,
     backgroundColor: '#f3f3f3',
-    marginVertical: 0,
+    marginVertical: 10,
   },
 });
 

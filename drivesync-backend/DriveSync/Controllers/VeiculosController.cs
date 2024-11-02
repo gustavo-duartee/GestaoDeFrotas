@@ -38,21 +38,22 @@ namespace DriveSync.Controllers
 
 
         [HttpGet("VeiculoPorPlaca")]
-        public async Task<ActionResult<IEnumerable<Veiculo>>> GetVeiculosByPlaca([FromQuery] string placa)
+        public async Task<ActionResult<IAsyncEnumerable<Veiculo>>> GetVeiculosByPlaca([FromQuery] string placa)
         {
             try
             {
                 var veiculos = await _veiculoService.GetVeiculosByPlaca(placa);
-                if (!veiculos.Any())
+                if (veiculos.Count() == 0)
                 {
-                    return NotFound($"Não existem veículos com o critério {placa}");
+                    return NotFound($"Não existem veiculos com o critério {placa}");
+
                 }
                 return Ok(veiculos);
             }
-            catch (Exception ex)
+            catch
             {
-                _logger.LogError(ex, "Erro ao obter veículo por placa");
-                return StatusCode(StatusCodes.Status500InternalServerError, "Erro ao obter veículo");
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "Erro ao obter veiculo");
             }
         }
 
@@ -81,7 +82,7 @@ namespace DriveSync.Controllers
             try
             {
                 await _veiculoService.CreateVeiculo(veiculo);
-                return CreatedAtRoute(nameof(GetVeiculo), new { Id = veiculo.Id }, veiculo);
+                return CreatedAtRoute(nameof(GetVeiculo), new { Id = veiculo.id }, veiculo);
             }
             catch (Exception ex)
             {
@@ -95,7 +96,7 @@ namespace DriveSync.Controllers
         {
             try
             {
-                if (veiculo.Id == id)
+                if (veiculo.id == id)
                 {
                     await _veiculoService.UpdateVeiculo(veiculo);
                     return Ok($"Veículo com id={id} foi atualizado com sucesso");

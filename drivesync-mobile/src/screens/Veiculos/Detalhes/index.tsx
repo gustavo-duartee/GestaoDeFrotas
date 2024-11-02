@@ -53,8 +53,8 @@ export default function DetalhesVeiculo({ route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#161616",
-    padding: 20,
+    backgroundColor: "#fff",
+    padding: 15,
   },
   cardContainer: {
     marginBottom: 30
@@ -63,12 +63,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   value: {
-    color: '#E1E1E6',
+    color: '#000',
     fontSize: 30,
     fontWeight: 'bold',
   },
   subInfo: {
-    color: '#E1E1E6',
+    color: '#000',
     fontSize: 20,
     fontWeight: 'bold',
   },
@@ -85,12 +85,12 @@ const styles = StyleSheet.create({
   },
   divider: {
     height: 1,
-    backgroundColor: '#444',
+    backgroundColor: '#e8e8e8',
     marginVertical: 20,
   },
   subtitle: {
-    color: '#E1E1E6',
-    fontSize: 16,
+    color: '#000',
+    fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 20,
   },

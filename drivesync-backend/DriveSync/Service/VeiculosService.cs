@@ -17,7 +17,7 @@ namespace DriveSync.Service
         {
             try
             {
-                return await _context.Veiculos.Include(v => v.Manutencoes).ToListAsync();
+                return await _context.Veiculos.Include(v => v.manutencoes).ToListAsync();
             }
             catch (Exception ex)
             {
@@ -27,89 +27,40 @@ namespace DriveSync.Service
 
         public async Task<IEnumerable<Veiculo>> GetVeiculosByPlaca(string placa)
         {
-            try
+            IEnumerable<Veiculo> veiculos;
+            if (!string.IsNullOrWhiteSpace(placa))
             {
-                if (!string.IsNullOrWhiteSpace(placa))
-                {
-                    return await _context.Veiculos
-                        .Where(n => n.Placa.Contains(placa))
-                        .Include(v => v.Manutencoes)
-                        .ToListAsync();
-                }
-                else
-                {
-                    return await GetVeiculos();
-                }
+                veiculos = await _context.Veiculos.Where(n => n.placa.Contains(placa)).Include(v => v.manutencoes).ToListAsync();
             }
-            catch (Exception ex)
+            else
             {
-                throw new Exception("Erro ao buscar veículos por placa", ex);
+                veiculos = await GetVeiculos();
             }
+            return veiculos;
         }
 
         public async Task<Veiculo> GetVeiculo(int id)
         {
-            try
-            {
-                return await _context.Veiculos
-                    .Include(v => v.Manutencoes)
-                    .FirstOrDefaultAsync(e => e.Id == id);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Erro ao buscar veículo com id {id}", ex);
-            }
+            var veiculo = await _context.Veiculos.Include(v => v.manutencoes).FirstOrDefaultAsync(e => e.id == id);
+            return veiculo;
         }
 
         public async Task CreateVeiculo(Veiculo veiculo)
         {
-            try
-            {
-                await _context.Veiculos.AddAsync(veiculo);
-                await _context.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Erro ao criar veículo", ex);
-            }
+            _context.Veiculos.Add(veiculo);
+            await _context.SaveChangesAsync();
         }
 
         public async Task UpdateVeiculo(Veiculo veiculo)
         {
-            try
-            {
-                var existingVeiculo = await GetVeiculo(veiculo.Id);
-                if (existingVeiculo == null)
-                {
-                    throw new Exception("Veículo não encontrado");
-                }
-
-                _context.Entry(veiculo).State = EntityState.Modified;
-                await _context.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Erro ao atualizar veículo", ex);
-            }
+            _context.Entry(veiculo).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
         }
 
         public async Task DeleteVeiculo(Veiculo veiculo)
         {
-            try
-            {
-                var existingVeiculo = await GetVeiculo(veiculo.Id);
-                if (existingVeiculo == null)
-                {
-                    throw new Exception("Veículo não encontrado");
-                }
-
-                _context.Veiculos.Remove(existingVeiculo);
-                await _context.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Erro ao excluir veículo", ex);
-            }
+            _context.Veiculos.Remove(veiculo);
+            await _context.SaveChangesAsync();
         }
     }
 }

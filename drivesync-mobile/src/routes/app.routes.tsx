@@ -34,7 +34,7 @@ const VeiculoStack = () => (
       options={{
         headerStyle: { backgroundColor: '#ffffff' },
         headerTintColor: '#000000',
-        title: 'Detalhes do Veículo'
+        title: ''
       }}
     />
   </Stack.Navigator>
@@ -126,6 +126,9 @@ const AppRoutes: React.FC = () => (
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="bus" size={25} color={color} />
           ),
+          title: 'Veículos',
+          headerStyle: { backgroundColor: '#ffffff' },
+          headerTintColor: '#000000'
         }}
       />
       <Tab.Screen

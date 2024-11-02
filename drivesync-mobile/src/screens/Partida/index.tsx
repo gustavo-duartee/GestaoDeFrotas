@@ -81,7 +81,7 @@ export default function NovaViagem({ navigation }) {
   
       if (response.status === 201) {
         Alert.alert('Sucesso', 'Viagem iniciada com sucesso!');
-        navigation.navigate('EncerrarViagem'); // Navegar para a tela de encerrar viagem
+        navigation.navigate('Início');
       } else {
         Alert.alert('Erro', 'Erro ao iniciar a viagem.');
       }
@@ -129,6 +129,14 @@ export default function NovaViagem({ navigation }) {
             ))}
           </Picker>
         </View>
+      </View>
+
+      <Text style={styles.subtitle}>Dados do Veículo (OBD)</Text>
+      <View style={styles.inputsContainer}>
+        <Text style={styles.input}>Velocidade: {/*{obdData.velocidade}*/}</Text>
+        <Text style={styles.input}>RPM: {/*{obdData.rpm}*/}</Text>
+        <Text style={styles.input}>Temperatura: {/*{obdData.temperatura}*/}</Text>
+        <Text style={styles.input}>Nível de Combustível: {/*{obdData.nivelCombustivel}*/}</Text>
       </View>
 
       <Text style={styles.subtitle}>Segurança</Text>
