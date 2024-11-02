@@ -3,6 +3,7 @@ import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
   container: {
     marginBottom: 5,
+    backgroundColor: '#fff'
   },
   noViagemText: {
     fontSize: 18,

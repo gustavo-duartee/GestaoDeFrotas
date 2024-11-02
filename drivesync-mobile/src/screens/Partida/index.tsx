@@ -70,7 +70,7 @@ export default function NovaViagem({ navigation }) {
     try {
       const response = await api.post('/api/Viagens', {
         motoristaId: "2caf49d5-0560-4c21-83f9-73c7a0a5ddf5", // ID do motorista; adapte conforme necessário
-        veiculoId: 1029,
+        veiculoId: selectedVeiculo,
         localizacao: locationText,
         checklist: {
           id: 1, // ID do checklist, ajuste conforme necessário
