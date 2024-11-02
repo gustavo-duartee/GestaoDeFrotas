@@ -10,26 +10,16 @@ const styles = StyleSheet.create({
     marginVertical: 20,
   },
   card: {
-    backgroundColor: '#ffffff',
-    borderRadius: 8,
+    backgroundColor: '#fff',
     padding: 16,
-    marginVertical: 10,
     flexDirection: 'row',
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 5,
-    borderBottomColor: '#f5f5f5',
-    borderWidth: 2
+    borderBottomWidth: 1,
+    borderBottomColor: '#e8e8e8'
   },
   iconSquare: {
-    width: 70,
-    height: 70,
+    width: 60,
+    height: 60,
     backgroundColor: "#e8e8e8",
     marginRight: 15,
     borderRadius: 6,
@@ -37,7 +27,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   icon: {
-    color: '#000000',
+    color: '#727272',
   },
   content: {
     flex: 1,
@@ -47,12 +37,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 6,
   },
+  
   value: {
     fontSize: 16,
     color: "#C4C4CC",
   },
   valueTitle: {
-    color: '#0a0a0a',
+    color: '#181818',
     fontSize: 18,
     fontWeight: 'bold',
   },
@@ -60,10 +51,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#545454",
   },
+
   valueStatusBadge: {
-    marginTop: 10,
     paddingHorizontal: 8,
-    paddingVertical: 4,
+    paddingVertical: 0,
     borderRadius: 4,
     alignSelf: 'flex-start',
   },

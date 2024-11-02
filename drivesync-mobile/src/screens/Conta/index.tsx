@@ -20,16 +20,22 @@ const MinhaConta: React.FC = () => {
   return (
     <View style={styles.container}>
 
+      <View>
+        <Text style={styles.text}> Informações da conta</Text>
+      </View>
+
       <View style={styles.circle}>
         <Ionicons name="person" size={40} color="gray" />
         {/*<Text style={styles.initials}>{getUserInitials(user?.name || '')}</Text>*/}
       </View>
 
-      {/*<View style={styles.userInfo}>
+      <View style={styles.userInfo}>
+        <Text style={styles.titleInfo}> Nome</Text>
         <Text style={styles.info}>{user?.name}</Text>
-      </View>*/}
+      </View>
 
       <View style={styles.userInfo}>
+        <Text style={styles.titleInfo}> E-mail</Text>
         <Text style={styles.info}>{user?.email}</Text>
       </View>
 

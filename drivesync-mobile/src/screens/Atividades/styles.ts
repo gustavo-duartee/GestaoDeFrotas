@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#161616",
+    backgroundColor: "#ffffff",
     paddingHorizontal: 15,
     paddingTop: 20,
   },
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
-    backgroundColor: '#292929',
+    backgroundColor: '#f3f3f3',
     color: '#fff',
     borderRadius: 8,
     paddingVertical: 10,
@@ -35,6 +35,9 @@ const styles = StyleSheet.create({
   },
   cardContainer: {
     flex: 1,
+  },
+  viagemStatus: {
+    backgroundColor: "#000"
   },
   noViagemText: {
     fontSize: 18,

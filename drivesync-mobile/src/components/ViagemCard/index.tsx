@@ -46,21 +46,19 @@ export default function ViagemCard({ viagem }: ViagemCardProps) {
       <View style={styles.container}>
         <View style={styles.card}>
           <View style={styles.iconSquare}>
-            <Ionicons style={styles.icon} name="car-outline" size={40} color="white" />
+            <Ionicons style={styles.icon} name="bus-outline" size={35} color="white" />
           </View>
 
           <View style={styles.content}>
             <View style={styles.row}>
               <Text style={styles.valueTitle}>{viagem.origem}</Text>
-              <Text style={styles.valueTitle}>➡️</Text>
               <Text style={styles.valueTitle}>{viagem.destino}</Text>
             </View>
             <View style={styles.row}>
-              <Text style={styles.valueSubtitle}>Motorista: {viagem.motorista}</Text>
               <Text style={styles.valueSubtitle}>Veículo: {viagem.veiculo}</Text>
             </View>
             <View style={styles.row}>
-              <Text style={styles.valueSubtitle}>Data: {new Date(viagem.dataInicio).toLocaleString()}</Text>
+              <Text style={styles.valueSubtitle}>{new Date(viagem.dataInicio).toLocaleString()}</Text>
             </View>
             <View style={[styles.valueStatusBadge, { backgroundColor: statusStyles.backgroundColor }]}>
               <Text style={[styles.valueStatus, { color: statusStyles.color }]}>{viagem.status}</Text>

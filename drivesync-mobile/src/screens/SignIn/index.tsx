@@ -28,9 +28,6 @@ const SignIn: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.circle}>
-        <Ionicons name="person" size={40} color="gray" />
-      </View>
 
       <Text style={styles.welcomeText}>Bem vindo(a)!</Text>
 
@@ -74,25 +71,26 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#161616",
+    alignItems: 'flex-start',
+    backgroundColor: "#ffffff",
     paddingHorizontal: 20,
+    gap: 10
   },
   circle: {
     width: 100,
     height: 100,
     borderRadius: 50,
-    backgroundColor: '#29292E',
-    justifyContent: 'center',
+    backgroundColor: '#f3f3f3',
+    justifyContent: 'flex-start',
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: 20
   },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     width: "100%",
     height: 45,
-    backgroundColor: "#292929",
+    backgroundColor: "#f3f3f3",
     borderRadius: 6,
     marginBottom: 10,
     paddingHorizontal: 15,
@@ -102,11 +100,11 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
-    fontSize: 16,
-    color: `#fff`,
+    fontSize: 18,
+    color: `#000`,
   },
   button: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#000',
     borderRadius: 8,
     paddingVertical: 10,
     alignItems: 'center',
@@ -119,14 +117,14 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   welcomeText: {
-    color: '#E1E1E6',
-    fontSize: 24,
+    color: '#000',
+    fontSize: 36,
     fontWeight: 'bold',
     marginBottom: 30,
   },
   forgotText: {
-    color: "#E1E1E6",
-    fontSize: 14,
+    color: "#151515",
+    fontSize: 16,
     marginTop: 10,
     fontWeight: 'bold',
   },

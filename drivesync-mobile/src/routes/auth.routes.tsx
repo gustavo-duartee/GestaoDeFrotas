@@ -16,14 +16,15 @@ const AuthRoutes: React.FC = () => (
       component={OnboardingScreen}
       options={{ headerShown: false }} // Oculta o cabeçalho para a tela de onboarding
     />
-<AuthStack.Screen
+    <AuthStack.Screen
       name="Login"
       component={SignIn}
       options={({ navigation }) => ({
         headerStyle: {
-          backgroundColor: '#161616',
+          backgroundColor: '#fff',
         },
-        headerTintColor: '#fff',
+        headerTintColor: '#000',
+        headerTitle: '', // Título removido
         headerTitleStyle: {
           fontWeight: 'bold',
         },
@@ -32,11 +33,12 @@ const AuthRoutes: React.FC = () => (
             style={{ marginLeft: 10 }}
             onPress={() => navigation.goBack()}
           >
-            <Ionicons name="arrow-back" size={24} color="white" />
+            <Ionicons name="arrow-back" size={24} color="black" />
           </TouchableOpacity>
         ),
       })}
     />
+
   </AuthStack.Navigator>
 );
 

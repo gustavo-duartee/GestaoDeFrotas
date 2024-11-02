@@ -1,24 +1,22 @@
 import React from 'react';
 import { View, Text, StyleSheet, ImageBackground, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import SignIn from '../../assets/SignIn2.png';
 
 const OnboardingScreen = () => {
   const navigation = useNavigation();
 
   return (
-    <ImageBackground 
-      source={{ uri: 'https://example.com/your-image.jpg' }} 
-      style={styles.background}
-    >
+    <ImageBackground source={SignIn} style={styles.background} resizeMode="cover">
       <View style={styles.overlay}>
         <View style={styles.content}>
           <Text style={styles.title}>Controle sua rotina de viagens com o DriveSync</Text>
-          <Text style={styles.subtitle}>O aplicativo que facilita seu dia a dia.</Text>
-          <TouchableOpacity 
+          <TouchableOpacity
             style={styles.button}
             onPress={() => navigation.navigate('Login')}
+            activeOpacity={0.8}
           >
-            <Text style={styles.buttonText}>Entrar</Text>
+            <Text style={styles.buttonText}>Continuar</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -29,42 +27,36 @@ const OnboardingScreen = () => {
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: '#161616', // Overlay semi-transparente
-    justifyContent: 'center', // Centraliza verticalmente o conteúdo
-    alignItems: 'center', // Centraliza horizontalmente o conteúdo
+    justifyContent: 'flex-end', // Alinha o conteúdo na parte inferior
+    alignItems: 'flex-start',
   },
   content: {
-    alignItems: 'center',
-    padding: 20,
+    alignItems: 'flex-start',
+    paddingHorizontal: 20,
+    paddingBottom: 50, // Ajuste de espaçamento do botão na parte inferior
   },
   title: {
-    color: '#FFFFFF',
-    fontSize: 36,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    textAlign: 'center',
-  },
-  subtitle: {
-    fontSize: 18,
-    color: '#CCCCCC',
-    marginBottom: 40,
-    textAlign: 'center',
+    color: '#000',
+    fontSize: 32,
+    fontWeight: '700',
+    marginBottom: 15,
+    textAlign: 'left',
   },
   button: {
-    backgroundColor: '#4CAF50',
-    paddingVertical: 15,
-    paddingHorizontal: 40,
-    borderRadius: 30,
+    backgroundColor: '#000',
+    paddingVertical: 12,
+    paddingHorizontal: 35,
+    borderRadius: 10,
+    width: '100%', // Adiciona esta linha para fazer o botão ocupar a largura da tela
   },
   buttonText: {
     color: '#FFFFFF',
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: '600',
+    textAlign: 'center', // Centraliza o texto dentro do botão
   },
 });
 

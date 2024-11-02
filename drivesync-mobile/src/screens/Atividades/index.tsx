@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, Text, TextInput, FlatList, ActivityIndicator, TouchableOpacity } from "react-native";
 import styles from './styles';
 import ViagemCard from "../../components/ViagemCard";
+import CardViagem from "../../components/ViagemStatus";
 import api from "../../services/api";
 
 const Atividade: React.FC = () => {
@@ -48,11 +49,16 @@ const Atividade: React.FC = () => {
         />
       </View>
 
+      <View style={styles.viagemStatus}>
+        <CardViagem />
+      </View>
+
       <FlatList
         data={atividadesFiltradas}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => <ViagemCard viagem={item} />}
         contentContainerStyle={styles.cardContainer}
+        
       />
     </View>
   );

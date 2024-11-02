@@ -3,21 +3,15 @@ import { View, Text, ScrollView, StyleSheet } from "react-native";
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from "../../contexts/auth";
 import MediaCard from "../../components/InfoCards";
+import CardViagem from "../../components/ViagemStatus";
 
 export default function Home() {
   const { user } = useAuth();
 
   return (
     <ScrollView style={styles.container}>
-      <View style={styles.header}>
-      <Ionicons name="person-circle-outline" size={50} color="#E1E1E6" />
-        <View style={styles.headerContent}>
-          <Text style={styles.greeting}>Bem vindo (a), </Text>
-          <Text style={styles.subGreeting}>{user?.email}!</Text>
-        </View>
-      </View>
 
-      <View style={styles.divider} />
+      <CardViagem />
 
       <Text style={styles.subtitle}>Atente-se aos sinais</Text>
 
@@ -39,8 +33,9 @@ export default function Home() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#161616',
+    backgroundColor: '#ffffff',
     padding: 12,
+    paddingVertical: 30
   },
   header: {
     flexDirection: 'row',
@@ -51,23 +46,22 @@ const styles = StyleSheet.create({
   greeting: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#E1E1E6',
+    color: '#000000',
   },
   subGreeting: {
     fontSize: 18,
-    color: '#E1E1E6',
+    color: '#000000',
   },
   divider: {
     height: 2,
-    backgroundColor: '#2c2c2c',
+    backgroundColor: '#f3f3f3',
     marginVertical: 10,
   },
   subtitle: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
-    color: '#E1E1E6',
-    marginVertical: 10,
-    marginBottom: 20
+    color: '#000000',
+    marginVertical: 15,
   },
   cardsContainer: {
     flexDirection: 'row',

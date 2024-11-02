@@ -3,13 +3,13 @@ import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#161616",
+    backgroundColor: "#ffffff",
     paddingHorizontal: 15,
     paddingTop: 20,
   },
   subtitle: {
-    color: '#E1E1E6',
-    fontSize: 16,
+    color: '#000000',
+    fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 20,
   },
@@ -24,13 +24,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     padding: 10,
-    borderWidth: 1,
+    borderWidth: 2,
     borderRadius: 10,
-    borderColor: '#444'
+    borderColor: '#f3f3f3',
+    marginBottom: 20
   },
 
   input: {
-    backgroundColor: '#292929',
+    backgroundColor: '#f3f3f3',
     color: '#fff',
     borderRadius: 5,
     paddingVertical: 10,
@@ -40,7 +41,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   pickerContainer: {
-    backgroundColor: '#292929',
+    backgroundColor: '#f3f3f3',
     color: '#fff',
     borderRadius: 5,
     paddingVertical: 0,
@@ -50,8 +51,8 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   picker: {
-    color: '#aaa',
-    backgroundColor: '#292929',
+    color: '#000000',
+    backgroundColor: '#f3f3f3',
   },
   checkListContainer: {
   },
@@ -64,8 +65,8 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   checkListText: {
-    color: '#fff',
-    fontSize: 16,
+    color: '#000000',
+    fontSize: 18,
   },
   checkBox: {
     width: 24,
@@ -73,7 +74,7 @@ const styles = StyleSheet.create({
   },
 
   obsInput: {
-    backgroundColor: '#292929',
+    backgroundColor: '#f3f3f3',
     color: '#fff',
     borderRadius: 5,
     paddingVertical: 10,
@@ -101,7 +102,7 @@ const styles = StyleSheet.create({
   },
   divider: {
     height: 1,
-    backgroundColor: '#444',
+    backgroundColor: '#f3f3f3',
     marginVertical: 0,
   },
 });

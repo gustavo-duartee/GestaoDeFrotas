@@ -55,23 +55,18 @@ export default function NovaViagem({ navigation }) {
   };
 
   const handleIniciarViagem = async () => {
-    //if (!selectedVeiculo) {
-      //Alert.alert('Seleção de Veículo', 'Por favor, selecione um veículo.');
-      //return;
-    //}
-
     // Validar se todos os itens do checklist foram preenchidos
     const checklistCompleto = Object.values(checkList).every(Boolean);
     if (!checklistCompleto) {
       Alert.alert('Checklist Incompleto', 'Por favor, complete todos os itens de segurança.');
       return;
     }
-
+  
     if (!location) {
       Alert.alert('Localização', 'Aguarde enquanto obtemos sua localização.');
       return;
     }
-
+  
     try {
       const response = await api.post('/api/Viagens', {
         motoristaId: "2caf49d5-0560-4c21-83f9-73c7a0a5ddf5", // ID do motorista; adapte conforme necessário
@@ -83,7 +78,7 @@ export default function NovaViagem({ navigation }) {
         },
         observacoes: observacoes, // Adicionando observações
       });
-
+  
       if (response.status === 201) {
         Alert.alert('Sucesso', 'Viagem iniciada com sucesso!');
         navigation.navigate('EncerrarViagem'); // Navegar para a tela de encerrar viagem
@@ -92,9 +87,16 @@ export default function NovaViagem({ navigation }) {
       }
     } catch (error) {
       console.error('Erro ao iniciar a viagem:', error);
-      Alert.alert('Erro', `Não foi possível iniciar a viagem: ${error.message}`);
+      
+      // Verificar se o erro é devido a uma viagem em andamento
+      if (error.response && error.response.status === 400) {
+        Alert.alert('Viagem em Andamento', 'O motorista já possui uma viagem em andamento.');
+      } else {
+        Alert.alert('Erro', `Não foi possível iniciar a viagem: ${error.message}`);
+      }
     }
   };
+  
 
   return (
     <ScrollView style={styles.container}>
