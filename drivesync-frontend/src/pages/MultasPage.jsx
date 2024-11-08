@@ -12,6 +12,8 @@ export function Multas() {
   const [modalEditIsOpen, setModalEditIsOpen] = useState(false);
   const [multaId, setMultaId] = useState(null);
 
+  const [getVeiculo, setVeiculos] = useState([]);
+
   const token = localStorage.getItem("token");
   const authorization = {
     headers: {
@@ -32,6 +34,17 @@ export function Multas() {
       })
       .catch((error) => {
         console.error("Erro ao obter multa: ", error);
+      });
+  }, []);
+  useEffect(() => {
+    api
+      .get("api/veiculos", authorization)
+      .then((response) => {
+        setVeiculos(response.data);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error("Erro ao obter veiculo: ", error);
       });
   }, []);
 
@@ -175,14 +188,14 @@ export function Multas() {
                       <th scope="col" className="px-6 py-3">
                         Valor
                       </th>
-                      <th scope="col" className="px-6 py-3">
+                      {/* <th scope="col" className="px-6 py-3">
                         Pontos na carteira
-                      </th>
+                      </th> */}
                       <th scope="col" className="px-6 py-3">
                         Descricao
                       </th>
                       <th scope="col" className="px-6 py-3">
-                        Id do veículo
+                        Ônibus
                       </th>
                     </tr>
                   </thead>
@@ -198,9 +211,18 @@ export function Multas() {
                             </td>
                             <td className="px-6 py-4">{multa.tpinfracao}</td>
                             <td className="px-6 py-4">{multa.valor}</td>
-                            <td className="px-6 py-4">{multa.ptscarteira}</td>
+                            {/* <td className="px-6 py-4">{multa.ptscarteira}</td> */}
                             <td className="px-6 py-4">{multa.descricao}</td>
-                            <td className="px-6 py-4">{multa.veiculoid}</td>
+                            <td>
+                              {(() => {
+                                const veiculo = getVeiculo.find(
+                                  (veiculo) => veiculo.id === multa.veiculoid
+                                );
+                                return veiculo
+                                  ? `${veiculo.marca} ${veiculo.modelo}`
+                                  : "Veículo não encontrado";
+                              })()}
+                            </td>
                             <td className="px-6 py-4 text-right">
                               <div className="flex gap-2">
                                 <button
@@ -230,9 +252,18 @@ export function Multas() {
                             </td>
                             <td className="px-6 py-4">{multa.tpinfracao}</td>
                             <td className="px-6 py-4">{multa.valor}</td>
-                            <td className="px-6 py-4">{multa.ptscarteira}</td>
+                            {/* <td className="px-6 py-4">{multa.ptscarteira}</td> */}
                             <td className="px-6 py-4">{multa.descricao}</td>
-                            <td className="px-6 py-4">{multa.veiculoid}</td>
+                            <td>
+                              {(() => {
+                                const veiculo = getVeiculo.find(
+                                  (veiculo) => veiculo.id === multa.veiculoid
+                                );
+                                return veiculo
+                                  ? `${veiculo.marca} ${veiculo.modelo}`
+                                  : "Veículo não encontrado";
+                              })()}
+                            </td>
                             <td className="px-6 py-4"></td>
                             <td className="px-6 py-4 text-right">
                               <div className="flex gap-2">

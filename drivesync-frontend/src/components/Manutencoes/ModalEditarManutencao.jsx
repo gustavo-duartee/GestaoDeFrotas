@@ -21,6 +21,10 @@ export function ModalEditarManutencao({
   const [descricao, setDescricao] = useState("");
   const [getVeiculo, setVeiculos] = useState([]);
 
+  const [erroDt_manutencao, setErroDt_manutencao] = useState("");
+  const [erroDt_prox_manutencao, setErroDt_prox_manutencao] = useState("");
+  const [erroValor, setErroValor] = useState("");
+
   const history = useNavigate();
 
   const token = localStorage.getItem("token");
@@ -104,6 +108,14 @@ export function ModalEditarManutencao({
     }
     onRequestClose(); // Fechando o modal após a edição do manutenção
   }
+  const validarValor = (valor) => {
+    const numero = parseFloat(valor);
+    if (isNaN(numero) || numero <= 0) {
+      setErroValor("O valor deve ser maior ou igual a 1!");
+    } else {
+      setErroValor("");
+    }
+  };
 
   return (
     <ReactModal
@@ -159,10 +171,34 @@ export function ModalEditarManutencao({
                     type="date"
                     name="dt_manutencao"
                     id="dt_manutencao"
-                    className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 placeholder-gray-400"
+                    className="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     value={formatDateEdit(dt_manutencao)}
-                    onChange={(e) => setDtManutencao(e.target.value)}
+                    //onChange={(e) => setDtManutencao(e.target.value)}
+                    onChange={(e) => {
+                      const dataSelecionada = e.target.value;
+                      const dataAtual = new Date();
+                      const dataAtualSemHoras = new Date(
+                        dataAtual.getFullYear(),
+                        dataAtual.getMonth(),
+                        dataAtual.getDate()
+                      );
+
+                      setDtManutencao(dataSelecionada);
+
+                      if (new Date(dataSelecionada) > dataAtualSemHoras) {
+                        setErroDt_manutencao(
+                          "A data da manutenção não pode ser maior que a data atual."
+                        );
+                      } else {
+                        setErroDt_manutencao("");
+                      }
+                    }}
                   />
+                  {erroDt_manutencao && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {erroDt_manutencao}
+                    </p>
+                  )}
                 </div>
                 <div className="col-span-2 mb-2">
                   <label
@@ -176,10 +212,34 @@ export function ModalEditarManutencao({
                     type="date"
                     name="dt_prox_manutencao"
                     id="dt_prox_manutencao"
-                    className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 placeholder-gray-400"
+                    className="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     value={formatDateEdit(dt_prox_manutencao)}
-                    onChange={(e) => setProxDtManutencao(e.target.value)}
+                    //onChange={(e) => setProxDtManutencao(e.target.value)}
+                    onChange={(e) => {
+                      const dataSelecionada = e.target.value;
+                      const dataAtual = new Date();
+                      const dataAtualSemHoras = new Date(
+                        dataAtual.getFullYear(),
+                        dataAtual.getMonth(),
+                        dataAtual.getDate()
+                      );
+
+                      setProxDtManutencao(dataSelecionada);
+
+                      if (new Date(dataSelecionada) < dataAtualSemHoras) {
+                        setErroDt_prox_manutencao(
+                          "A data da próxima manutenção não pode ser menor que a data atual."
+                        );
+                      } else {
+                        setErroDt_prox_manutencao("");
+                      }
+                    }}
                   />
+                  {erroDt_prox_manutencao && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {erroDt_prox_manutencao}
+                    </p>
+                  )}
                 </div>
 
                 <div className="col-span-2 mb-2">
@@ -253,7 +313,7 @@ export function ModalEditarManutencao({
                     type="text"
                     name="servico"
                     id="servico"
-                    className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 placeholder-gray-400"
+                    className="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     value={servico}
                     onChange={(e) => setServico(e.target.value)}
                   />
@@ -271,10 +331,19 @@ export function ModalEditarManutencao({
                     type="number"
                     name="valor"
                     id="valor"
-                    className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 placeholder-gray-400"
+                    className="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     value={valor}
-                    onChange={(e) => setValor(e.target.value)}
+                    //onChange={(e) => setValor(e.target.value)}
+                    onChange={(e) => {
+                      const valor = e.target.value;
+                      setErroValor(valor);
+                      setValor(valor);
+                      validarValor(valor);
+                    }}
                   />
+                  {erroValor && (
+                    <p className="text-red-500 text-sm">{erroValor}</p>
+                  )}
                 </div>
 
                 <div className="col-span-2 mb-2">
@@ -289,7 +358,7 @@ export function ModalEditarManutencao({
                     type="text"
                     name="descricao"
                     id="descricao"
-                    className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 placeholder-gray-400"
+                    className="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     value={descricao}
                     onChange={(e) => setDescricao(e.target.value)}
                   />

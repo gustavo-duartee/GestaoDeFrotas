@@ -21,6 +21,9 @@ export function ModalEditarMulta({
   const [descricao, setDescricao] = useState("");
   const [veiculoid, setVeiculoId] = useState(0);
 
+  const [erroValor, setErroValor] = useState("");
+  const [erroCodigo, setErroCodigo] = useState("");
+
   const history = useNavigate();
 
   const token = localStorage.getItem("token");
@@ -80,7 +83,14 @@ export function ModalEditarMulta({
     }
     onRequestClose(); // Fechando o modal após a edição do multa
   }
-
+  const validarValor = (valor) => {
+    const numero = parseFloat(valor);
+    if (isNaN(numero) || numero <= 0) {
+      setErroValor("O valor deve ser maior ou igual a 1!");
+    } else {
+      setErroValor("");
+    }
+  };
   return (
     <ReactModal
       isOpen={isOpen}
@@ -151,10 +161,24 @@ export function ModalEditarMulta({
                     type="text"
                     name="codigo"
                     id="codigo"
-                    className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 placeholder-gray-400"
+                    className="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     value={codigo}
-                    onChange={(e) => setCodigo(e.target.value)}
+                    onChange={(e) => {
+                      const codigoInput = e.target.value;
+                      const regex = /^\d{3}-\d{2}$/;
+                      setCodigo(codigoInput);
+                      if (regex.test(codigoInput)) {
+                        setErroCodigo("");
+                      } else {
+                        setErroCodigo(
+                          "Código inválido. Formato esperado: 123-45."
+                        );
+                      }
+                    }}
                   />
+                  {erroCodigo && (
+                    <p className="text-red-500 text-sm">{erroCodigo}</p>
+                  )}
                 </div>
 
                 <div className="col-span-2 mb-2">
@@ -168,7 +192,7 @@ export function ModalEditarMulta({
                     type="date"
                     name="dtmulta"
                     id="dtmulta"
-                    className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 placeholder-gray-400"
+                    className="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     value={formatDateEdit(dtmulta)}
                     onChange={(e) => setDtMulta(e.target.value)}
                   />
@@ -179,16 +203,30 @@ export function ModalEditarMulta({
                     htmlFor="tpinfracao"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
-                    Tipo de Infração
+                    Categoria
                   </label>
-                  <input
+                  {/* <input
+                  
                     type="text"
                     name="tpinfracao"
                     id="tpinfracao"
-                    className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 placeholder-gray-400"
+                    className="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     value={tpinfracao}
                     onChange={(e) => setTpInfracao(e.target.value)}
-                  />
+                  /> */}
+                  <select
+                    type="text"
+                    onChange={(e) => setTpInfracao(e.target.value)}
+                    name="tpinfracao"
+                    id="tpinfracao"
+                    className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    value={tpinfracao}
+                  >
+                    <option value="Leve">Leve</option>
+                    <option value="Média">Média</option>
+                    <option value="Grave">Grave</option>
+                    <option value="Gravíssima">Gravíssima</option>
+                  </select>
                 </div>
 
                 <div className="col-span-2 mb-2">
@@ -202,13 +240,20 @@ export function ModalEditarMulta({
                     type="number"
                     name="valor"
                     id="valor"
-                    className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 placeholder-gray-400"
+                    className="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     value={valor}
-                    onChange={(e) => setValor(e.target.value)}
+                    onChange={(e) => {
+                      const novoValor = e.target.value;
+                      setValor(novoValor);
+                      validarValor(novoValor);
+                    }}
                   />
+                  {erroValor && (
+                    <p className="text-red-500 text-sm">{erroValor}</p>
+                  )}
                 </div>
 
-                <div className="col-span-2 mb-2">
+                {/* <div className="col-span-2 mb-2">
                   <label
                     htmlFor="ptscarteira"
                     className="block text-sm font-medium leading-6 text-gray-900"
@@ -219,11 +264,11 @@ export function ModalEditarMulta({
                     type="text"
                     name="ptscarteira"
                     id="ptscarteira"
-                    className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 placeholder-gray-400"
+                    className="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     value={ptscarteira}
                     onChange={(e) => setPtsCarteira(e.target.value)}
                   />
-                </div>
+                </div> */}
 
                 <div className="col-span-2 mb-2">
                   <label
@@ -236,7 +281,7 @@ export function ModalEditarMulta({
                     type="text"
                     name="descricao"
                     id="descricao"
-                    className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 placeholder-gray-400"
+                    className="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     value={descricao}
                     onChange={(e) => setDescricao(e.target.value)}
                   />

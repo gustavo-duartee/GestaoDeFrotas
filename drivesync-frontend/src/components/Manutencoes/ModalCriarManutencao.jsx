@@ -14,6 +14,10 @@ export function ModalCriarManutencao({ isOpen, onRequestClose }) {
   const [descricao, setDescricao] = useState("");
   const [getVeiculo, setVeiculos] = useState([]);
 
+  const [erroDt_manutencao, setErroDt_manutencao] = useState("");
+  const [erroDt_prox_manutencao, setErroDt_prox_manutencao] = useState("");
+  const [erroValor, setErroValor] = useState("");
+
   const history = useNavigate();
 
   const token = localStorage.getItem("token");
@@ -68,6 +72,14 @@ export function ModalCriarManutencao({ isOpen, onRequestClose }) {
     setVeiculoId(idVeiculo);
     console.log("Veiculo ID: ", idVeiculo);
   };
+  const validarValor = (valor) => {
+    const numero = parseFloat(valor);
+    if (isNaN(numero) || numero <= 0) {
+      setErroValor("O valor deve ser maior ou igual a 1!");
+    } else {
+      setErroValor("");
+    }
+  };
 
   return (
     <ReactModal
@@ -120,13 +132,36 @@ export function ModalCriarManutencao({ isOpen, onRequestClose }) {
                   <input
                     required
                     type="date"
-                    onChange={(e) => setDtManutencao(e.target.value)}
+                    onChange={(e) => {
+                      const dataSelecionada = e.target.value;
+                      const dataAtual = new Date();
+                      const dataAtualSemHoras = new Date(
+                        dataAtual.getFullYear(),
+                        dataAtual.getMonth(),
+                        dataAtual.getDate()
+                      );
+
+                      setDtManutencao(dataSelecionada);
+
+                      if (new Date(dataSelecionada) > dataAtualSemHoras) {
+                        setErroDt_manutencao(
+                          "A data da manutenção não pode ser maior que a data atual."
+                        );
+                      } else {
+                        setErroDt_manutencao("");
+                      }
+                    }}
                     name="dtManutencao"
                     id="dtManutencao"
                     className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     placeholder="Digite a data da manutenção"
                   />
                 </div>
+                {erroDt_manutencao && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {erroDt_manutencao}
+                  </p>
+                )}
               </div>
 
               <div className="col-span-2 mb-2">
@@ -140,13 +175,37 @@ export function ModalCriarManutencao({ isOpen, onRequestClose }) {
                   <input
                     required
                     type="date"
-                    onChange={(e) => setDtProxManutencao(e.target.value)}
+                    // onChange={(e) => setDtProxManutencao(e.target.value)}
+                    onChange={(e) => {
+                      const dataSelecionada = e.target.value;
+                      const dataAtual = new Date();
+                      const dataAtualSemHoras = new Date(
+                        dataAtual.getFullYear(),
+                        dataAtual.getMonth(),
+                        dataAtual.getDate()
+                      );
+
+                      setDtProxManutencao(dataSelecionada);
+
+                      if (new Date(dataSelecionada) < dataAtualSemHoras) {
+                        setErroDt_prox_manutencao(
+                          "A data da próxima manutenção não pode ser menor que a data atual."
+                        );
+                      } else {
+                        setErroDt_prox_manutencao("");
+                      }
+                    }}
                     name="dt_prox_manutencao"
                     id="dtManutencao"
                     className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     placeholder="Digite a data da manutenção"
                   />
                 </div>
+                {erroDt_prox_manutencao && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {erroDt_prox_manutencao}
+                  </p>
+                )}
               </div>
 
               <div className="col-span-2 mb-2">
@@ -165,7 +224,7 @@ export function ModalCriarManutencao({ isOpen, onRequestClose }) {
                   className="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 >
                   <option value="" disabled selected>
-                    Select your option
+                    Selecione um tipo
                   </option>
                   <option value="Manutenção Preventiva">
                     Manutenção Preventiva
@@ -197,7 +256,7 @@ export function ModalCriarManutencao({ isOpen, onRequestClose }) {
                     className="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   >
                     <option value="" disabled selected>
-                      Select your option
+                      Selecione um veículo
                     </option>
                     {getVeiculo.map((veiculo) => (
                       <option
@@ -244,13 +303,22 @@ export function ModalCriarManutencao({ isOpen, onRequestClose }) {
                     <input
                       required
                       type="number"
-                      onChange={(e) => setValor(e.target.value)}
+                      // onChange={(e) => setValor(e.target.value)}
+                      onChange={(e) => {
+                        const valor = e.target.value;
+                        setErroValor(valor);
+                        setValor(valor);
+                        validarValor(valor);
+                      }}
                       name="valor"
                       id="valor"
                       className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                       placeholder="Digite o valor da manutenção"
                     />
                   </div>
+                  {erroValor && (
+                    <p className="text-red-500 text-sm">{erroValor}</p>
+                  )}
                 </div>
                 <div className="col-span-2 mb-2">
                   <label
@@ -277,6 +345,7 @@ export function ModalCriarManutencao({ isOpen, onRequestClose }) {
             <div className="flex justify-between gap-2 mt-8">
               <button
                 type="button"
+                onClick={onRequestClose}
                 className="w-1/2 flex justify-center items-center text-gray-900 border bg-white hover:bg-gray-200 focus:ring-2 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5"
               >
                 Cancelar

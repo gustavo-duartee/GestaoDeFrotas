@@ -13,6 +13,8 @@ export function Manutencoes() {
   const [manutencoes, setManutencoes] = useState([]);
   const [manutencaoId, setManutencaoId] = useState(null);
 
+  const [getVeiculo, setVeiculos] = useState([]);
+
   const token = localStorage.getItem("token");
 
   const authorization = {
@@ -29,6 +31,18 @@ export function Manutencoes() {
       })
       .catch((error) => {
         console.error("Erro ao obter manutenção: ", error);
+      });
+  }, []);
+
+  useEffect(() => {
+    api
+      .get("api/veiculos", authorization)
+      .then((response) => {
+        setVeiculos(response.data);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error("Erro ao obter veiculo: ", error);
       });
   }, []);
 
@@ -192,8 +206,16 @@ export function Manutencoes() {
                             <td className="px-6 py-4">
                               {manutencao.tp_manutencao}
                             </td>
-                            <td className="px-6 py-4">
-                              {manutencao.veiculoId}
+                            <td>
+                              {(() => {
+                                const veiculo = getVeiculo.find(
+                                  (veiculo) =>
+                                    veiculo.id === manutencao.veiculoId
+                                );
+                                return veiculo
+                                  ? `${veiculo.marca} ${veiculo.modelo}`
+                                  : "Veículo não encontrado";
+                              })()}
                             </td>
 
                             <td className="px-6 py-4">{manutencao.servico}</td>
@@ -215,7 +237,7 @@ export function Manutencoes() {
                               {manutencao.tp_manutencao}
                             </td>
                             <td className="px-6 py-4">
-                              {manutencao.veiculoId}
+                              {/* {manutencao.veiculoId} */}
 
                               {/* // id="veiculoId"
                               // name="veiculoId"
@@ -250,6 +272,17 @@ export function Manutencoes() {
                                     }`
                                   : "Veículo não encontrado"}
                               </td> */}
+                              <td>
+                                {(() => {
+                                  const veiculo = getVeiculo.find(
+                                    (veiculo) =>
+                                      veiculo.id === manutencao.veiculoId
+                                  );
+                                  return veiculo
+                                    ? `${veiculo.marca} ${veiculo.modelo}`
+                                    : "Veículo não encontrado";
+                                })()}
+                              </td>
                             </td>
                             <td className="px-6 py-4">{manutencao.servico}</td>
                             <td className="px-6 py-4">{manutencao.valor}</td>

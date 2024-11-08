@@ -30,7 +30,7 @@ namespace DriveSync.Model
         public string status { get; set; }
         public string cap_passageiros { get; set; }
         public string categoria { get; set; }
-        [StringLength(12)]
+        [StringLength(17)]
         public string nmr_chassi { get; set; }
         public string renavam { get; set; }
         public string cor { get; set; }
