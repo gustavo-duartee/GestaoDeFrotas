@@ -23,7 +23,7 @@ export default function CardViagemStatus({ viagem }: ViagemCardProps) {
   const navigation = useNavigation<NavigationProp>();
 
   const handleCardPress = () => {
-    navigation.navigate('DetalhesViagem', { viagem });
+    navigation.navigate('EncerrarViagem', { viagem });
   };
 
   return (

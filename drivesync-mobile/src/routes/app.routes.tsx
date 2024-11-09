@@ -12,6 +12,7 @@ import Veiculo from '../screens/Veiculos';
 import DetalhesVeiculo from '../screens/Veiculos/Detalhes';
 import Home from '../screens/Home';
 import DetalhesViagem from '../screens/DetalhesViagem';
+import EncerrarViagem from '../screens/Chegada';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -61,6 +62,39 @@ const ViagemStack = () => (
         title: ''
       }}
     />
+    <Stack.Screen
+      name="EncerrarViagem"
+      component={EncerrarViagem}
+      options={{
+        headerStyle: { backgroundColor: '#ffffff' },
+        headerTintColor: '#000000',
+        title: ''
+      }}
+    />
+  </Stack.Navigator>
+);
+
+const HomeStack = () => (
+  <Stack.Navigator>
+    <Stack.Screen
+      name="Home"
+      component={Home}
+      options={{
+        headerStyle: { backgroundColor: '#161616' },
+        headerTintColor: '#FFFFFF',
+        title: 'Veículos',
+        headerShown: false
+      }}
+    />
+    <Stack.Screen
+      name="EncerrarViagem"
+      component={EncerrarViagem}
+      options={{
+        headerStyle: { backgroundColor: '#ffffff' },
+        headerTintColor: '#000000',
+        title: ''
+      }}
+    />
   </Stack.Navigator>
 );
 
@@ -85,7 +119,7 @@ const AppRoutes: React.FC = () => (
     >
       <Tab.Screen
         name="Início"
-        component={Home}
+        component={HomeStack}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="home" size={25} color={color} />
