@@ -29,6 +29,26 @@ namespace DriveSync.Controllers
             return CreatedAtAction(nameof(IniciarViagem), new { id = viagem.Id }, viagem);
         }
 
+
+        [HttpPost("EncerrarViagem/{id}")]
+        public async Task<IActionResult> EncerrarViagem(int id, [FromBody] ViagemEncerramentoDto viagemEncerramentoDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            // Verifique aqui a assinatura do método no serviço
+            var viagem = await _viagemService.EncerrarViagemAsync(id, viagemEncerramentoDto);
+
+            if (viagem == null)
+            {
+                return NotFound($"Viagem com id={id} não encontrada ou já encerrada.");
+            }
+
+            return Ok(viagem); // Retorna a viagem com os dados atualizados
+        }
+
         [HttpGet]
         public async Task<IActionResult> ListarViagens()
         {

@@ -4,6 +4,7 @@ using DriveSync.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DriveSync.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241102183137_RevertViagem")]
+    partial class RevertViagem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,100 +57,6 @@ namespace DriveSync.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Checklists");
-                });
-
-            modelBuilder.Entity("DriveSync.Model.DiagnosticosEncerramento", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("CodigoFalhaEncerramento")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("DataHoraDiagnosticoEncerramento")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool?>("MonitorCatalisadorEncerramento")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("MonitorSensor02Encerramento")
-                        .HasColumnType("bit");
-
-                    b.Property<double?>("NivelCombustivelEncerramento")
-                        .HasColumnType("float");
-
-                    b.Property<bool?>("StatusControleEmissaoEncerramento")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("StatusMonitoresEmissaoEncerramento")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("StatusTransmissaoEncerramento")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double?>("TemperaturaSensor02Encerramento")
-                        .HasColumnType("float");
-
-                    b.Property<double?>("TemperaturaTransmissaoEncerramento")
-                        .HasColumnType("float");
-
-                    b.Property<double?>("VoltagemBateriaEncerramento")
-                        .HasColumnType("float");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("DiagnosticosEncerramento");
-                });
-
-            modelBuilder.Entity("DriveSync.Model.DiagnosticosInicio", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("CodigoFalhaInicio")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("DataHoraDiagnosticoInicio")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("MonitorCatalisadorInicio")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("MonitorSensor02Inicio")
-                        .HasColumnType("bit");
-
-                    b.Property<double>("NivelCombustivelInicio")
-                        .HasColumnType("float");
-
-                    b.Property<bool>("StatusControleEmissaoInicio")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("StatusMonitoresEmissaoInicio")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("StatusTransmissaoInicio")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("TemperaturaSensor02Inicio")
-                        .HasColumnType("float");
-
-                    b.Property<double>("TemperaturaTransmissaoInicio")
-                        .HasColumnType("float");
-
-                    b.Property<double>("VoltagemBateriaInicio")
-                        .HasColumnType("float");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("DiagnosticosInicio");
                 });
 
             modelBuilder.Entity("DriveSync.Model.Empresa", b =>
@@ -283,76 +192,6 @@ namespace DriveSync.Migrations
                     b.ToTable("Multas");
                 });
 
-            modelBuilder.Entity("DriveSync.Model.Veiculo", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
-
-                    b.Property<int?>("ano")
-                        .IsRequired()
-                        .HasColumnType("int");
-
-                    b.Property<string>("cap_passageiros")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("categoria")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("cor")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("dt_aquisicao")
-                        .IsRequired()
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("marca")
-                        .IsRequired()
-                        .HasMaxLength(80)
-                        .HasColumnType("nvarchar(80)");
-
-                    b.Property<string>("modelo")
-                        .IsRequired()
-                        .HasMaxLength(80)
-                        .HasColumnType("nvarchar(80)");
-
-                    b.Property<string>("nmr_chassi")
-                        .IsRequired()
-                        .HasMaxLength(12)
-                        .HasColumnType("nvarchar(12)");
-
-                    b.Property<string>("placa")
-                        .IsRequired()
-                        .HasMaxLength(80)
-                        .HasColumnType("nvarchar(80)");
-
-                    b.Property<int?>("quilometragem")
-                        .IsRequired()
-                        .HasColumnType("int");
-
-                    b.Property<string>("renavam")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("tp_combustivel")
-                        .IsRequired()
-                        .HasMaxLength(80)
-                        .HasColumnType("nvarchar(80)");
-
-                    b.HasKey("id");
-
-                    b.ToTable("Veiculos");
-                });
-
             modelBuilder.Entity("DriveSync.Model.Viagem", b =>
                 {
                     b.Property<int>("Id")
@@ -361,7 +200,7 @@ namespace DriveSync.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("ChecklistId")
+                    b.Property<int>("ChecklistId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("DataEncerramento")
@@ -370,30 +209,19 @@ namespace DriveSync.Migrations
                     b.Property<DateTime>("DataInicio")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("DiagnosticoEncerramentoId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("DiagnosticoInicioId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("LocalizacaoEncerramento")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LocalizacaoInicio")
+                    b.Property<string>("Localizacao")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MotoristaId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ObservacoesEncerramento")
+                    b.Property<string>("Observacoes")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ObservacoesInicio")
+                    b.Property<string>("Status")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
 
                     b.Property<int>("VeiculoId")
                         .HasColumnType("int");
@@ -401,10 +229,6 @@ namespace DriveSync.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ChecklistId");
-
-                    b.HasIndex("DiagnosticoEncerramentoId");
-
-                    b.HasIndex("DiagnosticoInicioId");
 
                     b.HasIndex("VeiculoId");
 
@@ -609,10 +433,79 @@ namespace DriveSync.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Veiculo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("Ano")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CapPassageiros")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Categoria")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Cor")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DtAquisicao")
+                        .IsRequired()
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Marca")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("nvarchar(80)");
+
+                    b.Property<string>("Modelo")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("nvarchar(80)");
+
+                    b.Property<string>("NmrChassi")
+                        .IsRequired()
+                        .HasMaxLength(12)
+                        .HasColumnType("nvarchar(12)");
+
+                    b.Property<string>("Placa")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("nvarchar(80)");
+
+                    b.Property<int?>("Quilometragem")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Renavam")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TpCombustivel")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("nvarchar(80)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Veiculos");
+                });
+
             modelBuilder.Entity("DriveSync.Model.Manutencao", b =>
                 {
-                    b.HasOne("DriveSync.Model.Veiculo", null)
-                        .WithMany("manutencoes")
+                    b.HasOne("Veiculo", null)
+                        .WithMany("Manutencoes")
                         .HasForeignKey("veiculoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -622,27 +515,17 @@ namespace DriveSync.Migrations
                 {
                     b.HasOne("DriveSync.Model.Checklists", "Checklist")
                         .WithMany()
-                        .HasForeignKey("ChecklistId");
+                        .HasForeignKey("ChecklistId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("DriveSync.Model.DiagnosticosEncerramento", "DiagnosticoEncerramento")
-                        .WithMany()
-                        .HasForeignKey("DiagnosticoEncerramentoId");
-
-                    b.HasOne("DriveSync.Model.DiagnosticosInicio", "DiagnosticoInicio")
-                        .WithMany()
-                        .HasForeignKey("DiagnosticoInicioId");
-
-                    b.HasOne("DriveSync.Model.Veiculo", "Veiculo")
-                        .WithMany()
+                    b.HasOne("Veiculo", "Veiculo")
+                        .WithMany("Viagens")
                         .HasForeignKey("VeiculoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Checklist");
-
-                    b.Navigation("DiagnosticoEncerramento");
-
-                    b.Navigation("DiagnosticoInicio");
 
                     b.Navigation("Veiculo");
                 });
@@ -698,9 +581,11 @@ namespace DriveSync.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("DriveSync.Model.Veiculo", b =>
+            modelBuilder.Entity("Veiculo", b =>
                 {
-                    b.Navigation("manutencoes");
+                    b.Navigation("Manutencoes");
+
+                    b.Navigation("Viagens");
                 });
 #pragma warning restore 612, 618
         }

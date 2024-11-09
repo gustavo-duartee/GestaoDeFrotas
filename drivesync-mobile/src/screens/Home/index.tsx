@@ -11,7 +11,6 @@ export default function Home() {
   return (
     <ScrollView style={styles.container}>
 
-      <CardViagem />
 
       <Text style={styles.subtitle}>Atente-se aos sinais</Text>
 

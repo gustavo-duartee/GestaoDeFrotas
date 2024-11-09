@@ -1,71 +1,67 @@
-const styles = {
-  cardContainer: {
-    backgroundColor: '#ffffff',
-    padding: 16,
+import { StyleSheet } from "react-native";
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#fff'
+  },
+  card: {
+    backgroundColor: '#fff',
+    paddingHorizontal: 16,
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
     borderColor: '#e8e8e8',
-    borderRadius: 5
+    borderRadius: 8
   },
   iconSquare: {
     width: 60,
     height: 60,
-    backgroundColor: '#e8e8e8',
-    borderRadius: 6,
+    backgroundColor: "#FF5733", // Alterar para uma cor vibrante
+    marginRight: 16, // Aumenta o espaçamento entre o ícone e o conteúdo
+    borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
   },
   icon: {
-    color: '#727272',
+    color: '#fff',
   },
-  cardContent: {
+  content: {
     flex: 1,
-    marginLeft: 10,
-  },
-  cardTitle: {
-    color: '#000',
-    fontSize: 16,
-    fontWeight: 'semibold',
-  },
-  cardInfo: {
-    color: '#A8A8B3',
-    fontSize: 14,
-    marginBottom: 4,
-  },
-  button: {
-    backgroundColor: '#fff',
-    borderRadius: 6,
-    paddingVertical: 5,
-    paddingHorizontal: 0,
-  },
-  buttonText: {
-    color: '#000',
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
-  detailsContainer: {
-    marginTop: 20,
   },
   row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: 8,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8, // Aumenta o espaçamento entre os elementos
+    marginBottom: 5, // Adiciona um pequeno espaçamento entre as linhas
   },
   valueTitle: {
-    color: '#00B37E',
+    color: '#181818',
+    fontSize: 18,
+    fontWeight: 'bold',
+    flex: 1, // Ajusta para o texto se expandir
+  },
+  valueSubtitle: {
     fontSize: 16,
+    color: "#545454",
   },
-  valueDate: {
-    color: '#A8A8B3',
+  valueStatusBadge: {
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    backgroundColor: '#F0F0F0', // Um fundo suave para o status
+    borderRadius: 16,
+    alignSelf: 'flex-start',
+    marginTop: 8, // Adiciona um pequeno espaço entre a data e o status
+  },
+  valueStatus: {
     fontSize: 14,
-    marginBottom: 8,
+    fontWeight: 'bold',
+    color: '#FF5733', // Cor vibrante para o status
   },
-  value: {
-    color: '#A8A8B3',
-    fontSize: 14,
-  },
-};
+  iconChevron: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 10,
+  }
+});
 
 export default styles;

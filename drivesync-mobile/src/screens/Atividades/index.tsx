@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TextInput, FlatList, ActivityIndicator, TouchableOpacity } from "react-native";
+import { View, Text, TextInput, FlatList, ActivityIndicator } from "react-native";
 import styles from './styles';
-import ViagemCard from "../../components/ViagemCard";
-import CardViagem from "../../components/ViagemStatus";
+import ViagemCard from "../../components/ViagemCard";  // Componente para exibir cada card de viagem
+import CardViagemStatus from "../../components/ViagemStatus"; // Componente que mostra o status da viagem em andamento
 import api from "../../services/api";
 
 const Atividade: React.FC = () => {
@@ -29,7 +29,13 @@ const Atividade: React.FC = () => {
     setFiltroStatus(status);
   };
 
-  const atividadesFiltradas = filtroStatus ? viagens.filter(viagem => viagem.status === filtroStatus) : viagens;
+  const atividadesFiltradas = filtroStatus
+    ? viagens.filter(viagem => viagem.status === filtroStatus)
+    : viagens;
+
+  // Filtra a viagem que está com o status "Em andamento" para exibir no CardViagemStatus
+  const viagemEmAndamento = viagens.find(viagem => viagem.status === 0); // Verifique se "1" é o valor correto
+  const outrasViagens = atividadesFiltradas.filter(viagem => viagem.status === 1);
 
   if (loading) {
     return (
@@ -38,6 +44,9 @@ const Atividade: React.FC = () => {
       </View>
     );
   }
+
+  // Verificação de diagnóstico para a viagem em andamento
+  console.log("Viagem em andamento:", viagemEmAndamento);
 
   return (
     <View style={styles.container}>
@@ -49,15 +58,21 @@ const Atividade: React.FC = () => {
         />
       </View>
 
-      <View style={styles.viagemStatus}>
-        <CardViagem />
-      </View>
+      {/* Renderiza o CardViagemStatus para viagem em andamento, se existir */}
+        {viagemEmAndamento ? (
+            <CardViagemStatus viagem={viagemEmAndamento} />
+        
+        ) : (
+          <Text style={styles.noViagemText}>Nenhuma viagem em andamento.</Text>
+        )}
 
+      {/* Renderiza os cards de todas as viagens, exceto a viagem em andamento */}
       <FlatList
-        data={atividadesFiltradas}
+        data={outrasViagens}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => <ViagemCard viagem={item} />}
         contentContainerStyle={styles.cardContainer}
+        ListEmptyComponent={<Text style={styles.noViagemText}>Nenhuma atividade encontrada.</Text>}
       />
     </View>
   );

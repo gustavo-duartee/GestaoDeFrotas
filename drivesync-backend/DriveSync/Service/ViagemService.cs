@@ -1,7 +1,7 @@
 ﻿using DriveSync.Model;
-using DriveSync.Service;
 using DriveSync.Dtos;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using DriveSync.Context;
@@ -19,7 +19,8 @@ namespace DriveSync.Service
 
         public async Task<Viagem> IniciarViagemAsync(ViagemDto viagemDto)
         {
-            // Cria um novo Checklist sem definir o ID (o banco de dados cuidará disso)
+
+            // Cria um novo Checklist
             var novoChecklist = new Checklists
             {
                 Freios = viagemDto.Checklist.Freios,
@@ -31,56 +32,92 @@ namespace DriveSync.Service
                 Extintor = viagemDto.Checklist.Extintor
             };
 
-            // Adiciona o novo Checklist ao contexto
             _context.Checklists.Add(novoChecklist);
-            await _context.SaveChangesAsync(); // Salva o Checklist primeiro para gerar o ID
+            await _context.SaveChangesAsync();
 
-            // Agora, cria a nova viagem com o Checklist recém-criado
-            var novaViagem = new Viagem
+            // Cria o Diagnóstico de Início
+            var diagnosticoInicio = new DiagnosticosInicio
             {
-                MotoristaId = viagemDto.MotoristaId, 
-                VeiculoId = viagemDto.VeiculoId, // VeiculoId como int
-                DataInicio = DateTime.UtcNow,
-                Localizacao = viagemDto.Localizacao,
-                Status = "em_andamento",
-                ChecklistId = novoChecklist.Id, // Aqui, referenciamos o ID do Checklist criado
-                Observacoes = viagemDto.Observacoes
+                NivelCombustivelInicio = viagemDto.DiagnosticoInicio.NivelCombustivelInicio,
+                StatusControleEmissaoInicio = viagemDto.DiagnosticoInicio.StatusControleEmissaoInicio,
+                MonitorCatalisadorInicio = viagemDto.DiagnosticoInicio.MonitorCatalisadorInicio,
+                MonitorSensor02Inicio = viagemDto.DiagnosticoInicio.MonitorSensor02Inicio,
+                TemperaturaSensor02Inicio = viagemDto.DiagnosticoInicio.TemperaturaSensor02Inicio,
+                TemperaturaTransmissaoInicio = viagemDto.DiagnosticoInicio.TemperaturaTransmissaoInicio,
+                StatusTransmissaoInicio = viagemDto.DiagnosticoInicio.StatusTransmissaoInicio,
+                CodigoFalhaInicio = viagemDto.DiagnosticoInicio.CodigoFalhaInicio,
+                StatusMonitoresEmissaoInicio = viagemDto.DiagnosticoInicio.StatusMonitoresEmissaoInicio,
+                VoltagemBateriaInicio = viagemDto.DiagnosticoInicio.VoltagemBateriaInicio,
+                DataHoraDiagnosticoInicio = DateTime.UtcNow
             };
 
-            // Adiciona a nova viagem ao contexto
+            _context.DiagnosticosInicio.Add(diagnosticoInicio);
+            await _context.SaveChangesAsync();
+
+            // Cria a nova viagem
+            var novaViagem = new Viagem
+            {
+                MotoristaId = viagemDto.MotoristaId,
+                VeiculoId = viagemDto.VeiculoId,
+                DataInicio = DateTime.UtcNow,
+                LocalizacaoInicio = viagemDto.Localizacao,
+                Status = StatusViagem.EmAndamento,
+                ChecklistId = novoChecklist.Id,
+                DiagnosticoInicioId = diagnosticoInicio.Id,
+                ObservacoesInicio = viagemDto.Observacoes
+            };
+
             _context.Viagens.Add(novaViagem);
-            await _context.SaveChangesAsync(); // Salva a nova viagem
+            await _context.SaveChangesAsync();
 
             return novaViagem;
         }
 
         public async Task<IEnumerable<Viagem>> ListarViagensAsync()
         {
-            return await _context.Viagens.Include(v => v.Checklist).ToListAsync();
+            return await _context.Viagens
+                .Include(v => v.Checklist)
+                .Include(v => v.DiagnosticoInicio)
+                .Include(v => v.DiagnosticoEncerramento)
+                .ToListAsync();
         }
 
         public async Task<Viagem> ObterViagemPorIdAsync(int id)
         {
-            return await _context.Viagens.Include(v => v.Checklist).FirstOrDefaultAsync(v => v.Id == id);
+            return await _context.Viagens
+                .Include(v => v.Checklist)
+                .Include(v => v.DiagnosticoInicio)
+                .Include(v => v.DiagnosticoEncerramento)
+                .FirstOrDefaultAsync(v => v.Id == id);
         }
 
-
-        public async Task<Viagem> EncerrarViagemAsync(int viagemId)
+        public async Task<Viagem> EncerrarViagemAsync(int viagemId, ViagemEncerramentoDto viagemEncerramentoDto)
         {
-            // Busca a viagem pelo ID
-            var viagem = await _context.Viagens.FirstOrDefaultAsync(v => v.Id == viagemId);
-
-            // Verifica se a viagem existe
+            var viagem = await _context.Viagens.FindAsync(viagemId);
             if (viagem == null)
             {
-                throw new Exception("Viagem não encontrada.");
+                return null; // Viagem não encontrada
             }
 
-            // Atualiza o status e a data de encerramento
-            viagem.Status = "Encerrada";
-            viagem.DataEncerramento = DateTime.UtcNow;
+            // Criar ou obter o Diagnóstico de Encerramento
+            var diagnosticoEncerramento = new DiagnosticosEncerramento
+            {
+                NivelCombustivelEncerramento = viagemEncerramentoDto.NivelCombustivelEncerramento,
+                StatusControleEmissaoEncerramento = viagemEncerramentoDto.StatusControleEmissaoEncerramento,
+                // Preencher com os outros campos...
+            };
 
-            // Salva as alterações no banco de dados
+            _context.DiagnosticosEncerramento.Add(diagnosticoEncerramento);
+            await _context.SaveChangesAsync(); // Salva o diagnóstico para garantir que ele tenha um ID válido
+
+            // Agora associamos o Diagnóstico de Encerramento à Viagem
+            viagem.Status = StatusViagem.Encerrada;
+            viagem.DataEncerramento = DateTime.Now;
+            viagem.LocalizacaoEncerramento = viagemEncerramentoDto.LocalizacaoEncerramento;
+            viagem.ObservacoesEncerramento = viagemEncerramentoDto.ObservacoesEncerramento;
+            viagem.DiagnosticoEncerramentoId = diagnosticoEncerramento.Id; // Associando o Diagnóstico
+
+            // Salvar alterações na viagem
             await _context.SaveChangesAsync();
 
             return viagem;

@@ -4,6 +4,7 @@ using DriveSync.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DriveSync.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241108003012_AttColCodigoFalha")]
+    partial class AttColCodigoFalha
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -67,34 +70,35 @@ namespace DriveSync.Migrations
                     b.Property<string>("CodigoFalhaEncerramento")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("DataHoraDiagnosticoEncerramento")
+                    b.Property<DateTime>("DataHoraDiagnosticoEncerramento")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool?>("MonitorCatalisadorEncerramento")
+                    b.Property<bool>("MonitorCatalisadorEncerramento")
                         .HasColumnType("bit");
 
-                    b.Property<bool?>("MonitorSensor02Encerramento")
+                    b.Property<bool>("MonitorSensor02Encerramento")
                         .HasColumnType("bit");
 
-                    b.Property<double?>("NivelCombustivelEncerramento")
+                    b.Property<double>("NivelCombustivelEncerramento")
                         .HasColumnType("float");
 
-                    b.Property<bool?>("StatusControleEmissaoEncerramento")
+                    b.Property<bool>("StatusControleEmissaoEncerramento")
                         .HasColumnType("bit");
 
-                    b.Property<bool?>("StatusMonitoresEmissaoEncerramento")
+                    b.Property<bool>("StatusMonitoresEmissaoEncerramento")
                         .HasColumnType("bit");
 
                     b.Property<string>("StatusTransmissaoEncerramento")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double?>("TemperaturaSensor02Encerramento")
+                    b.Property<double>("TemperaturaSensor02Encerramento")
                         .HasColumnType("float");
 
-                    b.Property<double?>("TemperaturaTransmissaoEncerramento")
+                    b.Property<double>("TemperaturaTransmissaoEncerramento")
                         .HasColumnType("float");
 
-                    b.Property<double?>("VoltagemBateriaEncerramento")
+                    b.Property<double>("VoltagemBateriaEncerramento")
                         .HasColumnType("float");
 
                     b.HasKey("Id");

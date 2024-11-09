@@ -1,80 +1,60 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, Alert } from 'react-native';
-import styles from './styles';
-import api from '../../services/api';
-import { useNavigation } from '@react-navigation/native';
+import React from "react";
+import { View, Text } from "react-native";
 import { Ionicons } from '@expo/vector-icons';
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { useNavigation } from '@react-navigation/native';
+import styles from './styles';
+import { StackNavigationProp } from '../../@type/navigation';
 
-const CardViagem = () => {
-    const [viagemEmAndamento, setViagemEmAndamento] = useState(null);
-    const navigation = useNavigation();
+type NavigationProp = StackNavigationProp<RootStackParamList, 'DetalhesViagem'>;
 
-    useEffect(() => {
-        const verificarViagemEmAndamento = async () => {
-            try {
-                const response = await api.get('/api/Viagens'); // Ajuste para o endpoint correto
-                const viagem = response.data.find(v => v.status === 'Iniciada');
-                setViagemEmAndamento(viagem || null);
-            } catch (error) {
-                console.error(error);
-                console.error('Erro', 'Não foi possível verificar a viagem em andamento.');
-            }
-        };
+interface ViagemCardProps {
+  viagem: {
+    id: number;
+    origem: string;
+    destino: string;
+    dataInicio: string;
+    status: string;
+    veiculo: string;
+  } | null;
+}
 
-        verificarViagemEmAndamento();
-    }, []);
+export default function CardViagemStatus({ viagem }: ViagemCardProps) {
+  const navigation = useNavigation<NavigationProp>();
 
-    return (
-        <View style={styles.cardContainer}>
-            <View style={styles.iconSquare}>
-                <Ionicons style={styles.icon} name="map-outline" size={40} />
+  const handleCardPress = () => {
+    navigation.navigate('DetalhesViagem', { viagem });
+  };
+
+  return (
+    <TouchableOpacity onPress={handleCardPress}>
+      <View style={styles.container}>
+        <View style={styles.card}>
+          <View style={styles.iconSquare}>
+            <Ionicons style={styles.icon} name="bus-outline" size={35} color="white" />
+          </View>
+
+          <View style={styles.content}>
+            <View style={styles.row}>
+              <Text style={styles.valueTitle}>{viagem.origem}</Text>
+              <Text style={styles.valueTitle}>{viagem.destino}</Text>
             </View>
-            <View style={styles.cardContent}>
-                {viagemEmAndamento ? (
-                    <>
-                        <Text style={styles.cardTitle}>Viagem em Andamento</Text>
-                        <Text style={styles.cardInfo}>
-                            Veículo: {viagemEmAndamento.veiculo.marca} - {viagemEmAndamento.veiculo.modelo}
-                        </Text>
-                        <Text style={styles.cardInfo}>
-                            Data de início: {new Date(viagemEmAndamento.dataInicio).toLocaleString()}
-                        </Text>
-                        <Text style={styles.cardInfo}>Status: {viagemEmAndamento.status}</Text>
-                    </>
-                ) : (
-                    <>
-                        <Text style={styles.cardTitle}>Nenhuma Viagem em Andamento</Text>
-                        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('NovaViagem')}>
-                            <Text style={styles.buttonText}>Iniciar Viagem</Text>
-                        </TouchableOpacity>
-                    </>
-                )}
+            <View style={styles.row}>
+              <Text style={styles.valueSubtitle}>Veículo: {viagem.veiculo}</Text>
             </View>
+            <View style={styles.row}>
+              <Text style={styles.valueSubtitle}>{new Date(viagem.dataInicio).toLocaleString()}</Text>
+            </View>
+            <View style={styles.valueStatusBadge}>
+              <Text style={styles.valueStatus}>{viagem.status}</Text>
+            </View>
+          </View>
 
-            {viagemEmAndamento && (
-                <View style={styles.detailsContainer}>
-                    <View style={styles.row}>
-                        <Text style={styles.valueTitle}>{viagemEmAndamento.origem || 'Origem não disponível'}</Text>
-                        <Ionicons name="arrow-forward-outline" size={20} color="white" />
-                        <Text style={styles.valueTitle}>{viagemEmAndamento.destino || 'Destino não disponível'}</Text>
-                    </View>
-
-                    <Text style={styles.valueDate}>
-                        {new Date(viagemEmAndamento.dataSaida).toLocaleString() || 'Data não disponível'}
-                    </Text>
-
-                    <View style={styles.row}>
-                        <Text style={styles.value}>
-                            {new Date(viagemEmAndamento.horaSaida).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) || 'Hora de saída não disponível'}
-                        </Text>
-                        <Text style={styles.value}>
-                            {new Date(viagemEmAndamento.horaChegada).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) || 'Hora de chegada não disponível'}
-                        </Text>
-                    </View>
-                </View>
-            )}
+          <View style={styles.iconChevron}>
+            <Ionicons name="chevron-forward-outline" size={30} color="#8D8D99" />
+          </View>
         </View>
-    );
-};
-
-export default CardViagem;
+      </View>
+    </TouchableOpacity>
+  );
+}

@@ -8,13 +8,13 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   title: {
-    color: '#E1E1E6',
+    color: '#1f1f1f',
     fontSize: 28,
     fontWeight: 'bold',
     marginBottom: 20,
   },
   subtitle: {
-    color: '#E1E1E6',
+    color: '#555',
     fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 10,
@@ -26,8 +26,8 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
-    backgroundColor: '#f3f3f3',
-    color: '#fff',
+    backgroundColor: '#e0e0e0',
+    color: '#333',
     borderRadius: 8,
     paddingVertical: 10,
     paddingHorizontal: 15,
@@ -35,15 +35,29 @@ const styles = StyleSheet.create({
   },
   cardContainer: {
     flex: 1,
+    marginBottom: 20, // Adiciona um pouco de espaçamento entre os cards
+  },
+  viagemStatusContainer: {
+    backgroundColor: '#000',
+    padding: 16,
+    marginBottom: 20, // Adiciona uma margem para separar o Card de Status
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 2,
+    borderColor: '#e8e8e8',
+    borderRadius: 8,
+    maxHeight: 100, // Define uma altura mínima para o card
   },
   viagemStatus: {
-    backgroundColor: "#000"
+    color: "#FFA500", // Cor do status
+    fontSize: 18,
+    fontWeight: "bold",
   },
   noViagemText: {
     fontSize: 18,
     textAlign: 'center',
     marginVertical: 20,
-    color: '#E1E1E6'
+    color: '#888',
   },
 });
 
