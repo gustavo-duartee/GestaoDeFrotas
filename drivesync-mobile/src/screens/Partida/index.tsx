@@ -200,7 +200,7 @@ export default function NovaViagem({ navigation }) {
 
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.subtitle}>Sua localização</Text>
+      <Text style={styles.subtitle}>Ponto de partida</Text>
 
       <View style={styles.locationContainer}>
         <TextInput

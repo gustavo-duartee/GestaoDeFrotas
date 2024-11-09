@@ -16,7 +16,10 @@ interface ViagemCardProps {
     motorista: string;
     veiculo: string;
     dataInicio: string;
-    status: string;
+    dataEncerramento: string; // Verifique se existe esse campo
+    status: string; // "1" para em andamento, ou "Encerrada"
+    localizacaoInicio?: string; // Se existir, usar
+    localizacaoEncerramento?: string; // Se existir, usar
   };
 }
 
@@ -30,7 +33,7 @@ export default function ViagemCard({ viagem }: ViagemCardProps) {
   // Função para definir as cores com base no status
   const getStatusStyles = (status: string) => {
     switch (status) {
-      case 'Em andamento':
+      case '1':
         return { backgroundColor: '#FFD70050', color: '#FFD700' }; // Amarelo
       case 'Encerrada':
         return { backgroundColor: '#FF450050', color: '#FF4500' }; // Vermelho
@@ -41,6 +44,19 @@ export default function ViagemCard({ viagem }: ViagemCardProps) {
 
   const statusStyles = getStatusStyles(viagem.status);
 
+  // Função para formatar a data
+  const formatarData = (data: string) => {
+    const dateObj = new Date(data);
+    const options: Intl.DateTimeFormatOptions = {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    };
+    return dateObj.toLocaleString('pt-BR', options).replace(',', ''); // Exemplo: "11 Set, 2024 - 23:00"
+  };
+
   return (
     <TouchableOpacity onPress={handleCardPress}>
       <View style={styles.container}>
@@ -50,18 +66,30 @@ export default function ViagemCard({ viagem }: ViagemCardProps) {
           </View>
 
           <View style={styles.content}>
+            {/* Exibe localizações, se disponíveis */}
+            {viagem.localizacaoInicio && viagem.localizacaoEncerramento && (
+              <View style={styles.row}>
+                <Text style={styles.valueTitle}>{viagem.localizacaoInicio}</Text>
+                <Ionicons name="arrow-forward-outline" size={20} color="#000" />
+                <Text style={styles.valueTitle}>{viagem.localizacaoEncerramento}</Text>
+              </View>
+            )}
+
             <View style={styles.row}>
-              <Text style={styles.valueTitle}>{viagem.origem}</Text>
-              <Text style={styles.valueTitle}>{viagem.destino}</Text>
+              <Text style={styles.valueSubtitle}>Veículo: {viagem.veiculoId}</Text>
             </View>
+
             <View style={styles.row}>
-              <Text style={styles.valueSubtitle}>Veículo: {viagem.veiculo}</Text>
+              {/* Exibe a data formatada */}
+              <Text style={styles.valueSubtitle}>
+                {formatarData(viagem.dataEncerramento)}
+              </Text>
             </View>
+
             <View style={styles.row}>
-              <Text style={styles.valueSubtitle}>{new Date(viagem.dataInicio).toLocaleString()}</Text>
-            </View>
-            <View style={[styles.valueStatusBadge, { backgroundColor: statusStyles.backgroundColor }]}>
-              <Text style={[styles.valueStatus, { color: statusStyles.color }]}>{viagem.status}</Text>
+              <Text style={styles.valueSubtitle}>
+                {viagem.status === '1' ? 'Em andamento' : 'Encerrada'}
+              </Text>
             </View>
           </View>
 

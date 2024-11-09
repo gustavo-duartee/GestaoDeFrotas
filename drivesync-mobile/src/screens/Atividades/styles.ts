@@ -14,10 +14,10 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   subtitle: {
-    color: '#555',
-    fontSize: 16,
+    color: '#000000',
+    fontSize: 20,
     fontWeight: 'bold',
-    marginBottom: 10,
+    marginTop: 20
   },
   searchContainer: {
     flexDirection: 'row',

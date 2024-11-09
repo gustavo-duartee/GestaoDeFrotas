@@ -59,12 +59,14 @@ const Atividade: React.FC = () => {
       </View>
 
       {/* Renderiza o CardViagemStatus para viagem em andamento, se existir */}
-        {viagemEmAndamento ? (
-            <CardViagemStatus viagem={viagemEmAndamento} />
-        
-        ) : (
-          <Text style={styles.noViagemText}>Nenhuma viagem em andamento.</Text>
-        )}
+      {viagemEmAndamento ? (
+        <CardViagemStatus viagem={viagemEmAndamento} />
+
+      ) : (
+        <Text style={styles.noViagemText}>Nenhuma viagem em andamento.</Text>
+      )}
+
+      <Text style={styles.subtitle}>Anteriores</Text>
 
       {/* Renderiza os cards de todas as viagens, exceto a viagem em andamento */}
       <FlatList

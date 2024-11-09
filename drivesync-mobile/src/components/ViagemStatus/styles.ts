@@ -11,19 +11,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderWidth: 1,
     borderColor: '#e8e8e8',
-    borderRadius: 8
+    borderRadius: 8,
+    paddingVertical: 20
   },
   iconSquare: {
     width: 60,
     height: 60,
-    backgroundColor: "#FF5733", // Alterar para uma cor vibrante
-    marginRight: 16, // Aumenta o espaçamento entre o ícone e o conteúdo
-    borderRadius: 8,
+    backgroundColor: "#e8e8e8",
+    marginRight: 15,
+    borderRadius: 6,
     justifyContent: 'center',
     alignItems: 'center',
   },
   icon: {
-    color: '#fff',
+    color: '#727272',
   },
   content: {
     flex: 1,
@@ -31,36 +32,58 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 8, // Aumenta o espaçamento entre os elementos
-    marginBottom: 5, // Adiciona um pequeno espaçamento entre as linhas
+    gap: 6,
   },
   valueTitle: {
     color: '#181818',
     fontSize: 18,
     fontWeight: 'bold',
-    flex: 1, // Ajusta para o texto se expandir
   },
   valueSubtitle: {
     fontSize: 16,
     color: "#545454",
   },
   valueStatusBadge: {
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    backgroundColor: '#F0F0F0', // Um fundo suave para o status
-    borderRadius: 16,
+    paddingHorizontal: 8,
+    paddingVertical: 0,
+    borderRadius: 4,
     alignSelf: 'flex-start',
-    marginTop: 8, // Adiciona um pequeno espaço entre a data e o status
   },
   valueStatus: {
     fontSize: 14,
     fontWeight: 'bold',
-    color: '#FF5733', // Cor vibrante para o status
   },
   iconChevron: {
     justifyContent: 'center',
     alignItems: 'center',
     marginLeft: 10,
+  },
+  locationContainer: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    width: '100%',
+    padding: 10,
+    borderWidth: 2,
+    borderRadius: 10,
+    borderColor: '#f3f3f3',
+    marginBottom: 20,
+    backgroundColor: '#000'
+  },
+  input: {
+    backgroundColor: '#f3f3f3',
+    color: '#000000',
+    borderRadius: 5,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    fontSize: 16,
+    marginBottom: 16,
+    width: '100%',
+  },
+  subtitle: {
+    color: '#000000',
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 16,
   }
 });
 

@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
   },
   card: {
     backgroundColor: '#fff',
-    padding: 16,
+    paddingVertical: 16,
     flexDirection: 'row',
     alignItems: 'center',
     borderBottomWidth: 1,
@@ -38,18 +38,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 6,
   },
-  
   value: {
     fontSize: 16,
     color: "#C4C4CC",
   },
   valueTitle: {
     color: '#181818',
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
   },
   valueSubtitle: {
-    fontSize: 16,
+    fontSize: 14,
     color: "#545454",
   },
 

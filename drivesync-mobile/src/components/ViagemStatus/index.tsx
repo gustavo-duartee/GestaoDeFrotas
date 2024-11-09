@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import styles from './styles';
 import { StackNavigationProp } from '../../@type/navigation';
 
-type NavigationProp = StackNavigationProp<RootStackParamList, 'DetalhesViagem'>;
+type NavigationProp = StackNavigationProp<RootStackParamList, 'EncerrarViagem'>;
 
 interface ViagemCardProps {
   viagem: {
@@ -15,43 +15,64 @@ interface ViagemCardProps {
     destino: string;
     dataInicio: string;
     status: string;
-    veiculo: string;
   } | null;
 }
 
-export default function CardViagemStatus({ viagem }: ViagemCardProps) {
+export default function ViagemCard({ viagem }: ViagemCardProps) {
   const navigation = useNavigation<NavigationProp>();
 
   const handleCardPress = () => {
-    navigation.navigate('EncerrarViagem', { viagem });
+    if (viagem) {
+      navigation.navigate('EncerrarViagem', { viagem });
+    }
   };
 
+  // Função para definir as cores com base no status
+  const getStatusStyles = (status: string) => {
+    switch (status) {
+      default:
+        return { backgroundColor: '#00B37E50', color: '#00B37E' }; // Vermelho para status desconhecido
+    }
+  };
+
+  const statusStyles = viagem ? getStatusStyles(viagem.status) : { backgroundColor: '#8D8D99', color: '#8D8D99' };
+
   return (
-    <TouchableOpacity onPress={handleCardPress}>
+    <TouchableOpacity onPress={handleCardPress} disabled={!viagem}>
       <View style={styles.container}>
         <View style={styles.card}>
-          <View style={styles.iconSquare}>
-            <Ionicons style={styles.icon} name="bus-outline" size={35} color="white" />
-          </View>
 
           <View style={styles.content}>
-            <View style={styles.row}>
-              <Text style={styles.valueTitle}>{viagem.origem}</Text>
-              <Text style={styles.valueTitle}>{viagem.destino}</Text>
-            </View>
-            <View style={styles.row}>
-              <Text style={styles.valueSubtitle}>Veículo: {viagem.veiculo}</Text>
-            </View>
-            <View style={styles.row}>
-              <Text style={styles.valueSubtitle}>{new Date(viagem.dataInicio).toLocaleString()}</Text>
-            </View>
-            <View style={styles.valueStatusBadge}>
-              <Text style={styles.valueStatus}>{viagem.status}</Text>
-            </View>
+            {viagem ? (
+              <>
+                <View style={styles.row}>
+                  <Text style={styles.valueTitle}>{viagem.localizacaoInicio}</Text>
+                </View>
+                <View style={styles.row}>
+                  <Text style={styles.valueSubtitle}>
+                    {new Date(viagem.dataInicio).toLocaleDateString('pt-BR', {
+                      day: '2-digit',
+                      month: 'short',
+                      year: 'numeric'
+                    })} - {new Date(viagem.dataInicio).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
+                  </Text>
+                </View>
+                <View style={styles.row}>
+                  <Text style={styles.valueSubtitle}>Veículo: {viagem.veiculoId}</Text>
+                </View>
+                <View style={[styles.valueStatusBadge, { backgroundColor: statusStyles.backgroundColor }]}>
+                  <Text style={[styles.valueStatus, { color: statusStyles.color }]}>
+                    {viagem.status === '0' ? 'Encerrada' : 'Em andamento'}
+                  </Text>
+                </View>
+              </>
+            ) : (
+              <Text style={styles.valueTitle}>Nenhuma Viagem em Andamento</Text>
+            )}
           </View>
 
           <View style={styles.iconChevron}>
-            <Ionicons name="chevron-forward-outline" size={30} color="#8D8D99" />
+            {viagem && <Ionicons name="chevron-forward-outline" size={30} color="#8D8D99" />}
           </View>
         </View>
       </View>
