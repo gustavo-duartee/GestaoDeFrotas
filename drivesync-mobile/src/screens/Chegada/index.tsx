@@ -16,9 +16,7 @@ export default function EncerrarViagem({ route, navigation }) {
     estepe: false,
     extintor: false
   });
-
-  const [veiculos, setVeiculos] = useState([]);
-  const [selectedVeiculo, setSelectedVeiculo] = useState("");
+  const { viagem } = route.params;
   const [location, setLocation] = useState(null);
   const [locationText, setLocationText] = useState("Obtendo localização...");
   const [observacoes, setObservacoes] = useState("");
@@ -38,17 +36,6 @@ export default function EncerrarViagem({ route, navigation }) {
   });
 
   useEffect(() => {
-    async function fetchVeiculos() {
-      try {
-        const response = await api.get('/api/Veiculos');
-        const veiculosDisponiveis = response.data.filter(veiculo => veiculo.status === "Disponível");
-        setVeiculos(veiculosDisponiveis);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
-    fetchVeiculos();
 
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
@@ -63,25 +50,23 @@ export default function EncerrarViagem({ route, navigation }) {
     })();
   }, []);
 
+  console.log(viagem.id);
+
+
   const handleCheckBoxChange = (item) => {
     setCheckList({ ...checkList, [item]: !checkList[item] });
   };
 
   const handleEncerrarViagem = async () => {
-    // Validar se todos os itens do checklist foram preenchidos
-    const checklistCompleto = Object.values(checkList).every(Boolean);
-    if (!checklistCompleto) {
-      Alert.alert('Checklist Incompleto', 'Por favor, complete todos os itens de segurança.');
-      return;
-    }
 
     if (!location) {
       Alert.alert('Localização', 'Aguarde enquanto obtemos sua localização.');
       return;
     }
 
+
     try {
-      const response = await api.post(`/api/Viagens/EncerrarViagem/${route.params.id}`, {
+      const response = await api.post(`/api/Viagens/EncerrarViagem/${viagem.id}`, {
         localizacaoEncerramento: locationText,
         observacoesEncerramento: observacoes,
         nivelCombustivelEncerramento: encerramentoData.nivelCombustivelEncerramento,
@@ -122,12 +107,14 @@ export default function EncerrarViagem({ route, navigation }) {
       monitorCatalisadorEncerramento: true,
       monitorSensor02Encerramento: true,
       statusMonitoresEmissaoEncerramento: true,
-      voltagemBateriaEncerramento: 12.4,
+      voltagemBateriaEncerramento: 12,
     });
   };
 
   return (
     <ScrollView style={styles.container}>
+
+      <Text style={styles.subtitle}>Id: {viagem.id}</Text>
       <Text style={styles.subtitle}>Sua localização</Text>
 
       <View style={styles.locationContainer}>
@@ -141,24 +128,6 @@ export default function EncerrarViagem({ route, navigation }) {
         <MapScreen location={location} />
       </View>
 
-      <Text style={styles.subtitle}>Selecione um veículo</Text>
-
-      <View style={styles.inputsContainer}>
-        <View style={styles.pickerContainer}>
-          <Picker
-            selectedValue={selectedVeiculo}
-            onValueChange={(itemValue) => setSelectedVeiculo(itemValue)}
-            style={styles.picker}
-            dropdownIconColor="#aaa"
-          >
-            <Picker.Item label="Selecione um veículo" value="" />
-            {veiculos.map(veiculo => (
-              <Picker.Item key={veiculo.id} label={`${veiculo.marca} - ${veiculo.modelo}`} value={veiculo.id} />
-            ))}
-          </Picker>
-        </View>
-      </View>
-
       <Text style={styles.subtitle}>Dados do Veículo (OBD)</Text>
       <View style={styles.inputsContainer}>
         <Text style={styles.label}>Nível de Combustível</Text>
@@ -166,7 +135,7 @@ export default function EncerrarViagem({ route, navigation }) {
           style={styles.input}
           placeholder="Nível de Combustível"
           value={encerramentoData.nivelCombustivelEncerramento.toString()}
-          onChangeText={(text) => setEncerramentoData({...encerramentoData, nivelCombustivelEncerramento: parseFloat(text)})}
+          editable={false}
         />
 
         <Text style={styles.label}>Temperatura Sensor 02</Text>
@@ -174,7 +143,7 @@ export default function EncerrarViagem({ route, navigation }) {
           style={styles.input}
           placeholder="Temperatura Sensor 02"
           value={encerramentoData.temperaturaSensor02Encerramento.toString()}
-          onChangeText={(text) => setEncerramentoData({...encerramentoData, temperaturaSensor02Encerramento: parseFloat(text)})}
+          editable={false}
         />
 
         <Text style={styles.label}>Temperatura Transmissão</Text>
@@ -182,7 +151,7 @@ export default function EncerrarViagem({ route, navigation }) {
           style={styles.input}
           placeholder="Temperatura Transmissão"
           value={encerramentoData.temperaturaTransmissaoEncerramento.toString()}
-          onChangeText={(text) => setEncerramentoData({...encerramentoData, temperaturaTransmissaoEncerramento: parseFloat(text)})}
+          editable={false}
         />
 
         <Text style={styles.label}>Status Transmissão</Text>
@@ -190,7 +159,7 @@ export default function EncerrarViagem({ route, navigation }) {
           style={styles.input}
           placeholder="Status Transmissão"
           value={encerramentoData.statusTransmissaoEncerramento}
-          onChangeText={(text) => setEncerramentoData({...encerramentoData, statusTransmissaoEncerramento: text})}
+          editable={false}
         />
 
         <Text style={styles.label}>Código Falha</Text>
@@ -198,49 +167,39 @@ export default function EncerrarViagem({ route, navigation }) {
           style={styles.input}
           placeholder="Código Falha"
           value={encerramentoData.codigoFalhaEncerramento}
-          onChangeText={(text) => setEncerramentoData({...encerramentoData, codigoFalhaEncerramento: text})}
+          editable={false}
         />
 
         <Text style={styles.label}>Status Controle Emissão</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Status Controle Emissão"
-          value={encerramentoData.statusControleEmissaoEncerramento.toString()}
-          onChangeText={(text) => setEncerramentoData({...encerramentoData, statusControleEmissaoEncerramento: text === 'true'})}
-        />
+        <Text style={styles.input}>
+          {encerramentoData.statusControleEmissaoEncerramento ? "Ativado" : "Desativado"}
+        </Text>
 
         <Text style={styles.label}>Monitor Catalisador</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Monitor Catalisador"
-          value={encerramentoData.monitorCatalisadorEncerramento.toString()}
-          onChangeText={(text) => setEncerramentoData({...encerramentoData, monitorCatalisadorEncerramento: text === 'true'})}
-        />
+        <Text style={styles.input}>
+          {encerramentoData.monitorCatalisadorEncerramento ? "Ativado" : "Desativado"}
+        </Text>
 
         <Text style={styles.label}>Monitor Sensor 02</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Monitor Sensor 02"
-          value={encerramentoData.monitorSensor02Encerramento.toString()}
-          onChangeText={(text) => setEncerramentoData({...encerramentoData, monitorSensor02Encerramento: text === 'true'})}
-        />
+        <Text style={styles.input}>
+          {encerramentoData.monitorSensor02Encerramento ? "Ativado" : "Desativado"}
+        </Text>
 
         <Text style={styles.label}>Status Monitores Emissão</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Status Monitores Emissão"
-          value={encerramentoData.statusMonitoresEmissaoEncerramento.toString()}
-          onChangeText={(text) => setEncerramentoData({...encerramentoData, statusMonitoresEmissaoEncerramento: text === 'true'})}
-        />
+        <Text style={styles.input}>
+          {encerramentoData.statusMonitoresEmissaoEncerramento ? "Ativado" : "Desativado"}
+        </Text>
 
         <Text style={styles.label}>Voltagem Bateria</Text>
         <TextInput
           style={styles.input}
           placeholder="Voltagem Bateria"
           value={encerramentoData.voltagemBateriaEncerramento.toString()}
-          onChangeText={(text) => setEncerramentoData({...encerramentoData, voltagemBateriaEncerramento: parseFloat(text)})}
+          editable={false}
         />
       </View>
+
+
 
       <Text style={styles.subtitle}>Observações</Text>
       <TextInput

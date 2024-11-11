@@ -15,8 +15,9 @@ const styles = StyleSheet.create({
   },
   inputsContainer: {
     flexDirection: 'column',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     width: '100%',
+    gap: 8
   },
 
   locationContainer: {
@@ -107,7 +108,7 @@ const styles = StyleSheet.create({
     height: 1,
     backgroundColor: '#f3f3f3',
     marginVertical: 10,
-  },
+  }
 });
 
 export default styles;

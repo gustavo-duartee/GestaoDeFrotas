@@ -15,8 +15,9 @@ const styles = StyleSheet.create({
   },
   inputsContainer: {
     flexDirection: 'column',
-    alignItems: 'center',
+    alignItems: `flex-start`,
     width: '100%',
+    gap: 10
   },
 
   locationContainer: {

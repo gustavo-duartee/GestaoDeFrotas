@@ -9,7 +9,7 @@ export default function DetalhesVeiculo({ route }) {
   const manutencoesOrdenadas = veiculo.manutencoes.sort((a, b) => new Date(b.dt_manutencao).getTime() - new Date(a.dt_manutencao).getTime());
 
   // Função para definir as cores com base no status
-  const getStatusStyles = (status: string) => {
+  const getStatusStyles = (status) => {
     switch (status) {
       case 'Em uso':
         return { backgroundColor: '#FFD70050', color: '#FFD700' }; // Amarelo
@@ -28,10 +28,16 @@ export default function DetalhesVeiculo({ route }) {
         <Text style={styles.value}>{veiculo.marca} {veiculo.modelo} - {veiculo.placa}</Text>
       </View>
       <View style={styles.infoContainer}>
-        <Text style={styles.subInfo}>{veiculo.quilometragem} Km</Text>
+        <Text style={styles.subInfo}>Quilometragem atual: {veiculo.quilometragem} Km</Text>
       </View>
       <View style={styles.infoContainer}>
-        <Text style={styles.subInfo}>{veiculo.tp_combustivel}</Text>
+        <Text style={styles.subInfo}>Tipo de combustível: {veiculo.tp_combustivel}</Text>
+      </View>
+      <View style={styles.infoContainer}>
+        <Text style={styles.subInfo}>Cor: {veiculo.cor}</Text>
+      </View>
+      <View style={styles.infoContainer}>
+        <Text style={styles.subInfo}>Capacidade: {veiculo.cap_passageiros}</Text>
       </View>
       <View style={[styles.valueStatusBadge, { backgroundColor: statusStyles.backgroundColor }]}>
         <Text style={[styles.infoStatus, { color: statusStyles.color }]}>{veiculo.status}</Text>
@@ -39,12 +45,18 @@ export default function DetalhesVeiculo({ route }) {
 
       <View style={styles.divider} />
 
-      <Text style={styles.subtitle}>Últimas manutenções</Text>
 
       <View style={styles.cardContainer}>
-        {manutencoesOrdenadas.map((manutencao) => (
-          <ManutencaoCard key={manutencao.id} manutencao={manutencao} />
-        ))}
+      <Text style={styles.subtitle}>Últimas manutenções</Text>
+
+
+        {manutencoesOrdenadas.length > 0 ? (
+          manutencoesOrdenadas.map((manutencao) => (
+            <ManutencaoCard key={manutencao.id} manutencao={manutencao} />
+          ))
+        ) : (
+          <Text style={styles.noManutencaoText}>Não há nenhuma manutenção cadastrada.</Text>
+        )}
       </View>
     </ScrollView>
   );
@@ -64,13 +76,13 @@ const styles = StyleSheet.create({
   },
   value: {
     color: '#000',
-    fontSize: 30,
+    fontSize: 26,
     fontWeight: 'bold',
   },
   subInfo: {
     color: '#000',
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: 'semibold',
   },
   infoStatus: {
     fontSize: 16,
@@ -93,5 +105,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 20,
+  },
+  noManutencaoText: {
+    color: '#888',
+    fontSize: 16,
+    textAlign: 'center',
+    marginTop: 20,
   },
 });

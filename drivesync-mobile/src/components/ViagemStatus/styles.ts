@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
   },
   card: {
     backgroundColor: '#fff',
-    paddingHorizontal: 16,
+    paddingHorizontal: 15,
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
@@ -40,18 +40,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   valueSubtitle: {
-    fontSize: 16,
+    fontSize: 14,
     color: "#545454",
   },
-  valueStatusBadge: {
-    paddingHorizontal: 8,
-    paddingVertical: 0,
-    borderRadius: 4,
-    alignSelf: 'flex-start',
-  },
+
   valueStatus: {
     fontSize: 14,
-    fontWeight: 'bold',
+    fontWeight: 'normal',
   },
   iconChevron: {
     justifyContent: 'center',
@@ -84,7 +79,23 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 16,
-  }
+  },
+  cardContent:{
+    marginTop: 10
+  },
+  valueStatusBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 4,
+    borderRadius: 20,
+  },
+  statusCircle: {
+    width: 10,
+    height: 10,
+    borderRadius: 5, // Isso cria o círculo
+    backgroundColor: '#00B37E',
+    marginLeft: 5
+  },
 });
 
 export default styles;

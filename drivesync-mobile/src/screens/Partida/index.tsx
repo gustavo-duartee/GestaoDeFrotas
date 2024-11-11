@@ -231,6 +231,20 @@ export default function NovaViagem({ navigation }) {
         </View>
       </View>
 
+      <Text style={styles.subtitle}>Checklist de segurança</Text>
+      
+      <View style={styles.checkListContainer}>
+        {Object.keys(checkList).map((item, index) => (
+          <View key={index} style={styles.checkItem}>
+            <CheckBox
+              isChecked={checkList[item]}
+              onClick={() => handleCheckBoxChange(item)}
+              rightText={item}
+            />
+          </View>
+        ))}
+      </View>
+
       <Text style={styles.subtitle}>Dados do Veículo (OBD)</Text>
       <View style={styles.inputsContainer}>
         <Text style={styles.label}>Velocidade</Text>
@@ -339,18 +353,7 @@ export default function NovaViagem({ navigation }) {
         />
       </View>
 
-      <Text style={styles.subtitle}>Checklist de segurança</Text>
-      <View style={styles.checklistContainer}>
-        {Object.keys(checkList).map((item, index) => (
-          <View key={index} style={styles.checkItem}>
-            <CheckBox
-              isChecked={checkList[item]}
-              onClick={() => handleCheckBoxChange(item)}
-              rightText={item}
-            />
-          </View>
-        ))}
-      </View>
+
 
       <Text style={styles.subtitle}>Observações</Text>
       <TextInput

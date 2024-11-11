@@ -10,11 +10,12 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: "#fff",
     borderRadius: 10,
-    padding: 15,
+    paddingVertical: 15,
     flexDirection: "row",
     position: 'relative',
     borderBottomColor: '#e8e8e8',
     borderBottomWidth: 1,
+    alignItems: 'center',
   },
   iconSquare: {
     width: 60,
@@ -54,7 +55,7 @@ const styles = StyleSheet.create({
   },
   valueStatus: {
     fontSize: 15,
-    fontWeight: 'bold',
+    fontWeight: 'normal',
     color: "#00B37E",
   },
   valueStatusBadge: {
@@ -63,6 +64,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10
+  },
+  statusCircle: {
+    width: 10,
+    height: 10,
+    borderRadius: 5, // Isso cria o círculo
+    marginLeft: 5
   },
 });
 

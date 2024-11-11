@@ -59,8 +59,8 @@ const Veiculo: React.FC = () => {
         <TouchableOpacity style={[styles.filterButton, filtroStatus === 'Em uso' && styles.filterButtonSelected]} onPress={() => handleFiltrar('Em uso')}>
           <Text style={[styles.filterButtonText, filtroStatus === 'Em uso' && styles.filterButtonTextSelected]}>Em uso</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.filterButton, filtroStatus === 'Manutenção' && styles.filterButtonSelected]} onPress={() => handleFiltrar('Manutenção')}>
-          <Text style={[styles.filterButtonText, filtroStatus === 'Manutenção' && styles.filterButtonTextSelected]}>Manutenção</Text>
+        <TouchableOpacity style={[styles.filterButton, filtroStatus === 'Em manutenção' && styles.filterButtonSelected]} onPress={() => handleFiltrar('Em manutenção')}>
+          <Text style={[styles.filterButtonText, filtroStatus === 'Em manutenção' && styles.filterButtonTextSelected]}>Manutenção</Text>
         </TouchableOpacity>
       </View>
       <FlatList
