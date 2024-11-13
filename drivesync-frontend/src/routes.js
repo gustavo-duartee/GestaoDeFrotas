@@ -8,6 +8,7 @@ import { Home } from './pages/HomePage';
 import { Empresas } from './pages/EmpresasPage';
 import { RegisterPage } from './pages/RegisterPage';
 import { Multas } from './pages/MultasPage';
+import { Viagens } from './pages/ViagensPage';
 
 export default function AppRoutes() {
     return (
@@ -19,6 +20,7 @@ export default function AppRoutes() {
             <Route path="/empresas" element={<Empresas />} />
             <Route path="/registro" element={<RegisterPage />} />
             <Route path="/multas" element={<Multas />} />
+            <Route path="/viagens" element={<Viagens />} />
         </Routes>
     );
 }
