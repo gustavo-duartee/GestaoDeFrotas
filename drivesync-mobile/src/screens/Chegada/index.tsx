@@ -234,8 +234,8 @@ export default function EncerrarViagem({ route, navigation }) {
         multiline
       />
 
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity onPress={handleEncerrarViagem} style={styles.button}>
+      <View style={styles.buttonContainerSend}>
+        <TouchableOpacity onPress={handleEncerrarViagem} style={styles.buttonSend}>
           <Text style={styles.buttonText}>Encerrar Viagem</Text>
         </TouchableOpacity>
       </View>

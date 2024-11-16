@@ -294,9 +294,9 @@ export default function NovaViagem({ navigation }) {
         multiline
       />
 
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity onPress={handleIniciarViagem} style={styles.button}>
-          <Text style={styles.buttonText}>Iniciar Viagem</Text>
+      <View style={styles.buttonContainerSend}>
+        <TouchableOpacity onPress={handleIniciarViagem} style={styles.buttonSend}>
+          <Text style={styles.buttonTextSend}>Iniciar Viagem</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>

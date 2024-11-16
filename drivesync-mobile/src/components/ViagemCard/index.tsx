@@ -81,7 +81,7 @@ export default function ViagemCard({ viagem }: ViagemCardProps) {
             )}
 
             <View style={styles.row}>
-              <Text style={styles.valueSubtitle}>Veículo: {viagemAtualizada.veiculo}</Text>
+              <Text style={styles.valueSubtitle}>Veículo: {viagemAtualizada.veiculoId}</Text>
             </View>
 
             <View style={styles.row}>

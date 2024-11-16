@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TextInput, FlatList, ActivityIndicator } from "react-native";
+import { View, Text, TextInput, FlatList, ActivityIndicator, ScrollView } from "react-native";
 import styles from './styles';
 import ViagemCard from "../../components/ViagemCard";  // Componente para exibir cada card de viagem
 import CardViagemStatus from "../../components/ViagemStatus"; // Componente que mostra o status da viagem em andamento
@@ -44,7 +44,7 @@ const Atividade: React.FC = () => {
     : viagens;
 
   // Filtra a viagem que está com o status "Em andamento" para exibir no CardViagemStatus
-  const viagemEmAndamento = viagens.find(viagem => viagem.status === 0); // Verifique se "1" é o valor correto
+  const viagemEmAndamento = viagens.find(viagem => viagem.status === 0); // Verifique se "0" é o valor correto
   const outrasViagens = atividadesFiltradas.filter(viagem => viagem.status === 1);
 
   if (loading) {
@@ -56,7 +56,7 @@ const Atividade: React.FC = () => {
   }
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container} contentContainerStyle={{ flexGrow: 1 }}>
       <View style={styles.searchContainer}>
         <TextInput
           style={styles.input}
@@ -82,7 +82,7 @@ const Atividade: React.FC = () => {
         contentContainerStyle={styles.cardContainer}
         ListEmptyComponent={<Text style={styles.noViagemText}>Nenhuma atividade encontrada.</Text>}
       />
-    </View>
+    </ScrollView>
   );
 }
 
