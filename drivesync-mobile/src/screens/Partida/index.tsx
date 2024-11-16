@@ -37,38 +37,39 @@ export default function NovaViagem({ navigation }) {
   });
 
   useEffect(() => {
-    async function fetchVeiculos() {
+    const fetchVeiculos = async () => {
       try {
         const response = await api.get('/api/Veiculos');
         const veiculosDisponiveis = response.data.filter(veiculo => veiculo.status === "Disponível");
         setVeiculos(veiculosDisponiveis);
       } catch (error) {
-        console.error(error);
+        console.error("Erro ao buscar veículos:", error);
       }
-    }
+    };
 
-    fetchVeiculos();
-
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
+    const fetchLocation = async () => {
+      const { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
         Alert.alert('Permissão negada', 'Precisamos da permissão para acessar sua localização.');
         return;
       }
 
-      let location = await Location.getCurrentPositionAsync({});
+      const location = await Location.getCurrentPositionAsync({});
       setLocation(location);
       setLocationText(`${location.coords.latitude}, ${location.coords.longitude}`);
-    })();
+    };
+
+    fetchVeiculos();
+    fetchLocation();
   }, []);
 
   const handleCheckBoxChange = (item) => {
-    setCheckList({ ...checkList, [item]: !checkList[item] });
+    setCheckList(prevState => ({ ...prevState, [item]: !prevState[item] }));
   };
 
   const handleIniciarViagem = async () => {
-    // Validar se todos os itens do checklist foram preenchidos
     const checklistCompleto = Object.values(checkList).every(Boolean);
+
     if (!checklistCompleto) {
       Alert.alert('Checklist Incompleto', 'Por favor, complete todos os itens de segurança.');
       return;
@@ -84,37 +85,38 @@ export default function NovaViagem({ navigation }) {
       return;
     }
 
-try {
-  // Envia a requisição para iniciar a viagem
-  const response = await api.post('/api/Viagens', {
-    motoristaId: "ef0d9d78-1737-424d-8743-f3043e83c34f", // ID do motorista
-    veiculoId: selectedVeiculo,
-    localizacao: locationText,
-    checklist: checkListData,
-    observacoes: observacoes,
-    obdData: obdDataPayload
-  });
+    try {
+      const response = await api.post('/api/Viagens', {
+        motoristaId: "ef0d9d78-1737-424d-8743-f3043e83c34f",
+        veiculoId: selectedVeiculo,
+        localizacaoInicio: locationText,
+        checklist: checkList,
+        observacoesInicio: observacoes,
+        nivelCombustivelInicio: obdData.nivelCombustivelInicio,
+        statusControleEmissaoInicio: obdData.statusControleEmissaoInicio,
+        monitorCatalisadorInicio: obdData.monitorCatalisadorInicio,
+        monitorSensor02Inicio: obdData.monitorSensor02Inicio,
+        temperaturaSensor02Inicio: obdData.temperaturaSensor02Inicio,
+        temperaturaTransmissaoInicio: obdData.temperaturaTransmissaoInicio,
+        statusTransmissaoInicio: obdData.statusTransmissaoInicio,
+        codigoFalhaInicio: obdData.codigoFalhaInicio,
+        statusMonitoresEmissaoInicio: obdData.statusMonitoresEmissaoInicio,
+        voltagemBateriaInicio: obdData.voltagemBateriaInicio,
+        dataInicio: new Date().toISOString()
+      });
 
-  if (response.status === 201) {
-    Alert.alert('Sucesso', 'Viagem iniciada com sucesso!');
-    navigation.navigate('Início'); // Redireciona para a tela de início após sucesso
-  } else {
-    Alert.alert('Erro', 'Erro ao iniciar a viagem.');
-  }
-} catch (error) {
-  console.error('Erro ao iniciar a viagem:', error);
+      if (response.status === 201) {
+        Alert.alert('Sucesso', 'Viagem iniciada com sucesso!');
+        navigation.navigate('Home');
+      } else {
+        Alert.alert('Erro', 'Erro ao iniciar a viagem.');
+      }
+    } catch (error) {
+      console.log('Erro desconhecido ao iniciar viagem:', error);
+      Alert.alert('Erro', `Não foi possível iniciar a viagem: ${error.message}`);
+    }
+  };
 
-  // Tratamento específico para erro 400 (viagem em andamento)
-  if (error.response && error.response.status === 400) {
-    console.error('Erro 400:', error.response.data); // Log dos detalhes do erro
-    Alert.alert('Viagem em Andamento', 'O motorista já possui uma viagem em andamento. Por favor, encerre a viagem atual antes de iniciar uma nova.');
-  } else {
-    Alert.alert('Erro', `Não foi possível iniciar a viagem: ${error.message}`);
-  }
-}
-
-
-  // Função para preencher os campos automaticamente com dados simulados
   const handleExtrairDados = () => {
     setObdData({
       nivelCombustivelInicio: 80,
@@ -126,11 +128,10 @@ try {
       statusTransmissaoInicio: 'Funcionando',
       codigoFalhaInicio: 'P0100',
       statusMonitoresEmissaoInicio: true,
-      voltagemBateriaInicio: 12.6
+      voltagemBateriaInicio: 12
     });
   };
 
-  // Função para limpar os campos
   const handleLimparCampos = () => {
     setObdData({
       nivelCombustivelInicio: 0,
@@ -149,7 +150,6 @@ try {
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.subtitle}>Ponto de partida</Text>
-
       <View style={styles.locationContainer}>
         <TextInput
           style={styles.input}
@@ -162,36 +162,28 @@ try {
       </View>
 
       <Text style={styles.subtitle}>Selecione um veículo</Text>
-
-      <View style={styles.inputsContainer}>
-        <View style={styles.pickerContainer}>
-          <Picker
-            selectedValue={selectedVeiculo}
-            onValueChange={(itemValue) => setSelectedVeiculo(itemValue)}
-            style={styles.picker}
-            dropdownIconColor="#aaa"
-          >
-            <Picker.Item label="Selecione um veículo" value="" />
-            {veiculos.map(veiculo => (
-              <Picker.Item key={veiculo.id} label={`${veiculo.marca} - ${veiculo.modelo}`} value={veiculo.id} />
-            ))}
-          </Picker>
-        </View>
-      </View>
+      <Picker
+        selectedValue={selectedVeiculo}
+        onValueChange={setSelectedVeiculo}
+        style={styles.picker}
+        dropdownIconColor="#aaa"
+      >
+        <Picker.Item label="Selecione um veículo" value="" />
+        {veiculos.map(veiculo => (
+          <Picker.Item key={veiculo.id} label={`${veiculo.marca} - ${veiculo.modelo}`} value={veiculo.id} />
+        ))}
+      </Picker>
 
       <Text style={styles.subtitle}>Checklist de segurança</Text>
-
-      <View style={styles.checkListContainer}>
-        {Object.keys(checkList).map((item, index) => (
-          <View key={index} style={styles.checkItem}>
-            <CheckBox
-              isChecked={checkList[item]}
-              onClick={() => handleCheckBoxChange(item)}
-              rightText={item}
-            />
-          </View>
-        ))}
-      </View>
+      {Object.keys(checkList).map((item, index) => (
+        <View key={index} style={styles.checkItem}>
+          <CheckBox
+            isChecked={checkList[item]}
+            onClick={() => handleCheckBoxChange(item)}
+            rightText={item}
+          />
+        </View>
+      ))}
 
       <Text style={styles.subtitle}>Dados do Veículo (OBD)</Text>
       <View style={styles.inputsContainer}>
@@ -303,12 +295,10 @@ try {
       />
 
       <View style={styles.buttonContainer}>
-
         <TouchableOpacity onPress={handleIniciarViagem} style={styles.button}>
           <Text style={styles.buttonText}>Iniciar Viagem</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
   );
-}
 }

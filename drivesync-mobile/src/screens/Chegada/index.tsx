@@ -68,7 +68,7 @@ export default function EncerrarViagem({ route, navigation }) {
   
       if (response.status === 200) {
         Alert.alert('Sucesso', 'Viagem encerrada com sucesso!');
-        navigation.navigate('Início');
+        navigation.navigate('Home');
       } else {
         console.error('Erro no servidor:', response);
         Alert.alert('Erro', `Erro ao encerrar a viagem: ${response.statusText || response.status}`);

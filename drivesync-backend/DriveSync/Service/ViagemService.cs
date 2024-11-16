@@ -95,6 +95,7 @@ namespace DriveSync.Service
             // Atualizar os dados da viagem com os dados do encerramento
             viagemExistente.localizacaoEncerramento = viagemEncerramento.localizacaoEncerramento;
             viagemExistente.observacoesEncerramento = viagemEncerramento.observacoesEncerramento;
+            viagemExistente.dataEncerramento = DateTime.UtcNow;
             viagemExistente.nivelCombustivelEncerramento = viagemEncerramento.nivelCombustivelEncerramento;
             viagemExistente.statusControleEmissaoEncerramento = viagemEncerramento.statusControleEmissaoEncerramento;
             viagemExistente.monitorCatalisadorEncerramento = viagemEncerramento.monitorCatalisadorEncerramento;
