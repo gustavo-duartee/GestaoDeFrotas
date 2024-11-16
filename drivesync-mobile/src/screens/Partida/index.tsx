@@ -53,10 +53,27 @@ export default function NovaViagem({ navigation }) {
         Alert.alert('Permissão negada', 'Precisamos da permissão para acessar sua localização.');
         return;
       }
+      
+      const location = await Location.getCurrentPositionAsync({
+        accuracy: Location.Accuracy.High, // Ajuste a precisão se necessário
+      });
+      
 
-      const location = await Location.getCurrentPositionAsync({});
-      setLocation(location);
-      setLocationText(`${location.coords.latitude}, ${location.coords.longitude}`);
+      // Realiza a reversão das coordenadas para um nome de local
+      const address = await Location.reverseGeocodeAsync({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+      });
+      console.log("Endereço obtido:", address);
+
+      // Verifica se a reversão foi bem-sucedida e define o texto da localização
+      if (address && address.length > 0) {
+        const { district, subregion, region, street } = address[0];
+        setLocation(location);
+        setLocationText(`${street ? street : 'Rua desconhecida'}, ${district ? district : 'Bairro desconhecido'}, ${subregion ? subregion : 'Cidade desconhecida'}, ${region ? region : 'Regiao desconhecida'}`);
+      } else {
+        setLocationText('Localização desconhecida');
+      }
     };
 
     fetchVeiculos();
