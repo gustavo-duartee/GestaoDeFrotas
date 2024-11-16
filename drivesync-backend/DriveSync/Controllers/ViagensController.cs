@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using DriveSync.Service;
 using DriveSync.Model;
 using System.Threading.Tasks;
@@ -10,27 +11,31 @@ namespace DriveSync.Controllers
     public class ViagensController : ControllerBase
     {
         private readonly IViagemService _viagemService;
+        private readonly IHubContext<ViagensHub> _hubContext;
 
-        public ViagensController(IViagemService viagemService)
+        public ViagensController(IViagemService viagemService, IHubContext<ViagensHub> hubContext)
         {
             _viagemService = viagemService;
+            _hubContext = hubContext;
         }
 
         [HttpPost]
-        public async Task<IActionResult> IniciarViagem([FromBody] Viagem viagem) // Alterado para usar Viagem diretamente
+        public async Task<IActionResult> IniciarViagem([FromBody] Viagem viagem)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            // Verifique explicitamente se DiagnosticoInicio não é nulo
             if (viagem.dataInicio == default)
             {
                 return BadRequest("Diagnóstico de início não pode ser nulo.");
             }
 
             var viagemCriada = await _viagemService.IniciarViagemAsync(viagem);
+
+            // Envia a viagem criada via SignalR para todos os clientes
+            await _hubContext.Clients.All.SendAsync("AtualizarViagens", viagemCriada);
 
             return CreatedAtAction(nameof(IniciarViagem), new { id = viagemCriada.id }, viagemCriada);
         }
@@ -43,7 +48,6 @@ namespace DriveSync.Controllers
                 return BadRequest(ModelState);
             }
 
-            // Verifique a assinatura do método no serviço
             var viagemEncerrada = await _viagemService.EncerrarViagemAsync(id, viagemEncerramento);
 
             if (viagemEncerrada == null)
@@ -51,7 +55,10 @@ namespace DriveSync.Controllers
                 return NotFound($"Viagem com id={id} não encontrada ou já encerrada.");
             }
 
-            return Ok(viagemEncerrada); // Retorna a viagem com os dados atualizados
+            // Envia a viagem encerrada via SignalR para todos os clientes
+            await _hubContext.Clients.All.SendAsync("AtualizarViagens", viagemEncerrada);
+
+            return Ok(viagemEncerrada);
         }
 
         [HttpGet]

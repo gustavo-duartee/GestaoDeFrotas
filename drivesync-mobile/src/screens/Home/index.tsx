@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, ScrollView, StyleSheet, ActivityIndicator } from "react-native";
-import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from "../../contexts/auth";
 import MediaCard from "../../components/InfoCards";
 import CardViagemStatus from "../../components/ViagemStatus"; // Componente que mostra o status da viagem em andamento
 import api from "../../services/api";
+import { connectSignalR, listenToUpdates, disconnectSignalR } from "../../services/signalRService"; // Importa funções do SignalR
 
 const Home: React.FC = () => {
   const { user } = useAuth();
   const [viagens, setViagens] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filtroStatus, setFiltroStatus] = useState<string | null>(null);
+  const [viagemEmAndamento, setViagemEmAndamento] = useState<any>(null);
 
   useEffect(() => {
+    // Função para buscar as viagens da API
     async function fetchAtividades() {
       try {
         const response = await api.get('/api/Viagens');
@@ -25,14 +27,32 @@ const Home: React.FC = () => {
     }
 
     fetchAtividades();
-  }, []);
 
-  const handleFiltrar = (status: string | null) => {
-    setFiltroStatus(status);
-  };
+    // Conectar ao SignalR quando o componente for montado
+    const connection = connectSignalR();
+
+    // Ouvir as atualizações do SignalR
+    listenToUpdates((data) => {
+      console.log('Viagem atualizada via SignalR:', data);
+      setViagens((prevViagens) => {
+        // Atualiza as viagens com a nova informação
+        return prevViagens.map(viagem =>
+          viagem.id === data.id ? { ...viagem, ...data } : viagem
+        );
+      });
+      // Atualiza a viagem em andamento se houver uma mudança no status
+      const viagemEmAndamento = data.status === 0 ? data : viagemEmAndamento;
+      setViagemEmAndamento(viagemEmAndamento);
+    });
+
+    // Desconectar ao desmontar o componente
+    return () => {
+      disconnectSignalR();
+    };
+  }, [viagemEmAndamento]); // Rerun a lógica de atualização de viagem em andamento
 
   // Filtra a viagem que está com o status "Em andamento" para exibir no CardViagemStatus
-  const viagemEmAndamento = viagens.find(viagem => viagem.status === 0); // Verifique se "1" é o valor correto
+  const viagemEmAndamentoAPI = viagens.find(viagem => viagem.status === 0); // Verifique se "0" é o valor correto para "Em andamento"
 
   if (loading) {
     return (
@@ -43,15 +63,13 @@ const Home: React.FC = () => {
   }
 
   // Verificação de diagnóstico para a viagem em andamento
-  console.log("Viagem em andamento:", viagemEmAndamento);
+  console.log("Viagem em andamento:", viagemEmAndamentoAPI);
 
   return (
     <ScrollView style={styles.container}>
-
       {/* Renderiza o CardViagemStatus para viagem em andamento, se existir */}
-      {viagemEmAndamento ? (
-        <CardViagemStatus viagem={viagemEmAndamento} />
-
+      {viagemEmAndamentoAPI || viagemEmAndamento ? (
+        <CardViagemStatus viagem={viagemEmAndamentoAPI || viagemEmAndamento} />
       ) : (
         <Text style={styles.noViagemText}>Nenhuma viagem em andamento.</Text>
       )}
@@ -71,7 +89,7 @@ const Home: React.FC = () => {
       </ScrollView>
     </ScrollView>
   );
-}
+};
 
 export default Home;
 

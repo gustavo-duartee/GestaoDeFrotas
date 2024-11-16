@@ -10,19 +10,29 @@ const Atividade: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [filtroStatus, setFiltroStatus] = useState<string | null>(null);
 
-  useEffect(() => {
-    async function fetchAtividades() {
-      try {
-        const response = await api.get('/api/Viagens');
-        setViagens(response.data);
-        setLoading(false);
-      } catch (error) {
-        console.error(error);
-        setLoading(false);
-      }
+  // Função para buscar atividades
+  const fetchAtividades = async () => {
+    try {
+      const response = await api.get('/api/Viagens');
+      setViagens(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
     }
+  };
 
+  useEffect(() => {
+    // Chama a função de fetch inicial
     fetchAtividades();
+
+    // Configura o polling para chamadas periódicas
+    const interval = setInterval(() => {
+      fetchAtividades();
+    }, 10000); // Atualiza a cada 10 segundos
+
+    // Limpa o intervalo quando o componente for desmontado
+    return () => clearInterval(interval);
   }, []);
 
   const handleFiltrar = (status: string | null) => {
@@ -45,9 +55,6 @@ const Atividade: React.FC = () => {
     );
   }
 
-  // Verificação de diagnóstico para a viagem em andamento
-  console.log("Viagem em andamento:", viagemEmAndamento);
-
   return (
     <View style={styles.container}>
       <View style={styles.searchContainer}>
@@ -61,7 +68,6 @@ const Atividade: React.FC = () => {
       {/* Renderiza o CardViagemStatus para viagem em andamento, se existir */}
       {viagemEmAndamento ? (
         <CardViagemStatus viagem={viagemEmAndamento} />
-
       ) : (
         <Text style={styles.noViagemText}>Nenhuma viagem em andamento.</Text>
       )}

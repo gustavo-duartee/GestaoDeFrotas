@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text } from "react-native";
 import { Ionicons } from '@expo/vector-icons';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from '@react-navigation/native';
 import styles from './styles';
 import { StackNavigationProp } from '../../@type/navigation';
+import { connectSignalR, listenToUpdates, disconnectSignalR } from "../../services/signalRService";
 
 type NavigationProp = StackNavigationProp<RootStackParamList, 'DetalhesViagem'>;
 
@@ -16,33 +17,20 @@ interface ViagemCardProps {
     motorista: string;
     veiculo: string;
     dataInicio: string;
-    dataEncerramento: string; // Verifique se existe esse campo
-    status: string; // "1" para em andamento, ou "Encerrada"
-    localizacaoInicio?: string; // Se existir, usar
-    localizacaoEncerramento?: string; // Se existir, usar
+    dataEncerramento: string;
+    status: string;
+    localizacaoInicio?: string;
+    localizacaoEncerramento?: string;
   };
 }
 
 export default function ViagemCard({ viagem }: ViagemCardProps) {
   const navigation = useNavigation<NavigationProp>();
+  const [viagemAtualizada, setViagemAtualizada] = useState(viagem);
 
   const handleCardPress = () => {
-    navigation.navigate('DetalhesViagem', { viagem });
+    navigation.navigate('DetalhesViagem', { viagem: viagemAtualizada });
   };
-
-  // Função para definir as cores com base no status
-  const getStatusStyles = (status: string) => {
-    switch (status) {
-      case '1':
-        return { backgroundColor: '#FFD70050', color: '#FFD700' }; // Amarelo
-      case 'Encerrada':
-        return { backgroundColor: '#FF450050', color: '#FF4500' }; // Vermelho
-      default:
-        return { backgroundColor: '#00B37E50', color: '#00B37E' }; // Verde (Disponível)
-    }
-  };
-
-  const statusStyles = getStatusStyles(viagem.status);
 
   // Função para formatar a data
   const formatarData = (data: string) => {
@@ -57,6 +45,23 @@ export default function ViagemCard({ viagem }: ViagemCardProps) {
     return dateObj.toLocaleString('pt-BR', options).replace(',', ''); // Exemplo: "11 Set, 2024 - 23:00"
   };
 
+  // Conectar ao SignalR quando o componente for montado
+  useEffect(() => {
+    const connection = connectSignalR();
+
+    // Escutar por atualizações e atualizar o estado da viagem
+    listenToUpdates((data) => {
+      if (data.id === viagem.id) {
+        setViagemAtualizada(data);  // Atualiza os dados da viagem com as novas informações
+      }
+    });
+
+    // Limpar a conexão SignalR ao desmontar o componente
+    return () => {
+      disconnectSignalR();
+    };
+  }, [viagem.id]);
+
   return (
     <TouchableOpacity onPress={handleCardPress}>
       <View style={styles.container}>
@@ -67,28 +72,28 @@ export default function ViagemCard({ viagem }: ViagemCardProps) {
 
           <View style={styles.content}>
             {/* Exibe localizações, se disponíveis */}
-            {viagem.localizacaoInicio && viagem.localizacaoEncerramento && (
+            {viagemAtualizada.localizacaoInicio && viagemAtualizada.localizacaoEncerramento && (
               <View style={styles.row}>
-                <Text style={styles.valueTitle}>{viagem.localizacaoInicio}</Text>
+                <Text style={styles.valueTitle}>{viagemAtualizada.localizacaoInicio}</Text>
                 <Ionicons name="arrow-forward-outline" size={20} color="#000" />
-                <Text style={styles.valueTitle}>{viagem.localizacaoEncerramento}</Text>
+                <Text style={styles.valueTitle}>{viagemAtualizada.localizacaoEncerramento}</Text>
               </View>
             )}
 
             <View style={styles.row}>
-              <Text style={styles.valueSubtitle}>Veículo: {viagem.veiculoId}</Text>
+              <Text style={styles.valueSubtitle}>Veículo: {viagemAtualizada.veiculo}</Text>
             </View>
 
             <View style={styles.row}>
               {/* Exibe a data formatada */}
               <Text style={styles.valueSubtitle}>
-                {formatarData(viagem.dataEncerramento)}
+                {formatarData(viagemAtualizada.dataEncerramento)}
               </Text>
             </View>
 
             <View style={styles.row}>
               <Text style={styles.valueSubtitle}>
-                {viagem.status === '1' ? 'Em andamento' : 'Encerrada'}
+                {viagemAtualizada.status === '1' ? 'Em andamento' : 'Encerrada'}
               </Text>
             </View>
           </View>

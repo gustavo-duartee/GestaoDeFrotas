@@ -1,19 +1,23 @@
 ﻿using DriveSync.Model;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using DriveSync.Context;
+using DriveSync.Controllers;
 
 namespace DriveSync.Service
 {
     public class ViagemService : IViagemService
     {
         private readonly AppDbContext _context;
+        private readonly IHubContext<ViagensHub> _hubContext;  // Injetando o IHubContext
 
-        public ViagemService(AppDbContext context)
+        public ViagemService(AppDbContext context, IHubContext<ViagensHub> hubContext)
         {
             _context = context;
+            _hubContext = hubContext;
         }
 
         public async Task<Viagem> IniciarViagemAsync(Viagem viagem)
@@ -64,6 +68,9 @@ namespace DriveSync.Service
             _context.Viagens.Add(novaViagem);
             await _context.SaveChangesAsync();
 
+            // Enviar a atualização para todos os clientes conectados via SignalR
+            await _hubContext.Clients.All.SendAsync("AtualizarViagens", novaViagem);
+
             return novaViagem;
         }
 
@@ -113,6 +120,9 @@ namespace DriveSync.Service
             // Salvar as mudanças no banco de dados
             _context.Viagens.Update(viagemExistente);
             await _context.SaveChangesAsync();
+
+            // Enviar a atualização para todos os clientes conectados via SignalR
+            await _hubContext.Clients.All.SendAsync("AtualizarViagens", viagemExistente);
 
             return viagemExistente; // Retorna a viagem com os dados atualizados
         }
