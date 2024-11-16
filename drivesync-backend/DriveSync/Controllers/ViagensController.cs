@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using DriveSync.Service;
-using DriveSync.Dtos;
+using DriveSync.Model;
 using System.Threading.Tasks;
 
 namespace DriveSync.Controllers
@@ -17,36 +17,41 @@ namespace DriveSync.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> IniciarViagem([FromBody] ViagemDto viagemDto)
+        public async Task<IActionResult> IniciarViagem([FromBody] Viagem viagem) // Alterado para usar Viagem diretamente
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var viagem = await _viagemService.IniciarViagemAsync(viagemDto);
+            // Verifique explicitamente se DiagnosticoInicio não é nulo
+            if (viagem.dataInicio == default)
+            {
+                return BadRequest("Diagnóstico de início não pode ser nulo.");
+            }
 
-            return CreatedAtAction(nameof(IniciarViagem), new { id = viagem.Id }, viagem);
+            var viagemCriada = await _viagemService.IniciarViagemAsync(viagem);
+
+            return CreatedAtAction(nameof(IniciarViagem), new { id = viagemCriada.id }, viagemCriada);
         }
 
-
-        [HttpPost("EncerrarViagem/{id}")]
-        public async Task<IActionResult> EncerrarViagem(int id, [FromBody] ViagemEncerramentoDto viagemEncerramentoDto)
+        [HttpPut("EncerrarViagem/{id}")]
+        public async Task<IActionResult> EncerrarViagem(int id, [FromBody] Viagem viagemEncerramento)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            // Verifique aqui a assinatura do método no serviço
-            var viagem = await _viagemService.EncerrarViagemAsync(id, viagemEncerramentoDto);
+            // Verifique a assinatura do método no serviço
+            var viagemEncerrada = await _viagemService.EncerrarViagemAsync(id, viagemEncerramento);
 
-            if (viagem == null)
+            if (viagemEncerrada == null)
             {
                 return NotFound($"Viagem com id={id} não encontrada ou já encerrada.");
             }
 
-            return Ok(viagem); // Retorna a viagem com os dados atualizados
+            return Ok(viagemEncerrada); // Retorna a viagem com os dados atualizados
         }
 
         [HttpGet]

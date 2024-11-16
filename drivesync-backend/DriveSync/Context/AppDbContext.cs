@@ -21,8 +21,6 @@ namespace DriveSync.Context
         public DbSet<Manutencao> Manutencoes { get; set; }
         public DbSet<Viagem> Viagens { get; set; }
         public DbSet<Checklists> Checklists { get; set; }
-        public DbSet<DiagnosticosInicio> DiagnosticosInicio { get; set; }
-        public DbSet<DiagnosticosEncerramento> DiagnosticosEncerramento { get; set; }
 
     }
 }

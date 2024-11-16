@@ -9,13 +9,13 @@ import MapScreen from '../../components/Map';
 
 export default function NovaViagem({ navigation }) {
   const [checkList, setCheckList] = useState({
-    freios: false,
-    pneus: false,
-    luzes: false,
-    combustivel: false,
-    equipamentos: false,
-    estepe: false,
-    extintor: false
+    Freios: false,
+    Pneus: false,
+    Luzes: false,
+    Combustivel: false,
+    Equipamentos: false,
+    Estepe: false,
+    Extintor: false
   });
 
   const [veiculos, setVeiculos] = useState([]);
@@ -24,20 +24,6 @@ export default function NovaViagem({ navigation }) {
   const [locationText, setLocationText] = useState("Obtendo localização...");
   const [observacoes, setObservacoes] = useState("");
   const [obdData, setObdData] = useState({
-    velocidade: '',
-    rpm: '',
-    temperatura: '',
-    nivelCombustivel: '',
-    statusControleEmissao: '',
-    monitorCatalisador: '',
-    monitorSensor02: '',
-    temperaturaSensor02: '',
-    temperaturaTransmissao: '',
-    statusTransmissao: '',
-    codigoFalha: '',
-    statusMonitoresEmissao: '',
-    voltagemBateria: '',
-    dataHoraDiagnostico: '',
     nivelCombustivelInicio: 0,
     statusControleEmissaoInicio: true,
     monitorCatalisadorInicio: true,
@@ -88,73 +74,49 @@ export default function NovaViagem({ navigation }) {
       return;
     }
 
+    if (!selectedVeiculo) {
+      Alert.alert('Seleção de Veículo', 'Por favor, selecione um veículo.');
+      return;
+    }
+
     if (!location) {
       Alert.alert('Localização', 'Aguarde enquanto obtemos sua localização.');
       return;
     }
 
-    try {
-      const response = await api.post('/api/Viagens', {
-        motoristaId: "2caf49d5-0560-4c21-83f9-73c7a0a5ddf5", // ID do motorista; adapte conforme necessário
-        veiculoId: selectedVeiculo,
-        localizacao: locationText,
-        checklist: {
-          id: 1, // ID do checklist, ajuste conforme necessário
-          ...checkList
-        },
-        observacoes: observacoes,
-        // Dados do OBD (novo)
-        obdData: {
-          velocidade: obdData.velocidade,
-          rpm: obdData.rpm,
-          temperatura: obdData.temperatura,
-          nivelCombustivelInicio: obdData.nivelCombustivelInicio,
-          statusControleEmissaoInicio: obdData.statusControleEmissaoInicio,
-          monitorCatalisadorInicio: obdData.monitorCatalisadorInicio,
-          monitorSensor02Inicio: obdData.monitorSensor02Inicio,
-          temperaturaSensor02Inicio: obdData.temperaturaSensor02Inicio,
-          temperaturaTransmissaoInicio: obdData.temperaturaTransmissaoInicio,
-          statusTransmissaoInicio: obdData.statusTransmissaoInicio,
-          codigoFalhaInicio: obdData.codigoFalhaInicio,
-          statusMonitoresEmissaoInicio: obdData.statusMonitoresEmissaoInicio,
-          voltagemBateriaInicio: obdData.voltagemBateriaInicio
-        }
-      });
+try {
+  // Envia a requisição para iniciar a viagem
+  const response = await api.post('/api/Viagens', {
+    motoristaId: "ef0d9d78-1737-424d-8743-f3043e83c34f", // ID do motorista
+    veiculoId: selectedVeiculo,
+    localizacao: locationText,
+    checklist: checkListData,
+    observacoes: observacoes,
+    obdData: obdDataPayload
+  });
 
-      if (response.status === 201) {
-        Alert.alert('Sucesso', 'Viagem iniciada com sucesso!');
-        navigation.navigate('Início');
-      } else {
-        Alert.alert('Erro', 'Erro ao iniciar a viagem.');
-      }
-    } catch (error) {
-      console.error('Erro ao iniciar a viagem:', error);
+  if (response.status === 201) {
+    Alert.alert('Sucesso', 'Viagem iniciada com sucesso!');
+    navigation.navigate('Início'); // Redireciona para a tela de início após sucesso
+  } else {
+    Alert.alert('Erro', 'Erro ao iniciar a viagem.');
+  }
+} catch (error) {
+  console.error('Erro ao iniciar a viagem:', error);
 
-      if (error.response && error.response.status === 400) {
-        Alert.alert('Viagem em Andamento', 'O motorista já possui uma viagem em andamento.');
-      } else {
-        Alert.alert('Erro', `Não foi possível iniciar a viagem: ${error.message}`);
-      }
-    }
-  };
+  // Tratamento específico para erro 400 (viagem em andamento)
+  if (error.response && error.response.status === 400) {
+    console.error('Erro 400:', error.response.data); // Log dos detalhes do erro
+    Alert.alert('Viagem em Andamento', 'O motorista já possui uma viagem em andamento. Por favor, encerre a viagem atual antes de iniciar uma nova.');
+  } else {
+    Alert.alert('Erro', `Não foi possível iniciar a viagem: ${error.message}`);
+  }
+}
+
 
   // Função para preencher os campos automaticamente com dados simulados
   const handleExtrairDados = () => {
     setObdData({
-      velocidade: '80',
-      rpm: '3000',
-      temperatura: '85',
-      nivelCombustivel: '70',
-      statusControleEmissao: 'Ativo',
-      monitorCatalisador: 'Ok',
-      monitorSensor02: 'Ok',
-      temperaturaSensor02: '90',
-      temperaturaTransmissao: '75',
-      statusTransmissao: 'Funcionando',
-      codigoFalha: 'P0100',
-      statusMonitoresEmissao: 'Pronto',
-      voltagemBateria: '12.6',
-      dataHoraDiagnostico: new Date().toISOString(),
       nivelCombustivelInicio: 80,
       statusControleEmissaoInicio: true,
       monitorCatalisadorInicio: true,
@@ -171,20 +133,6 @@ export default function NovaViagem({ navigation }) {
   // Função para limpar os campos
   const handleLimparCampos = () => {
     setObdData({
-      velocidade: '',
-      rpm: '',
-      temperatura: '',
-      nivelCombustivel: '',
-      statusControleEmissao: '',
-      monitorCatalisador: '',
-      monitorSensor02: '',
-      temperaturaSensor02: '',
-      temperaturaTransmissao: '',
-      statusTransmissao: '',
-      codigoFalha: '',
-      statusMonitoresEmissao: '',
-      voltagemBateria: '',
-      dataHoraDiagnostico: '',
       nivelCombustivelInicio: 0,
       statusControleEmissaoInicio: true,
       monitorCatalisadorInicio: true,
@@ -232,7 +180,7 @@ export default function NovaViagem({ navigation }) {
       </View>
 
       <Text style={styles.subtitle}>Checklist de segurança</Text>
-      
+
       <View style={styles.checkListContainer}>
         {Object.keys(checkList).map((item, index) => (
           <View key={index} style={styles.checkItem}>
@@ -247,29 +195,21 @@ export default function NovaViagem({ navigation }) {
 
       <Text style={styles.subtitle}>Dados do Veículo (OBD)</Text>
       <View style={styles.inputsContainer}>
-        <Text style={styles.label}>Velocidade</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Velocidade"
-          value={obdData.velocidade}
-          onChangeText={(text) => setObdData({...obdData, velocidade: text})}
-        />
-        
-        <Text style={styles.label}>RPM</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="RPM"
-          value={obdData.rpm}
-          onChangeText={(text) => setObdData({...obdData, rpm: text})}
-        />
-        
-        <Text style={styles.label}>Temperatura</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Temperatura"
-          value={obdData.temperatura}
-          onChangeText={(text) => setObdData({...obdData, temperatura: text})}
-        />
+
+        {/* Mensagem explicativa para o usuário */}
+        <Text style={styles.testMessage}>
+          Esta é uma versão de teste. Para simular a extração dos dados, clique no botão 'Extrair'.
+        </Text>
+
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity onPress={handleExtrairDados} style={styles.button}>
+            <Text style={styles.buttonText}>Extrair dados OBD</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={handleLimparCampos} style={styles.button}>
+            <Text style={styles.buttonText}>Limpar Dados</Text>
+          </TouchableOpacity>
+        </View>
 
         {/* Adicionando os novos campos conforme solicitado */}
         <Text style={styles.label}>Nível de Combustível</Text>
@@ -277,7 +217,7 @@ export default function NovaViagem({ navigation }) {
           style={styles.input}
           placeholder="Nível de Combustível"
           value={obdData.nivelCombustivelInicio.toString()}
-          onChangeText={(text) => setObdData({...obdData, nivelCombustivelInicio: parseFloat(text)})}
+          onChangeText={(text) => setObdData({ ...obdData, nivelCombustivelInicio: parseFloat(text) })}
         />
 
         <Text style={styles.label}>Status Controle Emissão</Text>
@@ -285,7 +225,7 @@ export default function NovaViagem({ navigation }) {
           style={styles.input}
           placeholder="Status Controle Emissão"
           value={obdData.statusControleEmissaoInicio.toString()}
-          onChangeText={(text) => setObdData({...obdData, statusControleEmissaoInicio: text === 'true'})}
+          onChangeText={(text) => setObdData({ ...obdData, statusControleEmissaoInicio: text === 'true' })}
         />
 
         <Text style={styles.label}>Monitor Catalisador</Text>
@@ -293,7 +233,7 @@ export default function NovaViagem({ navigation }) {
           style={styles.input}
           placeholder="Monitor Catalisador"
           value={obdData.monitorCatalisadorInicio.toString()}
-          onChangeText={(text) => setObdData({...obdData, monitorCatalisadorInicio: text === 'true'})}
+          onChangeText={(text) => setObdData({ ...obdData, monitorCatalisadorInicio: text === 'true' })}
         />
 
         <Text style={styles.label}>Monitor Sensor 02</Text>
@@ -301,7 +241,7 @@ export default function NovaViagem({ navigation }) {
           style={styles.input}
           placeholder="Monitor Sensor 02"
           value={obdData.monitorSensor02Inicio.toString()}
-          onChangeText={(text) => setObdData({...obdData, monitorSensor02Inicio: text === 'true'})}
+          onChangeText={(text) => setObdData({ ...obdData, monitorSensor02Inicio: text === 'true' })}
         />
 
         <Text style={styles.label}>Temperatura Sensor 02</Text>
@@ -309,7 +249,7 @@ export default function NovaViagem({ navigation }) {
           style={styles.input}
           placeholder="Temperatura Sensor 02"
           value={obdData.temperaturaSensor02Inicio.toString()}
-          onChangeText={(text) => setObdData({...obdData, temperaturaSensor02Inicio: parseFloat(text)})}
+          onChangeText={(text) => setObdData({ ...obdData, temperaturaSensor02Inicio: parseFloat(text) })}
         />
 
         <Text style={styles.label}>Temperatura Transmissão</Text>
@@ -317,7 +257,7 @@ export default function NovaViagem({ navigation }) {
           style={styles.input}
           placeholder="Temperatura Transmissão"
           value={obdData.temperaturaTransmissaoInicio.toString()}
-          onChangeText={(text) => setObdData({...obdData, temperaturaTransmissaoInicio: parseFloat(text)})}
+          onChangeText={(text) => setObdData({ ...obdData, temperaturaTransmissaoInicio: parseFloat(text) })}
         />
 
         <Text style={styles.label}>Status Transmissão</Text>
@@ -325,7 +265,7 @@ export default function NovaViagem({ navigation }) {
           style={styles.input}
           placeholder="Status Transmissão"
           value={obdData.statusTransmissaoInicio}
-          onChangeText={(text) => setObdData({...obdData, statusTransmissaoInicio: text})}
+          onChangeText={(text) => setObdData({ ...obdData, statusTransmissaoInicio: text })}
         />
 
         <Text style={styles.label}>Código Falha</Text>
@@ -333,7 +273,7 @@ export default function NovaViagem({ navigation }) {
           style={styles.input}
           placeholder="Código Falha"
           value={obdData.codigoFalhaInicio}
-          onChangeText={(text) => setObdData({...obdData, codigoFalhaInicio: text})}
+          onChangeText={(text) => setObdData({ ...obdData, codigoFalhaInicio: text })}
         />
 
         <Text style={styles.label}>Status Monitores Emissão</Text>
@@ -341,7 +281,7 @@ export default function NovaViagem({ navigation }) {
           style={styles.input}
           placeholder="Status Monitores Emissão"
           value={obdData.statusMonitoresEmissaoInicio.toString()}
-          onChangeText={(text) => setObdData({...obdData, statusMonitoresEmissaoInicio: text === 'true'})}
+          onChangeText={(text) => setObdData({ ...obdData, statusMonitoresEmissaoInicio: text === 'true' })}
         />
 
         <Text style={styles.label}>Voltagem Bateria</Text>
@@ -349,11 +289,9 @@ export default function NovaViagem({ navigation }) {
           style={styles.input}
           placeholder="Voltagem Bateria"
           value={obdData.voltagemBateriaInicio.toString()}
-          onChangeText={(text) => setObdData({...obdData, voltagemBateriaInicio: parseFloat(text)})}
+          onChangeText={(text) => setObdData({ ...obdData, voltagemBateriaInicio: parseFloat(text) })}
         />
       </View>
-
-
 
       <Text style={styles.subtitle}>Observações</Text>
       <TextInput
@@ -365,13 +303,12 @@ export default function NovaViagem({ navigation }) {
       />
 
       <View style={styles.buttonContainer}>
-        <TouchableOpacity onPress={handleExtrairDados} style={styles.button}>
-          <Text style={styles.buttonText}>Extrair dados OBD</Text>
-        </TouchableOpacity>
+
         <TouchableOpacity onPress={handleIniciarViagem} style={styles.button}>
           <Text style={styles.buttonText}>Iniciar Viagem</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
   );
+}
 }

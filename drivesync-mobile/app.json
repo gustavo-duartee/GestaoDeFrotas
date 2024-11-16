@@ -11,6 +11,7 @@
       "resizeMode": "cover",
       "backgroundColor": "#202024"
     },
+    "newArchEnabled": true,
     "ios": {
       "supportsTablet": true
     },

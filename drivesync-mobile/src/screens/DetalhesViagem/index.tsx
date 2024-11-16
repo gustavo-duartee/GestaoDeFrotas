@@ -64,8 +64,8 @@ const DetalhesViagem = ({ route }) => {
         <View style={styles.compareItem}>
           <Text style={styles.compareLabel}>Nível de Combustível</Text>
           <View style={styles.compareValues}>
-            <Text style={styles.compareValue}>{viagem.nivelCombustivelInicial} %</Text>
-            <Text style={styles.compareValue}>{viagem.nivelCombustivelFinal} %</Text>
+            <Text style={styles.compareValue}>{viagem.nivelCombustivelInicio} %</Text>
+            <Text style={styles.compareValue}>{viagem.nivelCombustivelEncerramento} %</Text>
           </View>
         </View>
       </View>

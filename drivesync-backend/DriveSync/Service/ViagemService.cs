@@ -1,5 +1,4 @@
 ﻿using DriveSync.Model;
-using DriveSync.Dtos;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -17,54 +16,49 @@ namespace DriveSync.Service
             _context = context;
         }
 
-        public async Task<Viagem> IniciarViagemAsync(ViagemDto viagemDto)
+        public async Task<Viagem> IniciarViagemAsync(Viagem viagem)
         {
+            // Verifique se o Diagnóstico de Início não é nulo
+            if (viagem.dataInicio == null)
+            {
+                throw new ArgumentNullException(nameof(viagem.dataInicio), "Diagnóstico de início não pode ser nulo.");
+            }
 
             // Cria um novo Checklist
             var novoChecklist = new Checklists
             {
-                Freios = viagemDto.Checklist.Freios,
-                Pneus = viagemDto.Checklist.Pneus,
-                Luzes = viagemDto.Checklist.Luzes,
-                Combustivel = viagemDto.Checklist.Combustivel,
-                Equipamentos = viagemDto.Checklist.Equipamentos,
-                Estepe = viagemDto.Checklist.Estepe,
-                Extintor = viagemDto.Checklist.Extintor
+                freios = viagem.checklist.freios,
+                pneus = viagem.checklist.pneus,
+                luzes = viagem.checklist.luzes,
+                combustivel = viagem.checklist.combustivel,
+                equipamentos = viagem.checklist.equipamentos,
+                estepe = viagem.checklist.estepe,
+                extintor = viagem.checklist.extintor
             };
 
             _context.Checklists.Add(novoChecklist);
             await _context.SaveChangesAsync();
 
-            // Cria o Diagnóstico de Início
-            var diagnosticoInicio = new DiagnosticosInicio
-            {
-                NivelCombustivelInicio = viagemDto.DiagnosticoInicio.NivelCombustivelInicio,
-                StatusControleEmissaoInicio = viagemDto.DiagnosticoInicio.StatusControleEmissaoInicio,
-                MonitorCatalisadorInicio = viagemDto.DiagnosticoInicio.MonitorCatalisadorInicio,
-                MonitorSensor02Inicio = viagemDto.DiagnosticoInicio.MonitorSensor02Inicio,
-                TemperaturaSensor02Inicio = viagemDto.DiagnosticoInicio.TemperaturaSensor02Inicio,
-                TemperaturaTransmissaoInicio = viagemDto.DiagnosticoInicio.TemperaturaTransmissaoInicio,
-                StatusTransmissaoInicio = viagemDto.DiagnosticoInicio.StatusTransmissaoInicio,
-                CodigoFalhaInicio = viagemDto.DiagnosticoInicio.CodigoFalhaInicio,
-                StatusMonitoresEmissaoInicio = viagemDto.DiagnosticoInicio.StatusMonitoresEmissaoInicio,
-                VoltagemBateriaInicio = viagemDto.DiagnosticoInicio.VoltagemBateriaInicio,
-                DataHoraDiagnosticoInicio = DateTime.UtcNow
-            };
-
-            _context.DiagnosticosInicio.Add(diagnosticoInicio);
-            await _context.SaveChangesAsync();
-
             // Cria a nova viagem
             var novaViagem = new Viagem
             {
-                MotoristaId = viagemDto.MotoristaId,
-                VeiculoId = viagemDto.VeiculoId,
-                DataInicio = DateTime.UtcNow,
-                LocalizacaoInicio = viagemDto.Localizacao,
-                Status = StatusViagem.EmAndamento,
-                ChecklistId = novoChecklist.Id,
-                DiagnosticoInicioId = diagnosticoInicio.Id,
-                ObservacoesInicio = viagemDto.Observacoes
+                motoristaId = viagem.motoristaId,
+                veiculoId = viagem.veiculoId,
+                dataInicio = DateTime.UtcNow,
+                localizacaoInicio = viagem.localizacaoInicio,
+                status = StatusViagem.emAndamento,
+                checklistId = novoChecklist.id,
+                nivelCombustivelInicio = viagem.nivelCombustivelInicio,
+                statusControleEmissaoInicio = viagem.statusControleEmissaoInicio,
+                monitorCatalisadorInicio = viagem.monitorCatalisadorInicio,
+                monitorSensor02Inicio = viagem.monitorSensor02Inicio,
+                temperaturaSensor02Inicio = viagem.temperaturaSensor02Inicio,
+                temperaturaTransmissaoInicio = viagem.temperaturaTransmissaoInicio,
+                statusTransmissaoInicio = viagem.statusTransmissaoInicio,
+                codigoFalhaInicio = viagem.codigoFalhaInicio,
+                statusMonitoresEmissaoInicio = viagem.statusMonitoresEmissaoInicio,
+                voltagemBateriaInicio = viagem.voltagemBateriaInicio,
+                observacoesInicio = viagem.observacoesInicio
             };
 
             _context.Viagens.Add(novaViagem);
@@ -76,52 +70,50 @@ namespace DriveSync.Service
         public async Task<IEnumerable<Viagem>> ListarViagensAsync()
         {
             return await _context.Viagens
-                .Include(v => v.Checklist)
-                .Include(v => v.DiagnosticoInicio)
-                .Include(v => v.DiagnosticoEncerramento)
+                .Include(v => v.checklist)
                 .ToListAsync();
         }
 
         public async Task<Viagem> ObterViagemPorIdAsync(int id)
         {
             return await _context.Viagens
-                .Include(v => v.Checklist)
-                .Include(v => v.DiagnosticoInicio)
-                .Include(v => v.DiagnosticoEncerramento)
-                .FirstOrDefaultAsync(v => v.Id == id);
+                .Include(v => v.checklist)
+                .FirstOrDefaultAsync(v => v.id == id);
         }
 
-        public async Task<Viagem> EncerrarViagemAsync(int viagemId, ViagemEncerramentoDto viagemEncerramentoDto)
+        public async Task<Viagem> EncerrarViagemAsync(int id, Viagem viagemEncerramento)
         {
-            var viagem = await _context.Viagens.FindAsync(viagemId);
-            if (viagem == null)
+            // Buscar a viagem existente pelo ID
+            var viagemExistente = await _context.Viagens.FindAsync(id);
+
+            // Verificar se a viagem existe e se já foi encerrada (StatusViagem é uma enum)
+            if (viagemExistente == null || viagemExistente.status == StatusViagem.encerrada) // Comparando com enum
             {
-                return null; // Viagem não encontrada
+                return null; // Ou lance uma exceção para indicar que a viagem não pode ser encerrada
             }
 
-            // Criar ou obter o Diagnóstico de Encerramento
-            var diagnosticoEncerramento = new DiagnosticosEncerramento
-            {
-                NivelCombustivelEncerramento = viagemEncerramentoDto.NivelCombustivelEncerramento,
-                StatusControleEmissaoEncerramento = viagemEncerramentoDto.StatusControleEmissaoEncerramento,
-                // Preencher com os outros campos...
-            };
+            // Atualizar os dados da viagem com os dados do encerramento
+            viagemExistente.localizacaoEncerramento = viagemEncerramento.localizacaoEncerramento;
+            viagemExistente.observacoesEncerramento = viagemEncerramento.observacoesEncerramento;
+            viagemExistente.nivelCombustivelEncerramento = viagemEncerramento.nivelCombustivelEncerramento;
+            viagemExistente.statusControleEmissaoEncerramento = viagemEncerramento.statusControleEmissaoEncerramento;
+            viagemExistente.monitorCatalisadorEncerramento = viagemEncerramento.monitorCatalisadorEncerramento;
+            viagemExistente.monitorSensor02Encerramento = viagemEncerramento.monitorSensor02Encerramento;
+            viagemExistente.temperaturaSensor02Encerramento = viagemEncerramento.temperaturaSensor02Encerramento;
+            viagemExistente.temperaturaTransmissaoEncerramento = viagemEncerramento.temperaturaTransmissaoEncerramento;
+            viagemExistente.statusTransmissaoEncerramento = viagemEncerramento.statusTransmissaoEncerramento;
+            viagemExistente.codigoFalhaEncerramento = viagemEncerramento.codigoFalhaEncerramento;
+            viagemExistente.statusMonitoresEmissaoEncerramento = viagemEncerramento.statusMonitoresEmissaoEncerramento;
+            viagemExistente.voltagemBateriaEncerramento = viagemEncerramento.voltagemBateriaEncerramento;
 
-            _context.DiagnosticosEncerramento.Add(diagnosticoEncerramento);
-            await _context.SaveChangesAsync(); // Salva o diagnóstico para garantir que ele tenha um ID válido
+            // Atualizar o status da viagem para "Encerrada" (StatusViagem.Encerrada é um enum)
+            viagemExistente.status = StatusViagem.encerrada; // Atribuindo o valor da enum para Status
 
-            // Agora associamos o Diagnóstico de Encerramento à Viagem
-            viagem.Status = StatusViagem.Encerrada;
-            viagem.DataEncerramento = DateTime.Now;
-            viagem.LocalizacaoEncerramento = viagemEncerramentoDto.LocalizacaoEncerramento;
-            viagem.ObservacoesEncerramento = viagemEncerramentoDto.ObservacoesEncerramento;
-            viagem.DiagnosticoEncerramentoId = diagnosticoEncerramento.Id; // Associando o Diagnóstico
-
-            // Salvar alterações na viagem
+            // Salvar as mudanças no banco de dados
+            _context.Viagens.Update(viagemExistente);
             await _context.SaveChangesAsync();
 
-            return viagem;
+            return viagemExistente; // Retorna a viagem com os dados atualizados
         }
-
     }
 }

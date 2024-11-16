@@ -1,20 +1,19 @@
 import React from 'react';
 import { View, Text, StyleSheet, ImageBackground, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import SignIn from '../../assets/SignIn2.png';
 
 const OnboardingScreen = () => {
   const navigation = useNavigation();
 
   return (
-    <ImageBackground source={SignIn} style={styles.background} resizeMode="cover">
+    <ImageBackground source={require('../../assets/SignIn2.png')} style={styles.background} resizeMode="cover">
       <View style={styles.overlay}>
         <View style={styles.content}>
           <Text style={styles.title}>Controle sua rotina de viagens com o DriveSync</Text>
           <TouchableOpacity
             style={styles.button}
             onPress={() => navigation.navigate('Login')}
-            activeOpacity={0.8}
+            activeOpacity={1}
           >
             <Text style={styles.buttonText}>Continuar</Text>
           </TouchableOpacity>

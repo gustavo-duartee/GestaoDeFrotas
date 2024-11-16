@@ -4,6 +4,7 @@ using DriveSync.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DriveSync.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241115143708_UpdateViagemModel")]
+    partial class UpdateViagemModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,34 +27,34 @@ namespace DriveSync.Migrations
 
             modelBuilder.Entity("DriveSync.Model.Checklists", b =>
                 {
-                    b.Property<int?>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<bool?>("combustivel")
+                    b.Property<bool>("Combustivel")
                         .HasColumnType("bit");
 
-                    b.Property<bool?>("equipamentos")
+                    b.Property<bool>("Equipamentos")
                         .HasColumnType("bit");
 
-                    b.Property<bool?>("estepe")
+                    b.Property<bool>("Estepe")
                         .HasColumnType("bit");
 
-                    b.Property<bool?>("extintor")
+                    b.Property<bool>("Extintor")
                         .HasColumnType("bit");
 
-                    b.Property<bool?>("freios")
+                    b.Property<bool>("Freios")
                         .HasColumnType("bit");
 
-                    b.Property<bool?>("luzes")
+                    b.Property<bool>("Luzes")
                         .HasColumnType("bit");
 
-                    b.Property<bool?>("pneus")
+                    b.Property<bool>("Pneus")
                         .HasColumnType("bit");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.ToTable("Checklists");
                 });
@@ -261,109 +264,118 @@ namespace DriveSync.Migrations
 
             modelBuilder.Entity("DriveSync.Model.Viagem", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("checklistId")
+                    b.Property<int?>("ChecklistId")
                         .HasColumnType("int");
 
-                    b.Property<string>("codigoFalhaEncerramento")
+                    b.Property<string>("CodigoFalhaEncerramento")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("codigoFalhaInicio")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("dataEncerramento")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("dataInicio")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("localizacaoEncerramento")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("localizacaoInicio")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("monitorCatalisadorEncerramento")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("monitorCatalisadorInicio")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("monitorSensor02Encerramento")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("monitorSensor02Inicio")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("motoristaId")
+                    b.Property<string>("CodigoFalhaInicio")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double?>("nivelCombustivelEncerramento")
-                        .HasColumnType("float");
+                    b.Property<DateTime?>("DataEncerramento")
+                        .HasColumnType("datetime2");
 
-                    b.Property<double?>("nivelCombustivelInicio")
-                        .HasColumnType("float");
+                    b.Property<DateTime?>("DataHoraDiagnosticoEncerramento")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("observacoesEncerramento")
+                    b.Property<DateTime>("DataHoraDiagnosticoInicio")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DataInicio")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LocalizacaoEncerramento")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("observacoesInicio")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("status")
-                        .HasColumnType("int");
-
-                    b.Property<bool?>("statusControleEmissaoEncerramento")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("statusControleEmissaoInicio")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("statusMonitoresEmissaoEncerramento")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("statusMonitoresEmissaoInicio")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("statusTransmissaoEncerramento")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("statusTransmissaoInicio")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double?>("temperaturaSensor02Encerramento")
-                        .HasColumnType("float");
-
-                    b.Property<double?>("temperaturaSensor02Inicio")
-                        .HasColumnType("float");
-
-                    b.Property<double?>("temperaturaTransmissaoEncerramento")
-                        .HasColumnType("float");
-
-                    b.Property<double?>("temperaturaTransmissaoInicio")
-                        .HasColumnType("float");
-
-                    b.Property<int?>("veiculoId")
+                    b.Property<string>("LocalizacaoInicio")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("MonitorCatalisadorEncerramento")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("MonitorCatalisadorInicio")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("MonitorSensor02Encerramento")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("MonitorSensor02Inicio")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("MotoristaId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double?>("NivelCombustivelEncerramento")
+                        .HasColumnType("float");
+
+                    b.Property<double>("NivelCombustivelInicio")
+                        .HasColumnType("float");
+
+                    b.Property<string>("ObservacoesEncerramento")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ObservacoesInicio")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<double?>("voltagemBateriaEncerramento")
+                    b.Property<bool?>("StatusControleEmissaoEncerramento")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("StatusControleEmissaoInicio")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("StatusMonitoresEmissaoEncerramento")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("StatusMonitoresEmissaoInicio")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("StatusTransmissaoEncerramento")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StatusTransmissaoInicio")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double?>("TemperaturaSensor02Encerramento")
                         .HasColumnType("float");
 
-                    b.Property<double?>("voltagemBateriaInicio")
+                    b.Property<double>("TemperaturaSensor02Inicio")
                         .HasColumnType("float");
 
-                    b.HasKey("id");
+                    b.Property<double?>("TemperaturaTransmissaoEncerramento")
+                        .HasColumnType("float");
 
-                    b.HasIndex("checklistId");
+                    b.Property<double>("TemperaturaTransmissaoInicio")
+                        .HasColumnType("float");
 
-                    b.HasIndex("veiculoId");
+                    b.Property<int>("VeiculoId")
+                        .HasColumnType("int");
+
+                    b.Property<double?>("VoltagemBateriaEncerramento")
+                        .HasColumnType("float");
+
+                    b.Property<double>("VoltagemBateriaInicio")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChecklistId");
+
+                    b.HasIndex("VeiculoId");
 
                     b.ToTable("Viagens");
                 });
@@ -577,19 +589,19 @@ namespace DriveSync.Migrations
 
             modelBuilder.Entity("DriveSync.Model.Viagem", b =>
                 {
-                    b.HasOne("DriveSync.Model.Checklists", "checklist")
+                    b.HasOne("DriveSync.Model.Checklists", "Checklist")
                         .WithMany()
-                        .HasForeignKey("checklistId");
+                        .HasForeignKey("ChecklistId");
 
-                    b.HasOne("DriveSync.Model.Veiculo", "veiculo")
+                    b.HasOne("DriveSync.Model.Veiculo", "Veiculo")
                         .WithMany()
-                        .HasForeignKey("veiculoId")
+                        .HasForeignKey("VeiculoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("checklist");
+                    b.Navigation("Checklist");
 
-                    b.Navigation("veiculo");
+                    b.Navigation("Veiculo");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
