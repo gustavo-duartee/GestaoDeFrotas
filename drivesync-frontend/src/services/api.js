@@ -1,35 +1,33 @@
+// api.js
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://fdf3-177-71-67-147.ngrok-free.app",
+  baseURL: "https://localhost:50000/", // ou a URL da sua API
 });
 
-//export default api;
+// api.js
+export const fetchDadosManutencao = async () => {
+  try {
+    const response = await api.get('/Manutencao');
+    console.log("Dados de manutenção recebidos:", response.data); // Verifique os dados retornados no console
+    return response.data;
+  } catch (error) {
+    console.error("Erro ao buscar dados de manutenção:", error);
+    throw error; // Lançar erro para ser tratado no componente
+  }
+};
 
-// import axios from "axios";
 
-// const api = axios.create({
-//   baseURL: "https://fbd4-177-71-67-7.ngrok-free.app/",
-// });
-
-// Interceptor para tratar erros nas respostas
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    console.error(
-      "Erro na resposta da API:",
-      error.response ? error.response.data : error.message
-    );
+    console.error("Erro na resposta da API:", error.response ? error.response.data : error.message);
     return Promise.reject(error);
   }
 );
 
-// Interceptor para tratar erros nas requisições, se necessário
 api.interceptors.request.use(
-  (config) => {
-    // Adicione cabeçalhos de autenticação ou outros parâmetros aqui
-    return config;
-  },
+  (config) => config,
   (error) => {
     console.error("Erro na requisição da API:", error.message);
     return Promise.reject(error);

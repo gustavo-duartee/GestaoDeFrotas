@@ -57,13 +57,6 @@ const Atividade: React.FC = () => {
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={{ flexGrow: 1 }}>
-      <View style={styles.searchContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Pesquise atividades"
-          placeholderTextColor="#aaa"
-        />
-      </View>
 
       {/* Renderiza o CardViagemStatus para viagem em andamento, se existir */}
       {viagemEmAndamento ? (

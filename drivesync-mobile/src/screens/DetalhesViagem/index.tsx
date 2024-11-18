@@ -73,10 +73,40 @@ const DetalhesViagem = ({ route }) => {
       {/* Comparativo de Temperatura do Motor */}
       <View style={styles.compareContainer}>
         <View style={styles.compareItem}>
+          <Text style={styles.compareLabel}>Temperatura do Sensor 02</Text>
+          <View style={styles.compareValues}>
+            <Text style={styles.compareValue}>{viagem.temperaturaSensor02Inicio} °C</Text>
+            <Text style={styles.compareValue}>{viagem.temperaturaSensor02Encerramento} °C</Text>
+          </View>
+        </View>
+      </View>
+
+      <View style={styles.compareContainer}>
+        <View style={styles.compareItem}>
           <Text style={styles.compareLabel}>Temperatura do Motor</Text>
           <View style={styles.compareValues}>
-            <Text style={styles.compareValue}>{viagem.temperaturaMotorInicial} °C</Text>
-            <Text style={styles.compareValue}>{viagem.temperaturaMotorFinal} °C</Text>
+            <Text style={styles.compareValue}>{viagem.temperaturaTransmissaoInicio} °C</Text>
+            <Text style={styles.compareValue}>{viagem.temperaturaTransmissaoEncerramento} °C</Text>
+          </View>
+        </View>
+      </View>
+
+      <View style={styles.compareContainer}>
+        <View style={styles.compareItem}>
+          <Text style={styles.compareLabel}>Codigo de falha</Text>
+          <View style={styles.compareValues}>
+            <Text style={styles.compareValue}>{viagem.codigoFalhaInicio}</Text>
+            <Text style={styles.compareValue}>{viagem.codigoFalhaEncerramento}</Text>
+          </View>
+        </View>
+      </View>
+
+      <View style={styles.compareContainer}>
+        <View style={styles.compareItem}>
+          <Text style={styles.compareLabel}>Voltagem da Bateria</Text>
+          <View style={styles.compareValues}>
+            <Text style={styles.compareValue}>{viagem.voltagemBateriaInicio}</Text>
+            <Text style={styles.compareValue}>{viagem.voltagemBateriaEncerramento}</Text>
           </View>
         </View>
       </View>

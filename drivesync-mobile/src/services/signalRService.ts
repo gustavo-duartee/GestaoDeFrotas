@@ -11,7 +11,7 @@ export const connectSignalR = () => {
   }
 
   connection = new HubConnectionBuilder()
-    .withUrl('https://7eba-177-71-66-186.ngrok-free.app/viagensHub')  // Substitua pela URL do seu servidor SignalR
+    .withUrl('https://5a36-177-71-66-186.ngrok-free.app/viagensHub')  // Substitua pela URL do seu servidor SignalR
     .build();
 
   connection.start()

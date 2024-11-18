@@ -9,6 +9,8 @@ const Veiculo: React.FC = () => {
   const [veiculos, setVeiculos] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [filtroStatus, setFiltroStatus] = useState<string | null>(null);
+  const [searchTerm, setSearchTerm] = useState<string>(""); // Armazena o termo de pesquisa
+  const [filteredVeiculos, setFilteredVeiculos] = useState<any[]>([]); // Resultado da pesquisa
 
   useEffect(() => {
     // Função para buscar os veículos da API
@@ -16,6 +18,7 @@ const Veiculo: React.FC = () => {
       try {
         const response = await api.get('/api/Veiculos');
         setVeiculos(response.data);
+        setFilteredVeiculos(response.data); // Inicializa os veículos filtrados com todos os veículos
         setLoading(false);
       } catch (error) {
         console.error(error);
@@ -45,11 +48,36 @@ const Veiculo: React.FC = () => {
     };
   }, []);
 
+  // Filtrar os veículos com base no status selecionado
   const handleFiltrar = (status: string | null) => {
     setFiltroStatus(status);
+    if (status) {
+      setFilteredVeiculos(veiculos.filter(veiculo => veiculo.status === status));
+    } else {
+      setFilteredVeiculos(veiculos);
+    }
   };
 
-  const veiculosFiltrados = filtroStatus ? veiculos.filter(veiculo => veiculo.status === filtroStatus) : veiculos;
+  // Buscar veículos pela placa
+  const buscarPorPlaca = async (placa: string) => {
+    if (placa.trim() === "") {
+      setFilteredVeiculos(veiculos); // Restaura a lista original se o campo estiver vazio
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const response = await api.get(`/api/Veiculos/VeiculoPorPlaca`, {
+        params: { placa },
+      });
+      setFilteredVeiculos(response.data ? [response.data] : []); // Garante que o resultado seja um array
+      setLoading(false);
+    } catch (error) {
+      console.error("Erro ao buscar veículo por placa:", error);
+      setFilteredVeiculos([]);
+      setLoading(false);
+    }
+  };
 
   if (loading) {
     return (
@@ -61,14 +89,6 @@ const Veiculo: React.FC = () => {
 
   return (
     <View style={styles.container}>
-
-      <View style={styles.searchContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Pesquise aqui"
-          placeholderTextColor="#aaa"
-        />
-      </View>
 
       <View style={styles.filterContainer}>
         <TouchableOpacity style={[styles.filterButton, filtroStatus === null && styles.filterButtonSelected]} onPress={() => handleFiltrar(null)}>
@@ -86,7 +106,7 @@ const Veiculo: React.FC = () => {
       </View>
 
       <FlatList
-        data={veiculosFiltrados}
+        data={filteredVeiculos}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => <VeiculoCard veiculo={item} />}
         contentContainerStyle={styles.cardContainer}
