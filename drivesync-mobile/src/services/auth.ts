@@ -12,6 +12,7 @@ export async function signIn(email: string, senha: string): Promise<Response> {
           email: response.data.email || email,
         },
       };
+
     } else {
       throw new Error('Invalid response from server');
     }

@@ -1,58 +1,51 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, ScrollView, StyleSheet, ActivityIndicator } from "react-native";
 import { useAuth } from "../../contexts/auth";
-import MediaCard from "../../components/InfoCards";
+import { FontAwesome5 } from '@expo/vector-icons'; // Importando ícones
 import CardViagemStatus from "../../components/ViagemStatus"; // Componente que mostra o status da viagem em andamento
 import api from "../../services/api";
 import { connectSignalR, listenToUpdates, disconnectSignalR } from "../../services/signalRService"; // Importa funções do SignalR
 
 const Home: React.FC = () => {
   const { user } = useAuth();
-  const [viagens, setViagens] = useState([]);
+  const [viagens, setViagens] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [filtroStatus, setFiltroStatus] = useState<string | null>(null);
-  const [viagemEmAndamento, setViagemEmAndamento] = useState<any>(null);
+
+  const fetchAtividades = async () => {
+    try {
+      const response = await api.get('/api/Viagens');
+      setViagens(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    // Função para buscar as viagens da API
-    async function fetchAtividades() {
-      try {
-        const response = await api.get('/api/Viagens');
-        setViagens(response.data);
-        setLoading(false);
-      } catch (error) {
-        console.error(error);
-        setLoading(false);
-      }
-    }
-
+    // Chama a função de fetch inicial
     fetchAtividades();
 
-    // Conectar ao SignalR quando o componente for montado
-    const connection = connectSignalR();
+    // Configura o polling para chamadas periódicas
+    const interval = setInterval(() => {
+      fetchAtividades();
+    }, 10000); // Atualiza a cada 10 segundos
 
-    // Ouvir as atualizações do SignalR
-    listenToUpdates((data) => {
-      console.log('Viagem atualizada via SignalR:', data);
-      setViagens((prevViagens) => {
-        // Atualiza as viagens com a nova informação
-        return prevViagens.map(viagem =>
-          viagem.id === data.id ? { ...viagem, ...data } : viagem
-        );
-      });
-      // Atualiza a viagem em andamento se houver uma mudança no status
-      const viagemEmAndamento = data.status === 0 ? data : viagemEmAndamento;
-      setViagemEmAndamento(viagemEmAndamento);
-    });
+    // Limpa o intervalo quando o componente for desmontado
+    return () => clearInterval(interval);
+  }, []);
 
-    // Desconectar ao desmontar o componente
-    return () => {
-      disconnectSignalR();
-    };
-  }, [viagemEmAndamento]); // Rerun a lógica de atualização de viagem em andamento
+  const handleFiltrar = (status: string | null) => {
+    setFiltroStatus(status);
+  };
 
-  // Filtra a viagem que está com o status "Em andamento" para exibir no CardViagemStatus
-  const viagemEmAndamentoAPI = viagens.find(viagem => viagem.status === 0); // Verifique se "0" é o valor correto para "Em andamento"
+  const atividadesFiltradas = filtroStatus
+    ? viagens.filter(viagem => viagem.status === filtroStatus)
+    : viagens;
+
+  const viagemEmAndamento = viagens.find(viagem => viagem.status === 0); // Verifique se "0" é o valor correto
+  const outrasViagens = atividadesFiltradas.filter(viagem => viagem.status === 1);
 
   if (loading) {
     return (
@@ -62,31 +55,49 @@ const Home: React.FC = () => {
     );
   }
 
-  // Verificação de diagnóstico para a viagem em andamento
-  console.log("Viagem em andamento:", viagemEmAndamentoAPI);
-
   return (
     <ScrollView style={styles.container}>
+      {/* Saudação personalizada com o nome do usuário */}
+      <View style={styles.header}>
+        <Text style={styles.greeting}>Bem-vindo, {user?.name || "Usuário"}!</Text>
+      </View>
+
       {/* Renderiza o CardViagemStatus para viagem em andamento, se existir */}
-      {viagemEmAndamentoAPI || viagemEmAndamento ? (
-        <CardViagemStatus viagem={viagemEmAndamentoAPI || viagemEmAndamento} />
+      {viagemEmAndamento ? (
+        <CardViagemStatus viagem={viagemEmAndamento} />
       ) : (
         <Text style={styles.noViagemText}>Nenhuma viagem em andamento.</Text>
       )}
 
-      <Text style={styles.subtitle}>Atente-se aos sinais</Text>
+      {/* Resumo de Viagens com ícones */}
+      <Text style={styles.subtitle}>Resumo de Viagens</Text>
+      <View style={styles.summaryContainer}>
+        <View style={styles.summaryCard}>
+          <FontAwesome5 name="route" size={24} color="#000" />
+          <Text style={styles.summaryText}>Total de viagens registradas: {viagens.length}</Text>
+        </View>
+        <View style={styles.summaryCard}>
+          <FontAwesome5 name="calendar" size={24} color="#000" />
+          <Text style={styles.summaryText}>Última viagem: {viagens[0]?.data_inicio || 'Não disponível'}</Text>
+        </View>
+      </View>
 
-      {/* ScrollView horizontal para os cards */}
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.cardsContainer}>
-        <MediaCard />
-      </ScrollView>
-
-      <Text style={styles.subtitle}>Segurança em primeiro lugar</Text>
-
-      {/* ScrollView horizontal para os cards */}
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.cardsContainer}>
-        <MediaCard />
-      </ScrollView>
+      {/* Estatísticas com ícones e cards */}
+      <Text style={styles.subtitle}>Estatísticas</Text>
+      <View style={styles.cardsContainer}>
+        <View style={styles.card}>
+          <FontAwesome5 name="route" size={24} color="#000" />
+          <Text style={styles.cardText}>Viagens em andamento: {viagens.filter(v => v.status === 0).length}</Text>
+        </View>
+        <View style={styles.card}>
+          <FontAwesome5 name="check-circle" size={24} color="#000" />
+          <Text style={styles.cardText}>Viagens concluídas: {viagens.filter(v => v.status === 1).length}</Text>
+        </View>
+        <View style={styles.card}>
+          <FontAwesome5 name="calendar" size={24} color="#000" />
+          <Text style={styles.cardText}>Última viagem: {viagens[0]?.data_inicio || 'Não disponível'}</Text>
+        </View>
+      </View>
     </ScrollView>
   );
 };
@@ -98,27 +109,18 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#ffffff',
     padding: 12,
-    paddingVertical: 30
+    paddingVertical: 30,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
-    marginTop: 10
+    marginBottom: 20,
+    marginTop: 10,
   },
   greeting: {
-    fontSize: 18,
+    fontSize: 22,
     fontWeight: 'bold',
     color: '#000000',
-  },
-  subGreeting: {
-    fontSize: 18,
-    color: '#000000',
-  },
-  divider: {
-    height: 2,
-    backgroundColor: '#f3f3f3',
-    marginVertical: 10,
   },
   subtitle: {
     fontSize: 20,
@@ -126,11 +128,55 @@ const styles = StyleSheet.create({
     color: '#000000',
     marginVertical: 15,
   },
+  summaryContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginVertical: 15,
+  },
+  summaryCard: {
+    backgroundColor: '#f5f5f5',
+    padding: 15,
+    borderRadius: 8,
+    width: '48%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 3,
+  },
+  summaryText: {
+    fontSize: 16,
+    color: '#333',
+    marginTop: 10,
+    textAlign: 'center',
+  },
+  statisticsContainer: {
+    padding: 10,
+    backgroundColor: '#f5f5f5',
+    borderRadius: 8,
+    marginVertical: 15,
+  },
+  statText: {
+    fontSize: 16,
+    color: '#333',
+  },
   cardsContainer: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginVertical: 15,
   },
-  headerContent: {
-    marginLeft: 10
+  card: {
+    backgroundColor: '#f5f5f5',
+    padding: 15,
+    borderRadius: 8,
+    width: '30%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 3,
+  },
+  cardText: {
+    fontSize: 16,
+    color: '#333',
+    marginTop: 10,
+    textAlign: 'center',
   },
   noViagemText: {
     fontSize: 18,

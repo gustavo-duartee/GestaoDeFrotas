@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Card, Title, Paragraph } from 'react-native-paper';
 import { StyleSheet, View, ScrollView } from 'react-native';
+import {Seta} from '../../assets/farol.png'
 
 // Componente para um único card
 const VehicleSignalCard = ({ title, description, imageUri }) => (
@@ -19,7 +20,8 @@ export default function MediaCard() {
       <VehicleSignalCard
         title="Sinais de Indicadores (Setas)"
         description="Observe os indicadores dos outros veículos para antecipar suas mudanças de direção."
-        imageUri="https://example.com/indicators-image.jpg" // Substitua pelo URL da imagem relevante
+        imageUri={Seta} // Substitua pelo URL da imagem relevante
+
       />
       <VehicleSignalCard
         title="Sinais de Freio"

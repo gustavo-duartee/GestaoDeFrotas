@@ -53,11 +53,11 @@ export default function NovaViagem({ navigation }) {
         Alert.alert('Permissão negada', 'Precisamos da permissão para acessar sua localização.');
         return;
       }
-      
+
       const location = await Location.getCurrentPositionAsync({
         accuracy: Location.Accuracy.High, // Ajuste a precisão se necessário
       });
-      
+
 
       // Realiza a reversão das coordenadas para um nome de local
       const address = await Location.reverseGeocodeAsync({
@@ -70,10 +70,19 @@ export default function NovaViagem({ navigation }) {
       if (address && address.length > 0) {
         const { district, subregion, region, street } = address[0];
         setLocation(location);
-        setLocationText(`${street ? street : 'Rua desconhecida'}, ${district ? district : 'Bairro desconhecido'}, ${subregion ? subregion : 'Cidade desconhecida'}, ${region ? region : 'Regiao desconhecida'}`);
+
+        // Pega todas as letras maiúsculas da string da região
+        const regionAbbreviation = region
+          ? region
+            .match(/[A-Z]/g) // Encontra todas as letras maiúsculas
+            .join('') // Junta as letras em uma string
+          : 'RG'; // Valor padrão se region não existir
+
+        setLocationText(`${street ? street : 'Rua desconhecida'}, ${subregion ? subregion : 'Cidade desconhecida'}, ${regionAbbreviation}`);
       } else {
         setLocationText('Localização desconhecida');
       }
+
     };
 
     fetchVeiculos();
