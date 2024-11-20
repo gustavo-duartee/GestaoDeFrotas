@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import axios from 'axios';
 import api from '../../services/api';
 
 const DetalhesViagem = ({ route }) => {
@@ -75,50 +74,180 @@ const DetalhesViagem = ({ route }) => {
       <Text style={styles.title}>Diagnostico do veiculo</Text>
 
 
-      {/* Seção: Diagnostico */}
+      {/* Seção: Comparativo do Diagnostico */}
       <View style={styles.diagnosticoContainer}>
         {/* Início da viagem */}
         <View style={styles.diagnosticoItem}>
           <Text style={styles.label}>
-            Inicio
+            Combustível
           </Text>
-          <Text style={styles.detail}>{viagem.nivelCombustivelInicio}</Text>
+          <Text style={styles.detail}>{viagem.nivelCombustivelInicio} L</Text>
         </View>
 
         {/* Encerramento da viagem */}
         <View style={styles.diagnosticoItem}>
           <Text style={styles.label}>
-            Fim
+            
           </Text>
-          <Text style={styles.detail}>{viagem.nivelCombustivelEncerramento}</Text>
+          <Text style={styles.detail}>{viagem.nivelCombustivelEncerramento} L</Text>
         </View>
       </View>
 
-      {/* Seção: Diagnostico */}
       <View style={styles.diagnosticoContainer}>
-        {/* Início da viagem */}
+        {/* Temperatura do Sensor 02 */}
         <View style={styles.diagnosticoItem}>
+          <Text style={styles.label}>
+            Temperatura do Sensor
+          </Text>
+          <Text style={styles.detail}>{viagem.temperaturaSensor02Inicio} °C</Text>
+        </View>
+
+        {/* Encerramento da viagem */}
+        <View style={styles.diagnosticoItem}>
+          <Text style={styles.label}>
+            
+          </Text>
+          <Text style={styles.detail}>{viagem.temperaturaSensor02Inicio} °C</Text>
+        </View>
+      </View>
+
+      <View style={styles.diagnosticoContainer}>
+        {/* Temperatura da Transmissão */}
+        <View style={styles.diagnosticoItem}>
+          <Text style={styles.label}>
+            Temperatura da Transmissão
+          </Text>
+          <Text style={styles.detail}>{viagem.temperaturaTransmissaoInicio} °C</Text>
+        </View>
+
+        {/* Encerramento da viagem */}
+        <View style={styles.diagnosticoItem}>
+          <Text style={styles.label}>
+          </Text>
+          <Text style={styles.detail}>{viagem.temperaturaTransmissaoEncerramento} °C</Text>
+        </View>
+      </View>
+
+      <View style={styles.diagnosticoContainer}>
+        {/* Código de Falha */}
+        <View style={styles.diagnosticoItem}>
+          <Text style={styles.label}>
+            Código de Falha
+          </Text>
+          <Text style={styles.detail}>{viagem.codigoFalhaInicio} °C</Text>
+        </View>
+
+        {/* Encerramento da viagem */}
+        <View style={styles.diagnosticoItem}>
+          <Text style={styles.label}>
+          </Text>
+          <Text style={styles.detail}>{viagem.codigoFalhaEncerramento} °C</Text>
+        </View>
+      </View>
+
+      <View style={styles.diagnosticoContainer}>
+        {/* Voltagem Bateria */}
+        <View style={styles.diagnosticoItem}>
+          <Text style={styles.label}>
+            Voltagem da Bateria
+          </Text>
+          <Text style={styles.detail}>{viagem.voltagemBateriaInicio} volts</Text>
+        </View>
+
+        {/* Encerramento da viagem */}
+        <View style={styles.diagnosticoItem}>
+          <Text style={styles.label}>
+          </Text>
+          <Text style={styles.detail}>{viagem.voltagemBateriaEncerramento} volts</Text>
+        </View>
+      </View>
+
+      <View style={styles.diagnosticoContainer}>
+        {/* Status da Transmissão */}
+        <View style={styles.diagnosticoItem}>
+          <Text style={styles.label}>
+            Status da Transmissão
+          </Text>
+          <Text style={styles.detail}>{viagem.statusTransmissaoInicio}</Text>
+        </View>
+
+        {/* Encerramento da viagem */}
+        <View style={styles.diagnosticoItem}>
+          <Text style={styles.label}>
+          </Text>
+          <Text style={styles.detail}>{viagem.statusTransmissaoEncerramento}</Text>
+        </View>
+      </View>
+
+      <View style={styles.diagnosticoContainer}>
+        {/* Monitor de Emissão */}
+        <View style={styles.diagnosticoItem}>
+          <Text style={styles.label}>
+            Monitor de Emissão
+          </Text>
+          <Text style={styles.detail}>{viagem.statusMonitoresEmissaoInicio}</Text>
+        </View>
+
+        {/* Encerramento da viagem */}
+        <View style={styles.diagnosticoItem}>
+          <Text style={styles.label}>
+          </Text>
+          <Text style={styles.detail}>{viagem.statusMonitoresEmissaoEncerramento}</Text>
+        </View>
+      </View>
+
+      <View style={styles.diagnosticoContainer}>
+        {/* Controle de Emissão */}
+        <View style={styles.diagnosticoItem}>
+          <Text style={styles.label}>
+            Controle de Emissão
+          </Text>
           <Text style={styles.detail}>{viagem.statusControleEmissaoInicio}</Text>
         </View>
 
         {/* Encerramento da viagem */}
         <View style={styles.diagnosticoItem}>
+          <Text style={styles.label}>
+          </Text>
           <Text style={styles.detail}>{viagem.statusControleEmissaoEncerramento}</Text>
         </View>
       </View>
 
-      {/* Seção: Diagnostico */}
       <View style={styles.diagnosticoContainer}>
-        {/* Início da viagem */}
+        {/* Monitor do Catalisador */}
         <View style={styles.diagnosticoItem}>
+          <Text style={styles.label}>
+            Monitor do Catalisador
+          </Text>
           <Text style={styles.detail}>{viagem.monitorCatalisadorInicio}</Text>
         </View>
 
         {/* Encerramento da viagem */}
         <View style={styles.diagnosticoItem}>
+          <Text style={styles.label}>
+          </Text>
           <Text style={styles.detail}>{viagem.monitorCatalisadorEncerramento}</Text>
         </View>
       </View>
+
+      <View style={styles.diagnosticoContainer}>
+        {/* Monitor do Sensor */}
+        <View style={styles.diagnosticoItem}>
+          <Text style={styles.label}>
+            Monitor do Sensor
+          </Text>
+          <Text style={styles.detail}>{viagem.monitorSensor02Inicio}</Text>
+        </View>
+
+        {/* Encerramento da viagem */}
+        <View style={styles.diagnosticoItem}>
+          <Text style={styles.label}>
+          </Text>
+          <Text style={styles.detail}>{viagem.monitorSensor02Encerramento}</Text>
+        </View>
+      </View>
+
+      
     </ScrollView>
   );
 };
