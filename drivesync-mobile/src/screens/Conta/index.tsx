@@ -1,6 +1,6 @@
 import React from "react";
 import { Ionicons } from '@expo/vector-icons';
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import { useAuth } from "../../contexts/auth";
 
 import styles from './styles';

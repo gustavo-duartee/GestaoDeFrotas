@@ -1,39 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { Sidebar } from "../components/Sidebar";
+import api from "../services/api";
 
 export function Viagens() {
     const [viagens, setViagens] = useState([]);
     const [selectedViagem, setSelectedViagem] = useState(null);
 
-    // Simulação de carregamento dos dados das viagens
+    // Fetch das viagens da API
     useEffect(() => {
         const fetchViagens = async () => {
-            setViagens([
-                {
-                    id: 1,
-                    localizacaoInicio: "Rio de Janeiro",
-                    localizacaoEncerramento: "Rio de Janeiro",
-                    dataInicio: "2023-11-10",
-                    dataEncerramento: "2023-11-10",
-                    status: "Concluída",
-                    motoristaId: "Daniel Peralba",
-                    veiculoId: "1023",
-                    marca: "Volkswagen",
-                    modelo: "e-Bus",
-                    observacoesInicio: "Checklist OK",
-                    observacoesEncerramento: "Tudo certo.",
-
-                    quilometragemInicial: "20.000",
-                    quilometragemFinal: "25.000",
-
-                    nivelCombustivelInicial: "98",
-                    nivelCombustivelFinal: "100",
-
-                    temperaturaMotorInicial: "10",
-                    temperaturaMotorFinal: "56"
-                },
-            ]);
-        };
+            try {
+              const response = await api.get("/api/viagens");
+              console.log("Dados de viagens:", response.data);
+              setViagens(response.data); // Atualize o estado com os dados da resposta
+            } catch (error) {
+              console.error("Erro ao buscar viagens:", error);
+            }
+          };
 
         fetchViagens();
     }, []);
@@ -54,23 +37,23 @@ export function Viagens() {
                         type="text"
                         id="table-search-users"
                         className="ps-4 mb-3 text-sm text-gray-900 rounded-lg shadow w-80 bg-white focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="Pesquisar veículo"
+                        placeholder="Pesquisar viagem"
                     />
 
-                    {viagens.map((viagem) => (
-                        <div
-                            key={viagem.id}
-                            className="bg-white p-4 mb-4 rounded-lg shadow cursor-pointer hover:bg-gray-50"
-                            onClick={() => handleSelectViagem(viagem)}
-                        >
-                            <h3 className="text-lg font-semibold">{viagem.localizacaoInicio} - {viagem.localizacaoEncerramento}</h3>
-                            <p className="text-gray-600">{viagem.marca} {viagem.modelo}</p>
-                            <p className="text-gray-500 text-sm">{viagem.dataEncerramento}</p>
-                            <p className={`text-sm ${viagem.status === "Em andamento" ? "text-yellow-500" : "text-green-500"}`}>
-                                {viagem.status}
-                            </p>
-                        </div>
-                    ))}
+                    <div>
+                        {viagens.map((viagem) => (
+                            <div
+                                key={viagem.id}
+                                className="bg-white p-4 mb-4 rounded-lg shadow cursor-pointer hover:bg-gray-50"
+                                onClick={() => handleSelectViagem(viagem)}
+                            >
+                                <h3 className="text-lg font-semibold">{viagem.localizacaoInicio} - {viagem.localizacaoEncerramento}</h3>
+                                <p className="text-gray-600">{viagem.marca} {viagem.modelo}</p>
+                                <p className="text-gray-500 text-sm">{viagem.dataEncerramento}</p>
+                                <p className={`text-sm ${viagem.status === "Em andamento" ? "text-yellow-500" : "text-green-500"}`}>{viagem.status}</p>
+                            </div>
+                        ))}
+                    </div>
                 </aside>
 
                 {/* Exibição dos detalhes da viagem selecionada */}
@@ -90,77 +73,66 @@ export function Viagens() {
                                 <h4 className="font-medium text-lg text-gray-700">{selectedViagem.status}</h4>
                             </p>
 
-                            {/* Exibição dos detalhes da viagem selecionada */}
-                            <div className="flex-1 bg-white mt-10 ">
-                                {selectedViagem ? (
-                                    <>
-                                        <h2 className="text-2xl font-semibold text-gray-700 mb-6">Detalhes da Viagem #{selectedViagem.id}</h2>
+                            <div className="flex-1 bg-white mt-10">
+                                <h2 className="text-2xl font-semibold text-gray-700 mb-6">Detalhes da Viagem #{selectedViagem.id}</h2>
+                                <div className="space-y-4">
+                                    <div className="flex items-center justify-between">
+                                        <h4 className="font-medium text-lg text-gray-700">Destino:</h4>
+                                        <p className="text-gray-600">{selectedViagem.localizacaoEncerramento}</p>
+                                    </div>
+                                    <div className="flex items-center justify-between">
+                                        <h4 className="font-medium text-lg text-gray-700">Data:</h4>
+                                        <p className="text-gray-600">{selectedViagem.dataInicio} - {selectedViagem.dataEncerramento}</p>
+                                    </div>
+                                    <div className="flex items-center justify-between">
+                                        <h4 className="font-medium text-lg text-gray-700">Status:</h4>
+                                        <p className={`text-lg ${selectedViagem.status === "Em andamento" ? "text-yellow-500" : "text-green-500"}`}>{selectedViagem.status}</p>
+                                    </div>
+                                </div>
 
-                                        <div className="space-y-4">
-                                            <div className="flex items-center justify-between">
-                                                <h4 className="font-medium text-lg text-gray-700">Destino:</h4>
-                                                <p className="text-gray-600">{selectedViagem.localizacaoEncerramento}</p>
-                                            </div>
-
-                                            <div className="flex items-center justify-between">
-                                                <h4 className="font-medium text-lg text-gray-700">Data:</h4>
-                                                <p className="text-gray-600">{selectedViagem.dataInicio} - {selectedViagem.dataEncerramento}</p>
-                                            </div>
-
-                                            <div className="flex items-center justify-between">
-                                                <h4 className="font-medium text-lg text-gray-700">Status:</h4>
-                                                <p className={`text-lg ${selectedViagem.status === "Em andamento" ? "text-yellow-500" : "text-green-500"}`}>{selectedViagem.status}</p>
-                                            </div>
+                                {/* Detalhes do checklist */}
+                                <div className="mt-8 space-y-6">
+                                    <h3 className="text-xl font-semibold text-gray-700">Checklist de Início</h3>
+                                    <div className="space-y-4">
+                                        <div className="flex items-center justify-between">
+                                            <p className="text-gray-600">Observações:</p>
+                                            <p className="text-gray-600">{selectedViagem.observacoesInicio}</p>
                                         </div>
 
-                                        {/* Detalhes do checklist */}
-                                        <div className="mt-8 space-y-6">
-                                            <h3 className="text-xl font-semibold text-gray-700">Checklist de Início</h3>
-                                            <div className="space-y-4">
-                                                <div className="flex items-center justify-between">
-                                                    <p className="text-gray-600">Observações:</p>
-                                                    <p className="text-gray-600">{selectedViagem.observacoesInicio}</p>
-                                                </div>
+                                        <div className="flex items-center justify-between">
+                                            <p className="text-gray-600">Quilometragem Inicial:</p>
+                                            <p className="text-gray-600">{selectedViagem.quilometragemInicial} km</p>
+                                        </div>
+                                    </div>
+                                </div>
 
-                                                <div className="flex items-center justify-between">
-                                                    <p className="text-gray-600">Quilometragem Inicial:</p>
-                                                    <p className="text-gray-600">{selectedViagem.quilometragemInicial} km</p>
-                                                </div>
-                                            </div>
+                                {/* Detalhes do Veículo */}
+                                <div className="mt-8 space-y-6">
+                                    <h3 className="text-xl font-semibold text-gray-700">Detalhes do Veículo</h3>
+                                    <div className="space-y-4">
+                                        <div className="flex items-center justify-between">
+                                            <p className="text-gray-600">Motorista:</p>
+                                            <p className="text-gray-600">{selectedViagem.motoristaId}</p>
                                         </div>
 
-                                        <div className="mt-8 space-y-6">
-                                            <h3 className="text-xl font-semibold text-gray-700">Detalhes do Veículo</h3>
-                                            <div className="space-y-4">
-                                                <div className="flex items-center justify-between">
-                                                    <p className="text-gray-600">Motorista:</p>
-                                                    <p className="text-gray-600">{selectedViagem.motoristaId}</p>
-                                                </div>
-
-                                                <div className="flex items-center justify-between">
-                                                    <p className="text-gray-600">Veículo:</p>
-                                                    <p className="text-gray-600">{selectedViagem.veiculoId}</p>
-                                                </div>
-
-                                                <div className="flex items-center justify-between">
-                                                    <p className="text-gray-600">Nível de Combustível:</p>
-                                                    <p className="text-gray-600">{selectedViagem.nivelCombustivelInicial}% - {selectedViagem.nivelCombustivelFinal}%</p>
-                                                </div>
-
-                                                <div className="flex items-center justify-between">
-                                                    <p className="text-gray-600">Temperatura do Motor:</p>
-                                                    <p className="text-gray-600">{selectedViagem.temperaturaMotorInicial}°C - {selectedViagem.temperaturaMotorFinal}°C</p>
-                                                </div>
-                                            </div>
+                                        <div className="flex items-center justify-between">
+                                            <p className="text-gray-600">Veículo:</p>
+                                            <p className="text-gray-600">{selectedViagem.veiculoId}</p>
                                         </div>
-                                    </>
-                                ) : (
-                                    <p className="text-gray-600">Selecione uma viagem para ver os detalhes.</p>
-                                )}
+
+                                        <div className="flex items-center justify-between">
+                                            <p className="text-gray-600">Nível de Combustível:</p>
+                                            <p className="text-gray-600">{selectedViagem.nivelCombustivelInicial}% - {selectedViagem.nivelCombustivelFinal}%</p>
+                                        </div>
+
+                                        <div className="flex items-center justify-between">
+                                            <p className="text-gray-600">Temperatura do Motor:</p>
+                                            <p className="text-gray-600">{selectedViagem.temperaturaMotorInicial}°C - {selectedViagem.temperaturaMotorFinal}°C</p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-
-
                     ) : (
                         <p className="text-gray-600">Selecione uma viagem para ver os detalhes.</p>
                     )}

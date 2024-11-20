@@ -102,17 +102,17 @@ export function Home() {
                             <div className="mt-4 w-full grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-4 h-full">
                                 <div className="bg-white p-4 rounded-lg shadow">
                                     <h2 className="text-xl font-semibold mb-4">Manutenções por Veículo</h2>
-                                    <Bar data={manutencaoChartData()} options={{ responsive: true, maintainAspectRatio: false }} />
+                                    <Bar data={manutencaoChartData()} options={{ responsive: false, maintainAspectRatio: false }} />
                                 </div>
 
                                 <div className="bg-white p-4 rounded-lg shadow">
                                     <h2 className="text-xl font-semibold mb-4">Valor Total das Multas por Veículo</h2>
-                                    <Bar data={multasChartData()} options={{ responsive: true, maintainAspectRatio: false }} />
+                                    <Bar data={multasChartData()} options={{ responsive: false, maintainAspectRatio: false }} />
                                 </div>
 
                                 <div className="bg-white p-4 rounded-lg shadow">
                                     <h2 className="text-xl font-semibold mb-4">Viagens por Status</h2>
-                                    <Bar data={viagensChartData()} options={{ responsive: true, maintainAspectRatio: false }} />
+                                    <Bar data={viagensChartData()} options={{ responsive: false, maintainAspectRatio: false }} />
                                 </div>
                             </div>
                         </div>
