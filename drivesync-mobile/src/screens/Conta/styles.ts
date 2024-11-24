@@ -5,83 +5,88 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     backgroundColor: '#f9f9f9',  // Fundo mais suave
+    justifyContent: 'flex-start',
   },
-  header: {
-    alignItems: 'center',
+  subtitle: {
+    fontSize: 20,
+    fontWeight: '600',
     marginBottom: 20,
-  },
-  headerText: {
-    fontSize: 24,
-    fontWeight: 'bold',
     color: '#333',
-    marginBottom: 10,
   },
-  profileSection: {
-    alignItems: 'center',
-    marginBottom: 30,
+  profileInfo: {
+    flexDirection: 'row',  // Organiza os elementos em linha
+    alignItems: 'center',  // Alinha verticalmente os itens no centro
+    marginBottom: 50,  // Espaçamento entre o perfil e as outras informações
   },
-  profileCircle: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    backgroundColor: '#4CAF50', // Cor vibrante para o perfil
+  circle: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: '#007aff', // Cor de fundo mais atraente para o círculo
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 10,
-    shadowColor: '#000', // Sombras para profundidade
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,  // Para Android
+    marginRight: 20,  // Espaçamento entre o círculo e o texto
+    shadowColor: '#000',
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    elevation: 4, // Mais sutil, mas ainda visível no Android
   },
-  profileImage: {
-    width: 90,
-    height: 90,
-    borderRadius: 45,
-  },
-  initials: {
-    fontSize: 40,
-    color: '#fff',
+  initialsText: {
+    fontSize: 28, // Tamanho de fonte maior para as iniciais
     fontWeight: 'bold',
+    color: '#fff',
+    textTransform: 'uppercase', // Garante que as iniciais estarão em maiúsculas
+  },
+  userDetails: {
+    flexDirection: 'column',  // Empilha os elementos verticalmente
+    justifyContent: 'center',
   },
   userName: {
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: 22,
+    fontWeight: '600',
     color: '#333',
   },
+  userPosition: {
+    fontSize: 18,
+    color: '#555',  // Cor mais suave para o cargo
+    marginTop: 2,  // Espaçamento entre nome e cargo
+  },
   userInfo: {
-    marginBottom: 20,
+    marginBottom: 0,
     width: '100%',
   },
   titleInfo: {
-    fontSize: 16,
-    color: '#555',
-    marginBottom: 5,
+    fontSize: 17,
+    color: '#666',
+    fontWeight: '600',
+    marginBottom: 8,
   },
   info: {
-    fontSize: 18,
-    fontWeight: '500',
+    fontSize: 20,
+    fontWeight: '400',
     color: '#333',
+    marginBottom: 40,
   },
   button: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#f44336',  // Cor mais vibrante para destaque
-    paddingVertical: 12,
-    paddingHorizontal: 25,
-    borderRadius: 25,
-    marginTop: 20,
+    backgroundColor: '#000',
+    paddingVertical: 14,
+    paddingHorizontal: 30,
+    borderRadius: 10,
+    marginTop: 30,
     justifyContent: 'center',
-    shadowColor: '#000',  // Sombras no botão para efeito de profundidade
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 3,  // Para Android
+    shadowColor: '#000',
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    elevation: 5,
   },
   buttonText: {
     fontSize: 18,
     color: '#fff',
-    marginRight: 10,
-    fontWeight: '500',
-  },
+    marginRight: 12,
+    fontWeight: '600',
+  }
 });
 
 export default styles;

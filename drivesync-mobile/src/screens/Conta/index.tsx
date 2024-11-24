@@ -31,14 +31,34 @@ const MinhaConta: React.FC = () => {
     signOut();
   }
 
+  // Função para extrair as iniciais do nome
+  const getInitials = (name: string) => {
+    const nameParts = name.split(' ');
+    const initials = nameParts.map((part: string) => part.charAt(0).toUpperCase());
+    return initials.join('');
+  };
+
   return (
     <View style={styles.container}>
       <View>
-        <Text style={styles.text}>Informações da conta</Text>
+        <Text style={styles.subtitle}>Informações da conta</Text>
       </View>
 
-      <View style={styles.circle}>
-        <Ionicons name="person" size={40} color="gray" />
+      {/* Exibe as iniciais do nome do usuário */}
+      <View style={styles.profileInfo}>
+        <View style={styles.circle}>
+          {userData?.nome ? (
+            <Text style={styles.initialsText}>{getInitials(userData.nome)}</Text>
+          ) : (
+            <Ionicons name="person" size={40} color="gray" />
+          )}
+        </View>
+
+        {/* Nome e Cargo ao lado do círculo */}
+        <View style={styles.userDetails}>
+          <Text style={styles.userName}>{userData?.nome}</Text>
+          <Text style={styles.userPosition}>{userData?.cargo}</Text>
+        </View>
       </View>
 
       <View style={styles.userInfo}>
@@ -47,14 +67,8 @@ const MinhaConta: React.FC = () => {
 
         {userData && (
           <>
-            <Text style={styles.titleInfo}>Nome</Text>
-            <Text style={styles.info}>{userData.nome}</Text>
-
             <Text style={styles.titleInfo}>Telefone</Text>
             <Text style={styles.info}>{userData.telefone}</Text>
-
-            <Text style={styles.titleInfo}>Cargo</Text>
-            <Text style={styles.info}>{userData.cargo}</Text>
           </>
         )}
       </View>

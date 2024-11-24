@@ -246,8 +246,6 @@ const DetalhesViagem = ({ route }) => {
           <Text style={styles.detail}>{viagem.monitorSensor02Encerramento}</Text>
         </View>
       </View>
-
-      
     </ScrollView>
   );
 };
