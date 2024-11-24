@@ -20,16 +20,21 @@ export function Veiculos() {
     },
   };
 
-  useEffect(() => {
-    api
-      .get("api/veiculos", authorization)
-      .then((response) => {
-        setVeiculos(response.data);
-      })
-      .catch((error) => {
-        console.error("Erro ao obter veículo: ", error);
-      });
-  }, []);
+useEffect(() => {
+  api
+    .get("api/veiculos", authorization)
+    .then((response) => {
+      console.log("Dados recebidos da API:", response.data);
+      const data = Array.isArray(response.data) ? response.data : [];
+      setVeiculos(data);
+    })
+    .catch((error) => {
+      console.error("Erro ao obter veículos: ", error);
+      setVeiculos([]);
+    });
+}, []);
+
+  
 
   const searchVeiculos = (searchValue) => {
     setSearchInput(searchValue);

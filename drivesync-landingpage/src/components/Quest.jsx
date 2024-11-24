@@ -1,23 +1,24 @@
+import React, { useState } from 'react';
 import Web from '../imgs/plataforma-web.png';
 
 export function Quest() {
     const handleFormSubmit = async (event) => {
         event.preventDefault();
-    
+
         const formData = new FormData(event.target);
         const userData = {
             nome: formData.get('nome'),
             empresa: formData.get('empresa'),
             email: formData.get('email'),
         };
-    
+
         try {
             const response = await fetch('http://localhost:5000/api/account/sendusercredentials', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(userData),
             });
-    
+
             if (response.ok) {
                 const result = await response.json();
                 alert(result.Message || 'Credenciais enviadas com sucesso.');
@@ -30,7 +31,6 @@ export function Quest() {
             console.error(error);
         }
     };
-    
 
     return (
         <div className="bg-white">
@@ -84,30 +84,30 @@ export function Quest() {
                             </div>
                             <div>
                                 <label
-                                    htmlFor="name"
+                                    htmlFor="nome"
                                     className="block text-sm font-medium text-gray-300"
                                 >
                                     Nome Completo
                                 </label>
                                 <input
                                     type="text"
-                                    name="name"
-                                    id="name"
+                                    name="nome"
+                                    id="nome"
                                     required
                                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                 />
                             </div>
                             <div>
                                 <label
-                                    htmlFor="company"
+                                    htmlFor="empresa"
                                     className="block text-sm font-medium text-gray-300"
                                 >
                                     Empresa
                                 </label>
                                 <input
                                     type="text"
-                                    name="company"
-                                    id="company"
+                                    name="empresa"
+                                    id="empresa"
                                     required
                                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                 />
