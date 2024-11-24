@@ -152,6 +152,15 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginTop: 10
   },
+  warningText: {
+    color: 'red', // Cor do texto para destaque
+    fontSize: 16, // Tamanho da fonte
+    fontWeight: 'bold', // Negrito para ênfase
+    textAlign: 'center', // Centraliza o texto
+    marginVertical: 10, // Espaço vertical acima e abaixo do texto
+    paddingHorizontal: 10, // Espaçamento lateral interno
+  },
+  
 });
 
 export default styles;

@@ -6,6 +6,7 @@ import * as Location from 'expo-location';
 import styles from './styles';
 import api from '../../services/api';
 import MapScreen from '../../components/Map';
+import { useAuth } from "../../contexts/auth";
 
 export default function NovaViagem({ navigation }) {
   const [checkList, setCheckList] = useState({
@@ -18,11 +19,13 @@ export default function NovaViagem({ navigation }) {
     Extintor: false
   });
 
+  const { user, signOut } = useAuth();
   const [veiculos, setVeiculos] = useState([]);
   const [selectedVeiculo, setSelectedVeiculo] = useState("");
   const [location, setLocation] = useState(null);
   const [locationText, setLocationText] = useState("Obtendo localização...");
   const [observacoes, setObservacoes] = useState("");
+  const [hasOngoingTrip, setHasOngoingTrip] = useState(false);
   const [obdData, setObdData] = useState({
     nivelCombustivelInicio: 0,
     statusControleEmissaoInicio: true,
@@ -37,6 +40,24 @@ export default function NovaViagem({ navigation }) {
   });
 
   useEffect(() => {
+    const checkOngoingTrip = async () => {
+      try {
+        const userEmail = user?.email;
+        const userResponse = await api.get(`/api/Account/GetUserByEmail/${userEmail}`);
+        const motoristaId = userResponse.data.id;
+
+        // Verificar viagens em andamento
+        const tripResponse = await api.get(`/api/Viagens`);
+        const ongoingTrip = tripResponse.data.some(trip => trip.motoristaId === motoristaId && trip.status === 0);
+
+        console.log("Viagem em andamento:", ongoingTrip); // Verifique o valor aqui no console
+        setHasOngoingTrip(ongoingTrip);
+      } catch (error) {
+        console.error("Erro ao verificar viagem em andamento:", error);
+        Alert.alert("Erro", "Não foi possível verificar viagens em andamento.");
+      }
+    };
+
     const fetchVeiculos = async () => {
       try {
         const response = await api.get('/api/Veiculos');
@@ -83,9 +104,23 @@ export default function NovaViagem({ navigation }) {
       }
     };
 
+    checkOngoingTrip();
     fetchVeiculos();
     fetchLocation();
   }, []);
+
+  if (hasOngoingTrip === null) {
+    // Aguarde a resposta da API
+    return <View><Text>Carregando...</Text></View>;
+  }
+
+  if (hasOngoingTrip) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.warningText}>Você já possui uma viagem em andamento. Finalize a viagem atual antes de iniciar uma nova.</Text>
+      </View>
+    );
+  }
 
   const handleCheckBoxChange = (item) => {
     setCheckList(prevState => ({ ...prevState, [item]: !prevState[item] }));
