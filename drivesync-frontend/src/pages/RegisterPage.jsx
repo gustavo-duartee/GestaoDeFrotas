@@ -5,6 +5,9 @@ import { Sidebar } from '../components/Sidebar';
 export function RegisterPage() {
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
+    const [nome, setNome] = useState('');
+    const [telefone, setTelefone] = useState('');
+    const [cargo, setCargo] = useState('');
     const [confirmaSenha, setConfirmaSenha] = useState('');
 
     async function register(event) {
@@ -12,17 +15,25 @@ export function RegisterPage() {
 
         const data = {
             email,
+            nome,
+            telefone,
+            cargo,
             senha,
             confirmaSenha
         };
 
+        if (senha !== confirmaSenha) {
+            alert("As senhas não coincidem.");
+            return;
+        }
         try {
             const response = await api.post('/api/Account/CreateUser', data);
             console.log(response.data);
             alert("Usuário criado com sucesso!");
             clearFields();
         } catch (error) {
-            alert("O registro falhou " + error);
+            console.error(error);
+            alert("O registro falhou: " + (error.response?.data?.message || error.message));
         }
     }
 
@@ -30,189 +41,141 @@ export function RegisterPage() {
         setEmail('');
         setSenha('');
         setConfirmaSenha('');
+        setNome('');
+        setTelefone('');
+        setCargo('');
     }
 
     return (
         <>
             <Sidebar />
-            <div style={{ flex: 1, marginTop: '4rem', marginLeft: '16rem' }}>
-                <div className="h-full w-full bg-gray-100 relative overflow-y-auto">
-                    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 bg-gray-50">
-                        <div className="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4">
-                            <h1 className="text-2xl font-medium tracking-tight text-gray-900">Gerenciamento de Acessos</h1>
-                        </div>
-                        <div className="relative overflow-x-auto shadow-md sm:rounded-lg bg-white mb-10" style={{ overflow: "auto" }}>
+            <div className="flex flex-col lg:flex-row lg:ml-64 mt-8 px-6 py-12 bg-gray-50">
+                <div className="w-full lg:w-2/3 xl:w-2/4 bg-white shadow-lg rounded-lg p-6">
+                    <h1 className="text-2xl font-medium text-gray-900 mb-6">Gerenciamento de Acessos</h1>
 
-                            <div className="text-sm font-medium text-center text-gray-500 border-b border-gray-200">
-                                <ul className="flex flex-wrap -mb-px">
-                                    <li className="me-2">
-                                        <a href="#" className="inline-block p-4 text-gray-400 rounded-t-lg cursor-not-allowed dark:text-gray-500">Usuários</a>
-                                    </li>
-                                    <li className="me-2">
-                                        <a href="#" className="inline-block p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg active" aria-current="page">Novo Usuário</a>
-                                    </li>
-                                    <li className="me-2">
-                                        <a href="#" className="inline-block p-4 text-gray-400 rounded-t-lg cursor-not-allowed dark:text-gray-500">Permissões</a>
-                                    </li>
-                                    <li className="me-2">
-                                        <a href="#" className="inline-block p-4 text-gray-400 rounded-t-lg cursor-not-allowed dark:text-gray-500">Assinaturas</a>
-                                    </li>
-                                </ul>
+                    <div className="relative overflow-x-auto mb-6">
+                        <div className="flex space-x-6 border-b border-gray-200 text-gray-500">
+                            <a href="#" className="p-4 cursor-not-allowed">Usuários</a>
+                            <a href="#" className="p-4 text-blue-600 border-b-2 border-blue-600">Novo Usuário</a>
+                            <a href="#" className="p-4 cursor-not-allowed">Permissões</a>
+                            <a href="#" className="p-4 cursor-not-allowed">Assinaturas</a>
+                        </div>
+                    </div>
+
+                    <form onSubmit={register} className="space-y-6">
+                        <div className="grid grid-cols-1 gap-6">
+                            {/* Informações pessoais */}
+                            <div>
+                                <h2 className="text-lg font-semibold text-gray-900 mb-4">Informações pessoais</h2>
+                                <label htmlFor="nome" className="block text-sm font-medium text-gray-900">Nome Completo</label>
+                                <input
+                                    id="nome"
+                                    value={nome}
+                                    onChange={e => setNome(e.target.value)}
+                                    name="nome"
+                                    type="text"
+                                    className="block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                />
                             </div>
 
-                            <div className="mt-5 mb-5 sm:mx-auto sm:w-full sm:max-w-4xl">
-                                <div className="relative overflow-x-auto sm:rounded-lg bg-white mb-20" style={{ overflow: "auto" }}>
-                                    <div className="mt-20 mb-20 sm:mx-auto sm:w-full sm:max-w-4xl">
-                                        <form className="space-y-6" onSubmit={register}>
-                                            <div className="flex space-x-8">
-                                                {/* Informações pessoais */}
-                                                <div className="flex-1 space-y-6">
-                                                    <h2 className="text-lg font-semibold text-gray-900 mb-4">Informações pessoais</h2>
-                                                    <div className="flex space-x-4">
-                                                        <div className="flex-1">
-                                                            <label htmlFor="firstName" className="block text-sm font-medium leading-6 text-gray-900">Primeiro Nome:</label>
-                                                            <input
-                                                                id="firstName"
-                                                                name="firstName"
-                                                                type="text"
-                                                                className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-black-400 sm:text-sm sm:leading-6"
-                                                                style={{ paddingLeft: '0.5rem', paddingRight: '0.5rem' }} // Adicionando padding
-                                                            />
-                                                        </div>
-                                                        <div className="flex-1">
-                                                            <label htmlFor="lastName" className="block text-sm font-medium leading-6 text-gray-900">Segundo Nome:</label>
-                                                            <input
-                                                                id="lastName"
-                                                                name="lastName"
-                                                                type="text"
-                                                                className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-black-400 sm:text-sm sm:leading-6"
-                                                                style={{ paddingLeft: '0.5rem', paddingRight: '0.5rem' }} // Adicionando padding
-                                                            />
-                                                        </div>
-                                                    </div>
-
-                                                    <div>
-                                                        <label htmlFor="empresa" className="block text-sm font-medium leading-6 text-gray-900">Empresa:</label>
-                                                        <input
-                                                            id="empresa"
-                                                            name="empresa"
-                                                            type="text"
-                                                            className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-black-400 sm:text-sm sm:leading-6"
-                                                            style={{ paddingLeft: '0.5rem', paddingRight: '0.5rem' }} // Adicionando padding
-                                                        />
-                                                    </div>
-
-                                                    <div>
-                                                        <label htmlFor="cargo" className="block text-sm font-medium leading-6 text-gray-900">Cargo:</label>
-                                                        <input
-                                                            id="cargo"
-                                                            name="cargo"
-                                                            type="text"
-                                                            className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-black-400 sm:text-sm sm:leading-6"
-                                                            style={{ paddingLeft: '0.5rem', paddingRight: '0.5rem' }} // Adicionando padding
-                                                        />
-                                                    </div>
-
-                                                    <div>
-                                                        <label htmlFor="telefone" className="block text-sm font-medium leading-6 text-gray-900">Telefone:</label>
-                                                        <input
-                                                            id="telefone"
-                                                            name="telefone"
-                                                            type="text"
-                                                            className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-black-400 sm:text-sm sm:leading-6"
-                                                            style={{ paddingLeft: '0.5rem', paddingRight: '0.5rem' }} // Adicionando padding
-                                                        />
-                                                    </div>
-                                                </div>
-
-                                                {/* Informações de acesso */}
-                                                <div className="flex-1 space-y-6">
-                                                    <h2 className="text-lg font-semibold text-gray-900 mb-4">Informações de acesso</h2>
-                                                    <div>
-                                                        <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">Email:</label>
-                                                        <input
-                                                            id="email"
-                                                            value={email}
-                                                            onChange={e => setEmail(e.target.value)}
-                                                            name="email"
-                                                            type="email"
-                                                            required
-                                                            className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-black-400 sm:text-sm sm:leading-6"
-                                                        />
-                                                    </div>
-
-                                                    <div>
-                                                        <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">Senha:</label>
-                                                        <input
-                                                            id="password"
-                                                            value={senha}
-                                                            onChange={e => setSenha(e.target.value)}
-                                                            name="password"
-                                                            type="password"
-                                                            required
-                                                            className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-black-400 sm:text-sm sm:leading-6"
-                                                        />
-                                                    </div>
-
-                                                    <div>
-                                                        <label htmlFor="confirmPassword" className="block text-sm font-medium leading-6 text-gray-900">Confirmar senha:</label>
-                                                        <input
-                                                            id="confirmPassword"
-                                                            value={confirmaSenha}
-                                                            onChange={e => setConfirmaSenha(e.target.value)}
-                                                            name="confirmPassword"
-                                                            type="password"
-                                                            required
-                                                            className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-black-400 sm:text-sm sm:leading-6"
-                                                        />
-                                                    </div>
-                                                    <div className="space-y-4">
-                                                    <div className="flex items-start">
-                                                        <input id="admin-checkbox" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-green-500 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
-                                                        <div className="ml-2">
-                                                            <label htmlFor="admin-checkbox" className="text-sm font-medium text-gray-900">Administrador</label>
-                                                            <p className="text-sm text-gray-400">Permissão para acessar todas as funcionalidades do sistema.</p>
-                                                        </div>
-                                                    </div>
-                                                    <div className="flex items-start">
-                                                        <input id="driver-checkbox" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-green-500 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
-                                                        <div className="ml-2">
-                                                            <label htmlFor="driver-checkbox" className="text-sm font-medium text-gray-900">Motorista</label>
-                                                            <p className="text-sm text-gray-400">Permissão somente para acessar o aplicativo mobile e registrar viagens.</p>
-                                                        </div>
-                                                    </div>
-                                                    <div className="flex items-start">
-                                                        <input id="manager-checkbox" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-green-500 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
-                                                        <div className="ml-2">
-                                                            <label htmlFor="manager-checkbox" className="text-sm font-medium text-gray-900">Gestor</label>
-                                                            <p className="text-sm text-gray-400">Permissão para acessar a plataforma DriveSync, realizar registros e consultas, exceto acessos de outros usuários.</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                </div>
-                                            </div>
-
-                                            <div className="flex space-x-4">
-                                                <button
-                                                    type="button" // Mudança para type="button"
-                                                    onClick={clearFields} // Chama clearFields ao invés de onSubmit
-                                                    className="flex w-full justify-center rounded-md bg-gray-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-gray-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500"
-                                                >
-                                                    Limpar
-                                                </button>
-                                                <button
-                                                    type="submit"
-                                                    className="flex w-full justify-center rounded-md bg-green-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-500"
-                                                >
-                                                    Registrar Usuário
-                                                </button>
-                                            </div>
-                                        </form>
-                                    </div>
+                            {/* Linha com Cargo e Telefone */}
+                            <div className="grid grid-cols-2 gap-6">
+                                <div>
+                                    <label htmlFor="cargo" className="block text-sm font-medium text-gray-900">Cargo</label>
+                                    <input
+                                        id="cargo"
+                                        value={cargo}
+                                        onChange={e => setCargo(e.target.value)}
+                                        name="cargo"
+                                        type="text"
+                                        className="block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    />
+                                </div>
+                                <div>
+                                    <label htmlFor="telefone" className="block text-sm font-medium text-gray-900">Telefone</label>
+                                    <input
+                                        id="telefone"
+                                        value={telefone}
+                                        onChange={e => setTelefone(e.target.value)}
+                                        name="telefone"
+                                        type="text"
+                                        className="block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    />
                                 </div>
                             </div>
                         </div>
-                    </div>
+
+
+                        {/* Informações de acesso */}
+                        <div className="space-y-4">
+                            <h2 className="text-lg font-semibold text-gray-900 mb-4">Informações de acesso</h2>
+                            <label htmlFor="email" className="block text-sm font-medium text-gray-900">Email</label>
+                            <input
+                                id="email"
+                                value={email}
+                                onChange={e => setEmail(e.target.value)}
+                                name="email"
+                                type="email"
+                                required
+                                className="block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            />
+                            <label htmlFor="senha" className="block text-sm font-medium text-gray-900">Senha</label>
+                            <input
+                                id="senha"
+                                value={senha}
+                                onChange={e => setSenha(e.target.value)}
+                                name="senha"
+                                type="password"
+                                required
+                                className="block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            />
+                            <label htmlFor="confirmaSenha" className="block text-sm font-medium text-gray-900">Confirmar Senha</label>
+                            <input
+                                id="confirmaSenha"
+                                value={confirmaSenha}
+                                onChange={e => setConfirmaSenha(e.target.value)}
+                                name="confirmaSenha"
+                                type="password"
+                                required
+                                className="block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            />
+                        </div>
+
+                        {/* Permissões */}
+                        <div className="space-y-4">
+                            <div className="flex items-start">
+                                <input id="driver-checkbox" type="checkbox" className="w-5 h-5 text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-2 focus:ring-blue-500" />
+                                <div className="ml-2">
+                                    <label htmlFor="driver-checkbox" className="text-sm font-medium text-gray-900">App DriveSync</label>
+                                    <p className="text-sm text-gray-400">Permissão somente para acessar o aplicativo mobile e registrar viagens.</p>
+                                </div>
+                            </div>
+                            <div className="flex items-start">
+                                <input id="manager-checkbox" type="checkbox" className="w-5 h-5 text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-2 focus:ring-blue-500" />
+                                <div className="ml-2">
+                                    <label htmlFor="manager-checkbox" className="text-sm font-medium text-gray-900">DriveSync Web</label>
+                                    <p className="text-sm text-gray-400">Permissão para acessar a plataforma DriveSync, realizar registros e consultas, exceto acessos de outros usuários.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Botões */}
+                        <div className="flex space-x-4 mt-6">
+                            <button
+                                type="button"
+                                onClick={clearFields}
+                                className="w-full sm:w-auto bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600"
+                            >
+                                Limpar
+                            </button>
+                            <button
+                                type="submit"
+                                className="w-full sm:w-auto bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600"
+                            >
+                                Registrar Usuário
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </>

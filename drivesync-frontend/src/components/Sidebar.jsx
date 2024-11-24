@@ -115,7 +115,7 @@ export function Sidebar() {
               >
                 <UserRoundPlus />
                 <span className="flex-1 ms-3 whitespace-nowrap">
-                  Acessos
+                  Funcionários
                 </span>
               </Link>
             </li>
