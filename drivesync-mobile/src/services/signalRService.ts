@@ -1,4 +1,5 @@
 import { HubConnectionBuilder } from '@microsoft/signalr';
+import API_BASE_URL from "../config/config"; // Importe a URL do arquivo de configuração
 
 // Variável para armazenar a conexão do SignalR
 let connection = null;
@@ -11,7 +12,7 @@ export const connectSignalR = () => {
   }
 
   connection = new HubConnectionBuilder()
-    .withUrl('https://5a36-177-71-66-186.ngrok-free.app/viagensHub')  // Substitua pela URL do seu servidor SignalR
+    .withUrl(`${API_BASE_URL}/viagensHub`)  // Substitua pela URL do seu servidor SignalR
     .build();
 
   connection.start()

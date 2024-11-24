@@ -19,13 +19,12 @@ export default function NovaViagem({ navigation }) {
     Extintor: false
   });
 
-  const { user, signOut } = useAuth();
   const [veiculos, setVeiculos] = useState([]);
   const [selectedVeiculo, setSelectedVeiculo] = useState("");
   const [location, setLocation] = useState(null);
   const [locationText, setLocationText] = useState("Obtendo localização...");
   const [observacoes, setObservacoes] = useState("");
-  const [hasOngoingTrip, setHasOngoingTrip] = useState(false);
+  const { user, signOut } = useAuth();
   const [obdData, setObdData] = useState({
     nivelCombustivelInicio: 0,
     statusControleEmissaoInicio: true,
@@ -40,24 +39,6 @@ export default function NovaViagem({ navigation }) {
   });
 
   useEffect(() => {
-    const checkOngoingTrip = async () => {
-      try {
-        const userEmail = user?.email;
-        const userResponse = await api.get(`/api/Account/GetUserByEmail/${userEmail}`);
-        const motoristaId = userResponse.data.id;
-
-        // Verificar viagens em andamento
-        const tripResponse = await api.get(`/api/Viagens`);
-        const ongoingTrip = tripResponse.data.some(trip => trip.motoristaId === motoristaId && trip.status === 0);
-
-        console.log("Viagem em andamento:", ongoingTrip); // Verifique o valor aqui no console
-        setHasOngoingTrip(ongoingTrip);
-      } catch (error) {
-        console.error("Erro ao verificar viagem em andamento:", error);
-        Alert.alert("Erro", "Não foi possível verificar viagens em andamento.");
-      }
-    };
-
     const fetchVeiculos = async () => {
       try {
         const response = await api.get('/api/Veiculos');
@@ -78,7 +59,6 @@ export default function NovaViagem({ navigation }) {
       const location = await Location.getCurrentPositionAsync({
         accuracy: Location.Accuracy.High, // Ajuste a precisão se necessário
       });
-
 
       // Realiza a reversão das coordenadas para um nome de local
       const address = await Location.reverseGeocodeAsync({
@@ -104,23 +84,9 @@ export default function NovaViagem({ navigation }) {
       }
     };
 
-    checkOngoingTrip();
     fetchVeiculos();
     fetchLocation();
   }, []);
-
-  if (hasOngoingTrip === null) {
-    // Aguarde a resposta da API
-    return <View><Text>Carregando...</Text></View>;
-  }
-
-  if (hasOngoingTrip) {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.warningText}>Você já possui uma viagem em andamento. Finalize a viagem atual antes de iniciar uma nova.</Text>
-      </View>
-    );
-  }
 
   const handleCheckBoxChange = (item) => {
     setCheckList(prevState => ({ ...prevState, [item]: !prevState[item] }));
@@ -145,36 +111,52 @@ export default function NovaViagem({ navigation }) {
     }
 
     try {
-      const response = await api.post('/api/Viagens', {
-        motoristaId: "ef0d9d78-1737-424d-8743-f3043e83c34f",
-        veiculoId: selectedVeiculo,
-        localizacaoInicio: locationText,
-        checklist: checkList,
-        observacoesInicio: observacoes,
-        nivelCombustivelInicio: obdData.nivelCombustivelInicio,
-        statusControleEmissaoInicio: obdData.statusControleEmissaoInicio,
-        monitorCatalisadorInicio: obdData.monitorCatalisadorInicio,
-        monitorSensor02Inicio: obdData.monitorSensor02Inicio,
-        temperaturaSensor02Inicio: obdData.temperaturaSensor02Inicio,
-        temperaturaTransmissaoInicio: obdData.temperaturaTransmissaoInicio,
-        statusTransmissaoInicio: obdData.statusTransmissaoInicio,
-        codigoFalhaInicio: obdData.codigoFalhaInicio,
-        statusMonitoresEmissaoInicio: obdData.statusMonitoresEmissaoInicio,
-        voltagemBateriaInicio: obdData.voltagemBateriaInicio,
-        dataInicio: new Date().toISOString()
-      });
+      // Suponha que você tenha uma função para obter o e-mail do usuário logado.
+      const emailUsuario = user?.email; // Substitua isso com a lógica que obtém o e-mail do usuário
 
-      if (response.status === 201) {
-        Alert.alert('Sucesso', 'Viagem iniciada com sucesso!');
-        navigation.navigate('Home');
+      // Chama o endpoint para obter o motoristaId usando o e-mail do usuário
+      const responseEmail = await api.get(`/api/Account/GetUserByEmail/${emailUsuario}`);
+
+      if (responseEmail.status === 200 && responseEmail.data) {
+        const motoristaId = responseEmail.data.id; // Suponha que o ID esteja na propriedade 'id' da resposta
+
+        const response = await api.post('/api/Viagens', {
+          motoristaId: motoristaId,  // Agora o motoristaId é obtido dinamicamente
+          veiculoId: selectedVeiculo,
+          localizacaoInicio: locationText,
+          checklist: checkList,
+          observacoesInicio: observacoes,
+          nivelCombustivelInicio: obdData.nivelCombustivelInicio,
+          statusControleEmissaoInicio: obdData.statusControleEmissaoInicio,
+          monitorCatalisadorInicio: obdData.monitorCatalisadorInicio,
+          monitorSensor02Inicio: obdData.monitorSensor02Inicio,
+          temperaturaSensor02Inicio: obdData.temperaturaSensor02Inicio,
+          temperaturaTransmissaoInicio: obdData.temperaturaTransmissaoInicio,
+          statusTransmissaoInicio: obdData.statusTransmissaoInicio,
+          codigoFalhaInicio: obdData.codigoFalhaInicio,
+          statusMonitoresEmissaoInicio: obdData.statusMonitoresEmissaoInicio,
+          voltagemBateriaInicio: obdData.voltagemBateriaInicio,
+          dataInicio: new Date().toISOString()
+        });
+
+        if (response.status === 201) {
+          Alert.alert('Sucesso', 'Viagem iniciada com sucesso!');
+          navigation.navigate('Home');
+        } else {
+          Alert.alert('Erro', 'Erro ao iniciar a viagem.');
+        }
       } else {
-        Alert.alert('Erro', 'Erro ao iniciar a viagem.');
+        Alert.alert('Erro', 'Não foi possível obter o ID do motorista.');
       }
     } catch (error) {
       console.log('Erro desconhecido ao iniciar viagem:', error);
       Alert.alert('Erro', `Não foi possível iniciar a viagem: ${error.message}`);
     }
   };
+
+
+
+
 
   const handleExtrairDados = () => {
     setObdData({

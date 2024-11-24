@@ -4,10 +4,12 @@ import { Ionicons } from '@expo/vector-icons';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '../../@type/navigation';
-import * as Location from 'expo-location';  
+import * as Location from 'expo-location';
 import MapScreen from '../../components/Map';
 import styles from './styles';
 import { connectSignalR, listenToUpdates, disconnectSignalR } from '../../services/signalRService';
+
+import api from "../../services/api";
 
 type NavigationProp = StackNavigationProp<RootStackParamList, 'EncerrarViagem'>;
 
@@ -27,12 +29,28 @@ export default function ViagemCard({ viagem }: ViagemCardProps) {
   const [location, setLocation] = useState<any>(null);
   const [locationText, setLocationText] = useState<string>("Obtendo localização...");
   const [viagemAtualizada, setViagemAtualizada] = useState(viagem);  // Estado para a viagem atualizada
+  const [modeloVeiculo, setModeloVeiculo] = useState<string | null>(null);
+  const [marcaVeiculo, setMarcaVeiculo] = useState<string | null>(null);
 
   const navigation = useNavigation<NavigationProp>();
 
   const handleCardPress = () => {
     if (viagem) {
       navigation.navigate('EncerrarViagem', { viagem });
+    }
+  };
+
+  const buscarDetalhesVeiculo = async (
+    id: number,
+    setModelo: (modelo: string) => void,
+    setMarca: (marca: string) => void
+  ) => {
+    try {
+      const response = await api.get(`/api/Veiculos/${id}`); // Faz a requisição à API
+      setModelo(response.data.modelo); // Atualiza o estado com o modelo do veículo
+      setMarca(response.data.marca);  // Atualiza o estado com a marca do veículo
+    } catch (error) {
+      console.error("Erro ao buscar dados do veículo", error);
     }
   };
 
@@ -60,10 +78,23 @@ export default function ViagemCard({ viagem }: ViagemCardProps) {
         return;
       }
 
+      if (viagem.veiculoId) {
+        buscarDetalhesVeiculo(viagem.veiculoId, setModeloVeiculo, setMarcaVeiculo);
+      }
+
       let location = await Location.getCurrentPositionAsync({});
       setLocation(location);
       setLocationText(`${location.coords.latitude}, ${location.coords.longitude}`);
     };
+
+    listenToUpdates((data) => {
+      if (data.id === viagem.id) {
+        setViagemAtualizada(data);  // Atualiza os dados da viagem com as novas informações
+        if (data.veiculoId) {
+          buscarDetalhesVeiculo(data.veiculoId, setModeloVeiculo, setMarcaVeiculo);
+        }
+      }
+    });
 
     getLocation();
   }, []);
@@ -71,7 +102,7 @@ export default function ViagemCard({ viagem }: ViagemCardProps) {
   const getStatusStyles = (status: string) => {
     switch (status) {
       default:
-        return { backgroundColor: '#f3f3f3', color: '#0b0b0b' }; 
+        return { backgroundColor: '#f3f3f3', color: '#0b0b0b' };
     }
   };
 
@@ -105,12 +136,11 @@ export default function ViagemCard({ viagem }: ViagemCardProps) {
                     </Text>
                   </View>
 
+                  {/* Exibe a marca e o modelo do veículo */}
                   <View style={styles.row}>
-                    <Text style={styles.valueSubtitle}>Veículo: {viagemAtualizada.veiculoId}</Text>
-                  </View>
-
-                  <View style={styles.row}>
-                    <Text style={styles.valueSubtitle}>Id: {viagemAtualizada.id}</Text>
+                    <Text style={styles.valueSubtitle}>
+                      {marcaVeiculo ? `${marcaVeiculo} - ${modeloVeiculo}` : 'Carregando...'}
+                    </Text>
                   </View>
 
                   <View style={styles.valueStatusBadge}>

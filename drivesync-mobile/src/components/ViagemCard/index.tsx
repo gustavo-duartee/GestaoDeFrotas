@@ -49,7 +49,7 @@ export default function ViagemCard({ viagem }: ViagemCardProps) {
       console.error("Erro ao buscar dados do veículo", error);
     }
   };
-  
+
   // Função para formatar a data
   const formatarData = (data: string) => {
     const dateObj = new Date(data);
@@ -98,13 +98,9 @@ export default function ViagemCard({ viagem }: ViagemCardProps) {
 
           <View style={styles.content}>
             {/* Exibe localizações, se disponíveis */}
-            {viagemAtualizada.localizacaoInicio && viagemAtualizada.localizacaoEncerramento && (
-              <View style={styles.row}>
-                <Text style={styles.valueTitle}>{viagemAtualizada.localizacaoInicio}</Text>
-                <Ionicons name="arrow-forward-outline" size={20} color="#000" />
-                <Text style={styles.valueTitle}>{viagemAtualizada.localizacaoEncerramento}</Text>
-              </View>
-            )}
+            <View style={styles.row}>
+              <Text style={styles.valueTitle}>{viagemAtualizada.localizacaoEncerramento}</Text>
+            </View>
 
             {/* Exibe a marca e o modelo do veículo */}
             <View style={styles.row}>
