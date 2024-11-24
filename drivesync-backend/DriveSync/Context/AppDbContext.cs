@@ -1,14 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using DriveSync.Model;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore.Design;
-using DriveSync.Migrations;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DriveSync.Context
 {
-    public class AppDbContext : IdentityDbContext<IdentityUser>
+    public class AppDbContext : IdentityDbContext<ApplicationUser>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) 
         { 

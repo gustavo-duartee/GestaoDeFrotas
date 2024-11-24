@@ -1,24 +1,25 @@
-﻿
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
+using DriveSync.Model; // Certifique-se de importar o namespace do ApplicationUser
 
 namespace DriveSync.Service
 {
     public class AuthenticateService : IAuthenticate
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
-        public AuthenticateService(SignInManager<IdentityUser> signInManager,
-            UserManager<IdentityUser> userManager)
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+
+        public AuthenticateService(SignInManager<ApplicationUser> signInManager,
+            UserManager<ApplicationUser> userManager)
         {
             _signInManager = signInManager;
             _userManager = userManager;
-
         }
+
         public async Task<bool> Authenticate(string email, string senha)
         {
             var result = await _signInManager.PasswordSignInAsync(email, senha, false, lockoutOnFailure: false);
 
-            return result.Succeeded;    
+            return result.Succeeded;
         }
 
         public async Task Logout()
@@ -26,12 +27,15 @@ namespace DriveSync.Service
             await _signInManager.SignOutAsync();
         }
 
-        public async Task<bool> RegisterUser(string email, string senha)
+        public async Task<bool> RegisterUser(string email, string senha, string nome, string telefone, string cargo)
         {
-            var appUser = new IdentityUser
+            var appUser = new ApplicationUser
             {
                 UserName = email,
                 Email = email,
+                Nome = nome,
+                Telefone = telefone,
+                Cargo = cargo
             };
 
             var result = await _userManager.CreateAsync(appUser, senha);

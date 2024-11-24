@@ -28,7 +28,7 @@ namespace DriveSync.Controllers
         }
 
         [HttpPost("CreateUser")]
-        public async Task<ActionResult<UserToken>> CreateUser([FromBody] RegisterModel model)
+        public async Task<ActionResult> CreateUser([FromBody] RegisterModel model)
         {
             if (model.Senha != model.ConfirmaSenha)
             {
@@ -36,11 +36,11 @@ namespace DriveSync.Controllers
                 return BadRequest(ModelState);
             }
 
-            var result = await _authentication.RegisterUser(model.Email, model.Senha);
+            var result = await _authentication.RegisterUser(model.Email, model.Senha, model.Nome, model.Telefone, model.Cargo);
 
             if (result)
             {
-                return Ok($"Usuário {model.Email} criado com sucesso");
+                return Ok(new { Message = $"Usuário {model.Nome} criado com sucesso" });
             }
             else
             {
@@ -48,6 +48,7 @@ namespace DriveSync.Controllers
                 return BadRequest(ModelState);
             }
         }
+
 
         [HttpPost("LoginUser")]
         public async Task<ActionResult<UserToken>> Login([FromBody] LoginModel userInfo)
