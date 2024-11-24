@@ -64,7 +64,6 @@ export default function NovaViagem({ navigation }) {
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
       });
-      console.log("Endereço obtido:", address);
 
       // Verifica se a reversão foi bem-sucedida e define o texto da localização
       if (address && address.length > 0) {
@@ -82,7 +81,6 @@ export default function NovaViagem({ navigation }) {
       } else {
         setLocationText('Localização desconhecida');
       }
-
     };
 
     fetchVeiculos();

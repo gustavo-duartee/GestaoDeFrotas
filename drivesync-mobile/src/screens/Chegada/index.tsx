@@ -41,7 +41,6 @@ export default function EncerrarViagem({ route, navigation }) {
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
       });
-      console.log("Endereço obtido:", address);
 
       // Verifica se a reversão foi bem-sucedida e define o texto da localização
       if (address && address.length > 0) {
@@ -64,8 +63,6 @@ export default function EncerrarViagem({ route, navigation }) {
       fetchLocation();
   }, []);
 
-  console.log(viagem.id);
-
   const handleEncerrarViagem = async () => {
     if (!location) {
       Alert.alert('Localização', 'Aguarde enquanto obtemos sua localização.');
@@ -77,7 +74,7 @@ export default function EncerrarViagem({ route, navigation }) {
         id: viagem.id,
         motoristaId: viagem.motoristaId,
         veiculoId: viagem.veiculoId,
-        localizacaoEncerramento: `${location.coords.latitude}, ${location.coords.longitude}`,
+        localizacaoEncerramento: locationText,
         observacoesEncerramento: observacoes,
         nivelCombustivelEncerramento: encerramentoData.nivelCombustivelEncerramento,
         statusControleEmissaoEncerramento: encerramentoData.statusControleEmissaoEncerramento,

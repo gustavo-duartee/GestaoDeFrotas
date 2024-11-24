@@ -7,6 +7,8 @@ import styles from './styles';
 import { StackNavigationProp } from '../../@type/navigation';
 import { connectSignalR, listenToUpdates, disconnectSignalR } from "../../services/signalRService";
 
+import api from "../../services/api";
+
 type NavigationProp = StackNavigationProp<RootStackParamList, 'DetalhesViagem'>;
 
 interface ViagemCardProps {
@@ -27,11 +29,27 @@ interface ViagemCardProps {
 export default function ViagemCard({ viagem }: ViagemCardProps) {
   const navigation = useNavigation<NavigationProp>();
   const [viagemAtualizada, setViagemAtualizada] = useState(viagem);
+  const [modeloVeiculo, setModeloVeiculo] = useState<string | null>(null);
+  const [marcaVeiculo, setMarcaVeiculo] = useState<string | null>(null);
 
   const handleCardPress = () => {
     navigation.navigate('DetalhesViagem', { viagem: viagemAtualizada });
   };
 
+  const buscarDetalhesVeiculo = async (
+    id: number,
+    setModelo: (modelo: string) => void,
+    setMarca: (marca: string) => void
+  ) => {
+    try {
+      const response = await api.get(`/api/Veiculos/${id}`); // Faz a requisição à API
+      setModelo(response.data.modelo); // Atualiza o estado com o modelo do veículo
+      setMarca(response.data.marca);  // Atualiza o estado com a marca do veículo
+    } catch (error) {
+      console.error("Erro ao buscar dados do veículo", error);
+    }
+  };
+  
   // Função para formatar a data
   const formatarData = (data: string) => {
     const dateObj = new Date(data);
@@ -47,12 +65,20 @@ export default function ViagemCard({ viagem }: ViagemCardProps) {
 
   // Conectar ao SignalR quando o componente for montado
   useEffect(() => {
+    // Busca os detalhes do veículo ao carregar o card
+    if (viagem.veiculoId) {
+      buscarDetalhesVeiculo(viagem.veiculoId, setModeloVeiculo, setMarcaVeiculo);
+    }
+
     const connection = connectSignalR();
 
     // Escutar por atualizações e atualizar o estado da viagem
     listenToUpdates((data) => {
       if (data.id === viagem.id) {
         setViagemAtualizada(data);  // Atualiza os dados da viagem com as novas informações
+        if (data.veiculoId) {
+          buscarDetalhesVeiculo(data.veiculoId, setModeloVeiculo, setMarcaVeiculo);
+        }
       }
     });
 
@@ -80,8 +106,11 @@ export default function ViagemCard({ viagem }: ViagemCardProps) {
               </View>
             )}
 
+            {/* Exibe a marca e o modelo do veículo */}
             <View style={styles.row}>
-              <Text style={styles.valueSubtitle}>Veículo: {viagemAtualizada.veiculoId}</Text>
+              <Text style={styles.valueSubtitle}>
+                {marcaVeiculo ? `${marcaVeiculo} - ${modeloVeiculo}` : 'Carregando...'}
+              </Text>
             </View>
 
             <View style={styles.row}>
