@@ -1,7 +1,9 @@
-﻿using DriveSync.Service;
+﻿using DriveSync.Model;
+using DriveSync.Service;
 using DriveSync.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -49,13 +51,12 @@ namespace DriveSync.Controllers
             }
         }
 
-
         [HttpPost("LoginUser")]
         public async Task<ActionResult<UserToken>> Login([FromBody] LoginModel userInfo)
         {
             var result = await _authentication.Authenticate(userInfo.Email, userInfo.Senha);
 
-            if(result)
+            if (result)
             {
                 return GenerateToken(userInfo);
             }
@@ -93,6 +94,45 @@ namespace DriveSync.Controllers
                 Token = new JwtSecurityTokenHandler().WriteToken(token),
                 Expiration = expiration,
             };
+        }
+
+        [HttpGet("GetUser/{userId}")]
+        public async Task<ActionResult<ApplicationUser>> GetUserById(string userId)
+        {
+            var user = await _authentication.GetUserByIdAsync(userId);
+
+            if (user == null)
+            {
+                return NotFound(new { Message = "Usuário não encontrado." });
+            }
+
+            return Ok(user);
+        }
+
+        [HttpGet("GetAllUsers")]
+        public async Task<ActionResult<List<ApplicationUser>>> GetAllUsers()
+        {
+            var users = await _authentication.GetAllUsersAsync();
+            return Ok(users);
+        }
+
+        [HttpGet("GetUserByEmail/{email}")]
+        public async Task<ActionResult<ApplicationUser>> GetUserByEmail(string email)
+        {
+            var user = await _authentication.GetUserByEmailAsync(email);  // Alteração aqui
+            if (user == null)
+            {
+                return NotFound(new { Message = "Usuário não encontrado." });
+            }
+
+            return Ok(new
+            {
+                user.Id,
+                user.Email,
+                user.Nome,
+                user.Telefone,
+                user.Cargo,
+            });
         }
     }
 }
