@@ -41,7 +41,7 @@ const MinhaConta: React.FC = () => {
 
       <View style={styles.userInfo}>
         <Text style={styles.titleInfo}> Empresa</Text>
-        <Text style={styles.info}>{user?.empresa}</Text>
+        <Text style={styles.info}>{user?.telefone}</Text>
       </View>
 
       <TouchableOpacity style={styles.button} onPress={handleSignOut}>
