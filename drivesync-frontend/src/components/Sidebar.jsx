@@ -2,13 +2,12 @@ import {
   MapPinned,
   ReceiptText,
   LayoutDashboard,
-  BadgeInfo,
-  UserRound,
   Settings,
-  CarFront,
+  BusFront,
   LogOut,
   Building2,
   UserRoundPlus,
+  UserRound,
 } from "lucide-react";
 import { useNavigate, Link } from "react-router-dom";
 
@@ -72,7 +71,7 @@ export function Sidebar() {
                 to="/veiculos"
                 className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
               >
-                <CarFront />
+                <BusFront />
                 <span className="flex-1 ms-3 whitespace-nowrap">Ônibus</span>
               </Link>
             </li>
@@ -101,20 +100,20 @@ export function Sidebar() {
 
             <li>
               <Link
-                to="/empresas"
-                className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
-              >
-                <Building2 />
-                <span className="flex-1 ms-3 whitespace-nowrap">Empresas</span>
-              </Link>
-            </li>
-            <li>
-              <Link
                 to="/registro"
                 className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
               >
                 <UserRoundPlus />
                 <span className="flex-1 ms-3 whitespace-nowrap">Acessos</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/usuarios"
+                className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
+              >
+                <UserRound />
+                <span className="flex-1 ms-3 whitespace-nowrap">Usuários</span>
               </Link>
             </li>
 
@@ -127,15 +126,6 @@ export function Sidebar() {
               >
                 <Settings />
                 <span className="flex-1 ms-3 whitespace-nowrap">Suporte</span>
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/ajuda"
-                className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
-              >
-                <BadgeInfo />
-                <span className="flex-1 ms-3 whitespace-nowrap">Ajuda</span>
               </Link>
             </li>
             <li>

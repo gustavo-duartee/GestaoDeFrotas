@@ -3,7 +3,6 @@ import api from '../services/api';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-
 export default function LoginPage() {
 
     const [email, setEmail] = useState('');
@@ -37,7 +36,7 @@ export default function LoginPage() {
 
     return (
         <>
-            <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 bg-gray-50">
+            <div className="flex min-h-screen flex-1 flex-col justify-center px-6 py-12 lg:px-8 bg-gray-50">
                 
                 {/* Header do formulário */}
                 <div className="sm:mx-auto sm:w-full sm:max-w-sm">
