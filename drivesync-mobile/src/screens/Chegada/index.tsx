@@ -30,11 +30,11 @@ export default function EncerrarViagem({ route, navigation }) {
         Alert.alert('Permissão negada', 'Precisamos da permissão para acessar sua localização.');
         return;
       }
-      
+
       const location = await Location.getCurrentPositionAsync({
         accuracy: Location.Accuracy.High, // Ajuste a precisão se necessário
       });
-      
+
 
       // Realiza a reversão das coordenadas para um nome de local
       const address = await Location.reverseGeocodeAsync({
@@ -60,7 +60,7 @@ export default function EncerrarViagem({ route, navigation }) {
       }
     };
 
-      fetchLocation();
+    fetchLocation();
   }, []);
 
   const handleEncerrarViagem = async () => {
@@ -68,7 +68,7 @@ export default function EncerrarViagem({ route, navigation }) {
       Alert.alert('Localização', 'Aguarde enquanto obtemos sua localização.');
       return;
     }
-  
+
     try {
       const payload = {
         id: viagem.id,
@@ -87,9 +87,9 @@ export default function EncerrarViagem({ route, navigation }) {
         statusMonitoresEmissaoEncerramento: encerramentoData.statusMonitoresEmissaoEncerramento,
         voltagemBateriaEncerramento: encerramentoData.voltagemBateriaEncerramento,
       };
-  
+
       const response = await api.put(`/api/Viagens/EncerrarViagem/${viagem.id}`, payload);
-  
+
       if (response.status === 200) {
         Alert.alert('Sucesso', 'Viagem encerrada com sucesso!');
         navigation.navigate('Home');
@@ -102,23 +102,24 @@ export default function EncerrarViagem({ route, navigation }) {
       Alert.alert('Erro', `Não foi possível encerrar a viagem: ${error.message}`);
     }
   };
-  
-  
+
+
 
   // Função para preencher os campos automaticamente com dados simulados
   const handleExtrairDados = () => {
     setEncerramentoData({
-      nivelCombustivelEncerramento: 80,
-      statusControleEmissaoEncerramento: true,
-      monitorCatalisadorEncerramento: true,
-      monitorSensor02Encerramento: true,
-      temperaturaSensor02Encerramento: 90,
-      temperaturaTransmissaoEncerramento: 75,
-      statusTransmissaoEncerramento: 'Funcionando',
-      codigoFalhaEncerramento: 'P0100',
-      statusMonitoresEmissaoEncerramento: true,
-      voltagemBateriaEncerramento: 12
+      nivelCombustivelEncerramento: 40, // Percentual do tanque após consumo durante a viagem
+      statusControleEmissaoEncerramento: true, // Controle de emissões ainda operacional
+      monitorCatalisadorEncerramento: true, // Catalisador continua sendo monitorado
+      monitorSensor02Encerramento: true, // Sensores O2 ainda ativos e monitorados
+      temperaturaSensor02Encerramento: 95, // Temperatura do sensor de oxigênio aumentou levemente
+      temperaturaTransmissaoEncerramento: 85, // Temperatura da transmissão subiu devido ao uso
+      statusTransmissaoEncerramento: 'Normal', // Transmissão ainda operando normalmente
+      codigoFalhaEncerramento: 'Nenhum', // Sem códigos de falha no encerramento
+      statusMonitoresEmissaoEncerramento: true, // Todos os monitores de emissão ainda ativos
+      voltagemBateriaEncerramento: 12.4 // Tensão da bateria levemente reduzida devido ao uso do sistema elétrico
     });
+
   };
 
   const handleLimparCampos = () => {
@@ -167,7 +168,7 @@ export default function EncerrarViagem({ route, navigation }) {
           </TouchableOpacity>
         </View>
 
-        <Text style={styles.label}>Nível de Combustível</Text>
+        <Text style={styles.label}>Nível de Combustível (%)</Text>
         <TextInput
           style={styles.input}
           placeholder="Nível de Combustível"

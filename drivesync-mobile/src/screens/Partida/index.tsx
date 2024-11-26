@@ -160,17 +160,18 @@ export default function NovaViagem({ navigation }) {
 
   const handleExtrairDados = () => {
     setObdData({
-      nivelCombustivelInicio: 80,
-      statusControleEmissaoInicio: true,
-      monitorCatalisadorInicio: true,
-      monitorSensor02Inicio: true,
-      temperaturaSensor02Inicio: 90,
-      temperaturaTransmissaoInicio: 75,
-      statusTransmissaoInicio: 'Funcionando',
-      codigoFalhaInicio: 'P0100',
-      statusMonitoresEmissaoInicio: true,
-      voltagemBateriaInicio: 12
+      nivelCombustivelInicio: 65, // Percentual do tanque de combustível
+      statusControleEmissaoInicio: true, // Controle de emissões funcionando corretamente
+      monitorCatalisadorInicio: true, // Catalisador está sendo monitorado
+      monitorSensor02Inicio: true, // Sensores O2 estão ativos e sendo monitorados
+      temperaturaSensor02Inicio: 85, // Temperatura do sensor de oxigênio em graus Celsius
+      temperaturaTransmissaoInicio: 70, // Temperatura da transmissão em graus Celsius
+      statusTransmissaoInicio: 'Normal', // Status geral da transmissão
+      codigoFalhaInicio: 'P0133', // Código de falha simulado indicando resposta lenta do sensor O2 (exemplo comum)
+      statusMonitoresEmissaoInicio: true, // Todos os monitores de emissão ativos
+      voltagemBateriaInicio: 12.6 // Tensão da bateria do veículo em volts
     });
+
   };
 
   const handleLimparCampos = () => {
@@ -211,7 +212,7 @@ export default function NovaViagem({ navigation }) {
       >
         <Picker.Item label="Selecione um veículo" value="" />
         {veiculos.map(veiculo => (
-          <Picker.Item key={veiculo.id} label={`${veiculo.marca} - ${veiculo.modelo}`} value={veiculo.id} />
+          <Picker.Item key={veiculo.id} label={`${veiculo.marca} - ${veiculo.modelo} - ${veiculo.placa}`} value={veiculo.id} />
         ))}
       </Picker>
 
@@ -245,7 +246,7 @@ export default function NovaViagem({ navigation }) {
         </View>
 
         {/* Adicionando os novos campos conforme solicitado */}
-        <Text style={styles.label}>Nível de Combustível</Text>
+        <Text style={styles.label}>Nível de Combustível (%)</Text>
         <TextInput
           style={styles.input}
           placeholder="Nível de Combustível"

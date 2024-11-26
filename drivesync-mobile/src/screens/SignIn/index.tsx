@@ -7,6 +7,7 @@ const SignIn: React.FC = () => {
   const { signIn } = useAuth();
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
+  const [secureText, setSecureText] = useState(true); // Estado para alternar visibilidade da senha
   const [loading, setLoading] = useState(false);
 
   async function handleSign() {
@@ -50,18 +51,21 @@ const SignIn: React.FC = () => {
           style={styles.input}
           placeholder="Senha"
           placeholderTextColor="#aaa"
-          secureTextEntry
+          secureTextEntry={secureText} // Controla a visibilidade da senha
           value={senha}
           onChangeText={setSenha}
         />
+        <TouchableOpacity onPress={() => setSecureText(!secureText)}>
+          <Ionicons
+            name={secureText ? "eye-off-outline" : "eye-outline"} // Alterna o ícone
+            size={20}
+            color="#aaa"
+          />
+        </TouchableOpacity>
       </View>
 
       <TouchableOpacity style={styles.button} onPress={handleSign} disabled={loading}>
         {loading ? <ActivityIndicator color="#fff" /> : <Text style={styles.buttonText}>Entrar</Text>}
-      </TouchableOpacity>
-
-      <TouchableOpacity>
-        <Text style={styles.forgotText}>Esqueci minha senha</Text>
       </TouchableOpacity>
     </View>
   );

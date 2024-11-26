@@ -71,7 +71,7 @@ const DetalhesViagem = ({ route }) => {
         <Text style={styles.detail}>Carregando informações do veículo...</Text>
       )}
 
-      <Text style={styles.title}>Diagnostico do veiculo</Text>
+      <Text style={styles.title}>Diagnóstico do veículo</Text>
 
 
       {/* Seção: Comparativo do Diagnostico */}
@@ -79,9 +79,9 @@ const DetalhesViagem = ({ route }) => {
         {/* Início da viagem */}
         <View style={styles.diagnosticoItem}>
           <Text style={styles.label}>
-            Combustível
+            Nível do Combustível
           </Text>
-          <Text style={styles.detail}>{viagem.nivelCombustivelInicio} L</Text>
+          <Text style={styles.detail}>{viagem.nivelCombustivelInicio} %</Text>
         </View>
 
         {/* Encerramento da viagem */}
@@ -89,7 +89,7 @@ const DetalhesViagem = ({ route }) => {
           <Text style={styles.label}>
             
           </Text>
-          <Text style={styles.detail}>{viagem.nivelCombustivelEncerramento} L</Text>
+          <Text style={styles.detail}>{viagem.nivelCombustivelEncerramento} %</Text>
         </View>
       </View>
 
