@@ -117,6 +117,15 @@ export function Sidebar() {
                 <span className="flex-1 ms-3 whitespace-nowrap">Acessos</span>
               </Link>
             </li>
+            <li>
+              <Link
+                to="/usuarios"
+                className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
+              >
+                <UserRoundPlus />
+                <span className="flex-1 ms-3 whitespace-nowrap">Usuários</span>
+              </Link>
+            </li>
 
             <hr className="my-3" />
 
@@ -127,15 +136,6 @@ export function Sidebar() {
               >
                 <Settings />
                 <span className="flex-1 ms-3 whitespace-nowrap">Suporte</span>
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/ajuda"
-                className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
-              >
-                <BadgeInfo />
-                <span className="flex-1 ms-3 whitespace-nowrap">Ajuda</span>
               </Link>
             </li>
             <li>

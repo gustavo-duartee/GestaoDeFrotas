@@ -49,19 +49,10 @@ export function RegisterPage() {
     return (
         <>
             <Sidebar />
-            <div className="flex flex-col lg:flex-row lg:ml-64 mt-8 px-6 py-12 bg-gray-50">
-                <div className="w-full lg:w-2/3 xl:w-2/4 bg-white shadow-lg rounded-lg p-6">
+            <div className="flex w-full flex-col items-center justify-center min-h-screen lg:ml-64 mt-8 px-4 sm:px-8 py-12 bg-gray-50">
+                <div className="w-full max-w-2xl bg-white shadow-lg rounded-lg p-6">
                     <h1 className="text-2xl font-medium text-gray-900 mb-6">Gerenciamento de Acessos</h1>
-
-                    <div className="relative overflow-x-auto mb-6">
-                        <div className="flex space-x-6 border-b border-gray-200 text-gray-500">
-                            <a href="#" className="p-4 cursor-not-allowed">Usuários</a>
-                            <a href="#" className="p-4 text-blue-600 border-b-2 border-blue-600">Novo Usuário</a>
-                            <a href="#" className="p-4 cursor-not-allowed">Permissões</a>
-                            <a href="#" className="p-4 cursor-not-allowed">Assinaturas</a>
-                        </div>
-                    </div>
-
+    
                     <form onSubmit={register} className="space-y-6">
                         <div className="grid grid-cols-1 gap-6">
                             {/* Informações pessoais */}
@@ -77,9 +68,9 @@ export function RegisterPage() {
                                     className="block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                 />
                             </div>
-
+    
                             {/* Linha com Cargo e Telefone */}
-                            <div className="grid grid-cols-2 gap-6">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                 <div>
                                     <label htmlFor="cargo" className="block text-sm font-medium text-gray-900">Cargo</label>
                                     <input
@@ -104,8 +95,7 @@ export function RegisterPage() {
                                 </div>
                             </div>
                         </div>
-
-
+    
                         {/* Informações de acesso */}
                         <div className="space-y-4">
                             <h2 className="text-lg font-semibold text-gray-900 mb-4">Informações de acesso</h2>
@@ -140,7 +130,7 @@ export function RegisterPage() {
                                 className="block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                             />
                         </div>
-
+    
                         {/* Permissões */}
                         <div className="space-y-4">
                             <div className="flex items-start">
@@ -158,9 +148,9 @@ export function RegisterPage() {
                                 </div>
                             </div>
                         </div>
-
+    
                         {/* Botões */}
-                        <div className="flex space-x-4 mt-6">
+                        <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mt-6">
                             <button
                                 type="button"
                                 onClick={clearFields}
@@ -180,4 +170,5 @@ export function RegisterPage() {
             </div>
         </>
     );
+    
 }
