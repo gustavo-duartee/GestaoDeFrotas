@@ -49,16 +49,15 @@ export function RegisterPage() {
     return (
         <>
             <Sidebar />
-            <div className="flex w-full flex-col items-center justify-center min-h-screen lg:ml-64 mt-8 px-4 sm:px-8 py-12 bg-gray-50">
-                <div className="w-full max-w-2xl bg-white shadow-lg rounded-lg p-6">
+            <div className="flex w-full flex-col  justify-center min-h-screen px-4 sm:px-8 py-12 bg-gray-50" style={{ flex: 1, marginTop: "2rem", marginLeft: "16rem"}}>
+                <div className="w-full max-w-7xl bg-white shadow-lg rounded-lg p-6">
                     <h1 className="text-2xl font-medium text-gray-900 mb-6">Gerenciamento de Acessos</h1>
-    
                     <form onSubmit={register} className="space-y-6">
                         <div className="grid grid-cols-1 gap-6">
                             {/* Informações pessoais */}
                             <div>
                                 <h2 className="text-lg font-semibold text-gray-900 mb-4">Informações pessoais</h2>
-                                <label htmlFor="nome" className="block text-sm font-medium text-gray-900">Nome Completo</label>
+                                <label htmlFor="nome" className="block text-sm font-medium text-gray-900 mb-3">Nome Completo</label>
                                 <input
                                     id="nome"
                                     value={nome}
@@ -72,7 +71,7 @@ export function RegisterPage() {
                             {/* Linha com Cargo e Telefone */}
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                 <div>
-                                    <label htmlFor="cargo" className="block text-sm font-medium text-gray-900">Cargo</label>
+                                    <label htmlFor="cargo" className="block text-sm font-medium text-gray-900 mb-3">Cargo</label>
                                     <input
                                         id="cargo"
                                         value={cargo}
@@ -83,7 +82,7 @@ export function RegisterPage() {
                                     />
                                 </div>
                                 <div>
-                                    <label htmlFor="telefone" className="block text-sm font-medium text-gray-900">Telefone</label>
+                                    <label htmlFor="telefone" className="block text-sm font-medium text-gray-900 mb-3">Telefone</label>
                                     <input
                                         id="telefone"
                                         value={telefone}

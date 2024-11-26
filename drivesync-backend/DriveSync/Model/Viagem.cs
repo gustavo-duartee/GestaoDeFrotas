@@ -36,6 +36,7 @@ namespace DriveSync.Model
         public string? codigoFalhaInicio { get; set; }
         public bool? statusMonitoresEmissaoInicio { get; set; }
         public double? voltagemBateriaInicio { get; set; }
+        public int? quilometragemInicio { get; set; }
 
 
         public DateTime? dataEncerramento { get; set; }
@@ -51,6 +52,7 @@ namespace DriveSync.Model
         public string? codigoFalhaEncerramento { get; set; }
         public bool? statusMonitoresEmissaoEncerramento { get; set; }
         public double? voltagemBateriaEncerramento { get; set; }
+        public int? quilometragemEncerramento { get; set; }
     }
 
     public enum StatusViagem

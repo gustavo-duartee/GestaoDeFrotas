@@ -2,13 +2,12 @@ import {
   MapPinned,
   ReceiptText,
   LayoutDashboard,
-  BadgeInfo,
-  UserRound,
   Settings,
-  CarFront,
+  BusFront,
   LogOut,
   Building2,
   UserRoundPlus,
+  UserRound,
 } from "lucide-react";
 import { useNavigate, Link } from "react-router-dom";
 
@@ -72,7 +71,7 @@ export function Sidebar() {
                 to="/veiculos"
                 className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
               >
-                <CarFront />
+                <BusFront />
                 <span className="flex-1 ms-3 whitespace-nowrap">Ônibus</span>
               </Link>
             </li>
@@ -101,15 +100,6 @@ export function Sidebar() {
 
             <li>
               <Link
-                to="/empresas"
-                className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
-              >
-                <Building2 />
-                <span className="flex-1 ms-3 whitespace-nowrap">Empresas</span>
-              </Link>
-            </li>
-            <li>
-              <Link
                 to="/registro"
                 className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
               >
@@ -122,7 +112,7 @@ export function Sidebar() {
                 to="/usuarios"
                 className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
               >
-                <UserRoundPlus />
+                <UserRound />
                 <span className="flex-1 ms-3 whitespace-nowrap">Usuários</span>
               </Link>
             </li>
