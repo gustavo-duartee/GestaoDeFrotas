@@ -25,6 +25,14 @@ export function ModalEditarVeiculo({
   const [renavam, setRenavam] = useState("");
   const [cor, setCor] = useState("");
 
+  const [erroQuilometragem, setErroQuilometragem] = useState("");
+  const [erroCapacidade, setErroCapacidade] = useState("");
+  const [erroPlaca, setErroPlaca] = useState("");
+  const [erroChassi, setErroChassi] = useState("");
+  const [erroRenavam, setErroRenavam] = useState("");
+  const [erroAno, setErroAno] = useState("");
+  const [erroDtAquisicao, setErroDtAquisicao] = useState("");
+
   const history = useNavigate();
 
   const token = localStorage.getItem("token");
@@ -98,6 +106,44 @@ export function ModalEditarVeiculo({
     onRequestClose(); // Fechando o modal após a edição do veículo
   }
 
+  const validarPlaca = (placa) => {
+    const placaLimpa = placa.replace(/\s/g, "").toUpperCase();
+    const regexPlacaAntiga = /^[A-Z]{3}-\d{4}$/;
+    const regexPlacaNova = /^[A-Z]{3}\d{1}[A-Z]{1}\d{2}$/;
+
+    return regexPlacaAntiga.test(placaLimpa) || regexPlacaNova.test(placaLimpa);
+  };
+
+  const anoAtual = new Date().getFullYear();
+
+  const validarChassi = (chassi) => {
+    const chassiLimpo = chassi.replace(/\s/g, "").toUpperCase();
+
+    const regexChassi = /^[A-HJ-NPR-Z0-9]{17}$/;
+
+    return regexChassi.test(chassiLimpo);
+  };
+  const validarRenavam = (renavam) => {
+    const regexRenavam = /^\d{11}$/;
+    return regexRenavam.test(renavam);
+  };
+  const validarCapacidade = (valor) => {
+    const numero = parseInt(valor, 10);
+    if (isNaN(numero) || numero < 1 || numero > 160) {
+      setErroCapacidade("Capacidade deve ser um número entre 1 e 160.");
+    } else {
+      setErroCapacidade("");
+    }
+  };
+  const validarQuilometragem = (valor) => {
+    const numero = parseFloat(valor);
+    if (isNaN(numero) || numero < 0) {
+      setErroQuilometragem("Quilometragem deve ser maior ou igual a 1!");
+    } else {
+      setErroQuilometragem("");
+    }
+  };
+
   return (
     <ReactModal
       isOpen={isOpen}
@@ -110,7 +156,7 @@ export function ModalEditarVeiculo({
       <div className="modal-content bg-white shadow-lg rounded-lg w-full max-w-md">
         <div className="modal-header flex justify-between items-center px-6 py-4 bg-gray-50 rounded-t-lg">
           <h3 className="modal-title text-lg font-semibold text-gray-900">
-            Editar veículo
+            Editar Ônibus
           </h3>
           <button
             onClick={onRequestClose}
@@ -169,8 +215,21 @@ export function ModalEditarVeiculo({
                     id="placa"
                     className="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     value={placa}
-                    onChange={(e) => setPlaca(e.target.value)}
+                    onChange={(e) => {
+                      const placaInput = e.target.value;
+                      setPlaca(placaInput);
+                      if (!validarPlaca(placaInput)) {
+                        setErroPlaca(
+                          "Placa inválida. Formato esperado: AAA-1234 ou ABC1D23."
+                        );
+                      } else {
+                        setErroPlaca("");
+                      }
+                    }}
                   />
+                  {erroPlaca && (
+                    <p className="text-red-500 text-sm">{erroPlaca}</p>
+                  )}
                 </div>
                 <div className="col-span-1 mb-2 mr-3">
                   <label
@@ -217,12 +276,24 @@ export function ModalEditarVeiculo({
                   </label>
                   <input
                     type="number"
+                    onChange={(e) => {
+                      const anoInput = parseInt(e.target.value, 10);
+                      setAno(e.target.value);
+                      if (anoInput < 1886 || anoInput > anoAtual) {
+                        setErroAno(
+                          "Ano inválido. Deve ser entre 1886 e o ano atual."
+                        );
+                      } else {
+                        setErroAno("");
+                      }
+                    }}
                     name="ano"
                     id="ano"
-                    className="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     value={ano}
-                    onChange={(e) => setAno(e.target.value)}
+                    placeholder="Ex.: 2020"
                   />
+                  {erroAno && <p className="text-red-500 text-sm">{erroAno}</p>}
                 </div>
                 <div className="col-span-1 mb-2 mr-3">
                   <label
@@ -237,8 +308,15 @@ export function ModalEditarVeiculo({
                     id="quilometragem"
                     className="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     value={quilometragem}
-                    onChange={(e) => setQuilometragem(e.target.value)}
+                    onChange={(e) => {
+                      const valor = e.target.value;
+                      setQuilometragem(valor);
+                      validarQuilometragem(valor);
+                    }}
                   />
+                  {erroQuilometragem && (
+                    <p className="text-red-500 text-sm">{erroQuilometragem}</p>
+                  )}
                 </div>
                 <div className="col-span-1 mb-2 mr-3">
                   <label
@@ -253,8 +331,31 @@ export function ModalEditarVeiculo({
                     id="dt_aquisicao"
                     className="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     value={formatDateEdit(dt_aquisicao)}
-                    onChange={(e) => setDtAquisicao(e.target.value)}
+                    onChange={(e) => {
+                      const dataSelecionada = e.target.value;
+                      const dataAtual = new Date();
+                      const dataAtualSemHoras = new Date(
+                        dataAtual.getFullYear(),
+                        dataAtual.getMonth(),
+                        dataAtual.getDate()
+                      );
+
+                      setDtAquisicao(dataSelecionada);
+
+                      if (new Date(dataSelecionada) > dataAtualSemHoras) {
+                        setErroDtAquisicao(
+                          "A data de aquisição não pode ser maior que a data atual."
+                        );
+                      } else {
+                        setErroDtAquisicao("");
+                      }
+                    }}
                   />
+                  {erroDtAquisicao && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {erroDtAquisicao}
+                    </p>
+                  )}
                 </div>
                 <div className="col-span-1 mb-2">
                   <label
@@ -269,10 +370,16 @@ export function ModalEditarVeiculo({
                     id="cap_passageiros"
                     className="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     value={cap_passageiros}
-                    onChange={(e) => setCapPassageiros(e.target.value)}
+                    onChange={(e) => {
+                      const valor = e.target.value;
+                      setCapPassageiros(valor);
+                      validarCapacidade(valor);
+                    }}
                   />
+                  {erroCapacidade && (
+                    <p className="text-red-500 text-sm">{erroCapacidade}</p>
+                  )}
                 </div>
-
                 <div className="col-span-1 mb-2 mr-3">
                   <label
                     htmlFor="categoria"
@@ -281,16 +388,22 @@ export function ModalEditarVeiculo({
                     Categoria
                   </label>
                   <select
+                    name="categoria"
                     id="categoria"
                     onChange={(e) => setCategoria(e.target.value)}
-                    name="categoria"
                     className="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   >
-                    <option value="Gasolina Comum">Urbano</option>
-                    <option value="Etanol">Rodoviário</option>
-                    <option value="Diesel">Micro-Ônibus</option>
+                    <option value="Micro-ônibus">Micro-ônibus</option>
+                    <option value="Miniônibus">Miniônibus</option>
+                    <option value="Midiônibus">Midiônibus</option>
+                    <option value="Ônibus básico">Ônibus básico</option>
+                    <option value="Ônibus padron">Ônibus padron</option>
+                    <option value="Ônibus articulado">Ônibus articulado</option>
+                    <option value="Ônibus biarticulado">
+                      Ônibus biarticulado
+                    </option>
                   </select>
-                </div>
+                </div>{" "}
                 <div className="col-span-1 mb-2">
                   <label
                     htmlFor="cor"
@@ -298,18 +411,27 @@ export function ModalEditarVeiculo({
                   >
                     Cor
                   </label>
-                  <div className="relative mt-1 rounded-md shadow-sm">
-                    <input
-                      type="text"
-                      onChange={(e) => setCor(e.target.value)}
-                      name="cor"
-                      id="cor"
-                      className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                      placeholder="Ex.: Preto"
-                    />
-                  </div>
+                  <select
+                    id="cor"
+                    type="text"
+                    onChange={(e) => setCor(e.target.value)}
+                    name="cor"
+                    className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    value={cor}
+                  >
+                    <option value="" disabled selected>
+                      Selecione uma cor
+                    </option>
+                    <option value="Amarelo">Amarelo</option>
+                    <option value="Branco">Branco</option>
+                    <option value="Laranja">Laranja</option>
+                    <option value="Preto">Preto</option>
+                    <option value="Roxo">Roxo</option>
+                    <option value="Verde">Verde</option>
+                    <option value="Vermelho">Vermelho</option>
+                    <option value="Outros">Outros</option>
+                  </select>
                 </div>
-
                 <div className="col-span-1 mb-2">
                   <label
                     htmlFor="renavam"
@@ -320,12 +442,26 @@ export function ModalEditarVeiculo({
                   <div className="relative mt-1 rounded-md shadow-sm">
                     <input
                       type="number"
-                      onChange={(e) => setRenavam(e.target.value)}
+                      onChange={(e) => {
+                        const renavamInput = e.target.value;
+                        setRenavam(renavamInput);
+                        if (!validarRenavam(renavamInput)) {
+                          setErroRenavam(
+                            "Renavam inválido. Deve ter 11 dígitos."
+                          );
+                        } else {
+                          setErroRenavam("");
+                        }
+                      }}
                       name="renavam"
                       id="renavam"
                       className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      value={renavam}
                       placeholder="Ex.: 96985826040"
                     />
+                    {erroRenavam && (
+                      <p className="text-red-500 text-sm">{erroRenavam}</p>
+                    )}
                   </div>
                 </div>
                 <div className="col-span-1 mb-2 mr-3">
@@ -335,14 +471,17 @@ export function ModalEditarVeiculo({
                   >
                     Status
                   </label>
-                  <input
-                    type="text"
+                  <select
                     name="status"
                     id="status"
                     className="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     value={status}
                     onChange={(e) => setStatus(e.target.value)}
-                  />
+                  >
+                    <option value="Em uso">Em uso</option>
+                    <option value="Disponivel">Disponível</option>
+                    <option value="Manutencao">Manutenção</option>
+                  </select>
                 </div>
                 <div className="col-span-2 mb-2">
                   <label
@@ -354,15 +493,28 @@ export function ModalEditarVeiculo({
                   <div className="relative mt-1 rounded-md shadow-sm">
                     <input
                       type="string"
-                      onChange={(e) => setNmrChassi(e.target.value)}
+                      onChange={(e) => {
+                        const chassiInput = e.target.value;
+                        setNmrChassi(chassiInput);
+                        if (!validarChassi(chassiInput)) {
+                          setErroChassi(
+                            "Chassi inválido. Formato esperado: 17 caracteres (sem I, O, Q)."
+                          );
+                        } else {
+                          setErroChassi("");
+                        }
+                      }}
                       name="nmr_chassi"
                       id="nmr_chassi"
                       className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                      placeholder="Ex.: 7G6 9dXa0K xs 9D1923"
+                      value={nmr_chassi}
+                      placeholder="Ex.: 9BD111060T5002156"
                     />
+                    {erroChassi && (
+                      <p className="text-red-500 text-sm">{erroChassi}</p>
+                    )}
                   </div>
                 </div>
-                {/* <div id="root"></div> */}
               </div>
             </div>
 
@@ -376,7 +528,20 @@ export function ModalEditarVeiculo({
 
               <button
                 type="submit"
+                id="btnSalvar"
                 className="w-1/2 flex justify-center items-center text-white border bg-blue-700 hover:bg-blue-800 focus:ring-2 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5"
+                style={{
+                  display:
+                    erroPlaca ||
+                    erroAno ||
+                    erroCapacidade ||
+                    erroQuilometragem ||
+                    erroRenavam ||
+                    erroChassi ||
+                    erroDtAquisicao
+                      ? "none"
+                      : "block",
+                }}
               >
                 Salvar
               </button>

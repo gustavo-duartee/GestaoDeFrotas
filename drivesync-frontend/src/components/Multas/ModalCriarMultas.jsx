@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReactModal from "react-modal";
 import api from "../../services/api";
 import { useNavigate } from "react-router-dom";
@@ -9,9 +9,15 @@ export function ModalCriarMulta({ isOpen, onRequestClose }) {
   const [dtmulta, setDtMulta] = useState("");
   const [tpinfracao, setTpInfracao] = useState("");
   const [valor, setValor] = useState(0);
-  const [ptscarteira, setPtsCarteira] = useState(0);
+  //const [ptscarteira, setPtsCarteira] = useState(0);
   const [descricao, setDescricao] = useState("");
   const [veiculoid, setVeiculoId] = useState(0);
+  const [getVeiculo, setVeiculos] = useState([]);
+  const [veiculo, setVeiculo] = useState([]);
+
+  const [erroCodigo, setErroCodigo] = useState("");
+  const [erroDataMulta, setErroDataMulta] = useState("");
+  const [erroValor, setErroValor] = useState("");
 
   const history = useNavigate();
 
@@ -33,7 +39,7 @@ export function ModalCriarMulta({ isOpen, onRequestClose }) {
       dtmulta,
       tpinfracao,
       valor,
-      ptscarteira,
+      //ptscarteira,
       descricao,
       veiculoid,
     };
@@ -47,6 +53,32 @@ export function ModalCriarMulta({ isOpen, onRequestClose }) {
       alert("Erro ao adicionar multa: " + error);
     }
   }
+
+  useEffect(() => {
+    api
+      .get("api/veiculos", authorization)
+      .then((response) => {
+        setVeiculos(response.data);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error("Erro ao obter veiculo: ", error);
+      });
+  }, []);
+  const onChange = (e) => {
+    const [idVeiculo, veiculoName] = e.target.value.split(",");
+    setVeiculo(veiculoName);
+    setVeiculoId(idVeiculo);
+    console.log("Veiculo ID: ", idVeiculo);
+  };
+  const validarValor = (valor) => {
+    const numero = parseFloat(valor);
+    if (isNaN(numero) || numero <= 0) {
+      setErroValor("O valor deve ser maior ou igual a 1!");
+    } else {
+      setErroValor("");
+    }
+  };
 
   return (
     <ReactModal
@@ -106,7 +138,39 @@ export function ModalCriarMulta({ isOpen, onRequestClose }) {
                   />
                 </div>
               </div> */}
-
+              <div className="col-span-2 mb-2">
+                <label
+                  htmlFor="veiculo"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Veículo
+                </label>
+                <div className="relative mt-1 rounded-md shadow-sm">
+                  <select
+                    id="veiculo"
+                    onChange={onChange}
+                    name="veiculo"
+                    className="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  >
+                    <option value="" disable selected>
+                      Selecione um veículo
+                    </option>
+                    {getVeiculo.map((veiculo) => (
+                      <option
+                        value={
+                          veiculo.id +
+                          "," +
+                          veiculo.marca +
+                          " " +
+                          veiculo.modelo
+                        }
+                      >
+                        {veiculo.marca} {veiculo.modelo}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
               <div className="col-span-2 mb-2">
                 <label
                   htmlFor="codigo"
@@ -117,50 +181,102 @@ export function ModalCriarMulta({ isOpen, onRequestClose }) {
                 <div className="relative mt-1 rounded-md shadow-sm">
                   <input
                     type="text"
-                    onChange={(e) => setCodigo(e.target.value)}
+                    onChange={(e) => {
+                      const codigoInput = e.target.value;
+                      const regex = /^\d{3}-\d{2}$/;
+                      if (regex.test(codigoInput)) {
+                        setCodigo(codigoInput);
+                        setErroCodigo("");
+                      } else {
+                        setErroCodigo(
+                          "Código inválido. Formato esperado: 123-45."
+                        );
+                      }
+                    }}
                     name="codigo"
                     id="codigo"
                     className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     placeholder="Digite o codigo"
                   />
+                  {erroCodigo && (
+                    <p className="text-red-500 text-sm">{erroCodigo}</p>
+                  )}
                 </div>
               </div>
-
               <div className="col-span-2 mb-2">
                 <label
                   htmlFor="dtmulta"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
-                  Data da multa
+                  Data da Infração
                 </label>
                 <div className="relative mt-1 rounded-md shadow-sm">
                   <input
                     type="date"
-                    onChange={(e) => setDtMulta(e.target.value)}
+                    // onChange={(e) => {
+                    //   const dataSelecionada = e.target.value;
+                    //   const dataAtual = new Date().toISOString().split("T")[0];
+
+                    //   setDtMulta(dataSelecionada);
+
+                    //   if (dataSelecionada > dataAtual) {
+                    //     setErroDataMulta(
+                    //       "A data da infração não pode ser maior que a data atual."
+                    //     );
+                    //   } else {
+                    //     setErroDataMulta("");
+                    //   }
+                    // }}
+                    onChange={(e) => {
+                      const dataSelecionada = e.target.value;
+                      const dataAtual = new Date();
+                      const dataAtualSemHoras = new Date(
+                        dataAtual.getFullYear(),
+                        dataAtual.getMonth(),
+                        dataAtual.getDate()
+                      );
+
+                      setDtMulta(dataSelecionada);
+
+                      if (new Date(dataSelecionada) > dataAtualSemHoras) {
+                        setErroDataMulta(
+                          "A data da manutenção não pode ser maior que a data atual."
+                        );
+                      } else {
+                        setErroDataMulta("");
+                      }
+                    }}
                     name="dtmulta"
                     id="dtmulta"
                     className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    placeholder="Digite a data da infração"
                   />
                 </div>
+                {erroDataMulta && (
+                  <p className="text-red-500 text-sm mt-1">{erroDataMulta}</p>
+                )}
               </div>
-
               <div className="col-span-2 mb-2">
                 <label
                   htmlFor="tpinfracao"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
-                  Tipo de Infração
+                  Categoria
                 </label>
                 <div className="relative mt-1 rounded-md shadow-sm">
-                  <input
-                    type="text"
+                  <select
                     onChange={(e) => setTpInfracao(e.target.value)}
                     name="tpinfracao"
                     id="tpinfracao"
                     className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    placeholder="Digite o tipo de infração"
-                  />
+                  >
+                    <option value="" disabled selected>
+                      Selecione uma opção
+                    </option>
+                    <option value="Leve">Leve</option>
+                    <option value="Média">Média</option>
+                    <option value="Grave">Grave</option>
+                    <option value="Gravíssima">Gravíssima</option>
+                  </select>
                 </div>
               </div>
 
@@ -174,16 +290,24 @@ export function ModalCriarMulta({ isOpen, onRequestClose }) {
                 <div className="relative mt-1 rounded-md shadow-sm">
                   <input
                     type="number"
-                    onChange={(e) => setValor(e.target.value)}
+                    onChange={(e) => {
+                      const valor = e.target.value;
+                      setErroValor(valor);
+                      setValor(valor);
+                      validarValor(valor);
+                    }} //setValor(e.target.value)}
                     name="valor"
                     id="valor"
                     className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     placeholder="Digite o valor"
                   />
                 </div>
+                {erroValor && (
+                  <p className="text-red-500 text-sm">{erroValor}</p>
+                )}
               </div>
 
-              <div className="col-span-2 mb-2">
+              {/* <div className="col-span-2 mb-2">
                 <label
                   htmlFor="ptscarteira"
                   className="block text-sm font-medium leading-6 text-gray-900"
@@ -200,14 +324,14 @@ export function ModalCriarMulta({ isOpen, onRequestClose }) {
                     placeholder="Digite quantos pontos na carteira"
                   />
                 </div>
-              </div>
+              </div> */}
 
               <div className="col-span-2 mb-2">
                 <label
                   htmlFor="descricao"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
-                  Descricao
+                  Descrição
                 </label>
                 <div className="relative mt-1 rounded-md shadow-sm">
                   <input
@@ -225,6 +349,7 @@ export function ModalCriarMulta({ isOpen, onRequestClose }) {
             <div className="flex justify-between gap-2 mt-8">
               <button
                 type="button"
+                onClick={onRequestClose}
                 className="w-1/2 flex justify-center items-center text-gray-900 border bg-white hover:bg-gray-200 focus:ring-2 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5"
               >
                 Cancelar
@@ -233,8 +358,11 @@ export function ModalCriarMulta({ isOpen, onRequestClose }) {
               <button
                 type="submit"
                 className="w-1/2 flex justify-center items-center text-white border bg-blue-700 hover:bg-blue-800 focus:ring-2 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5"
+                style={{
+                  display: erroCodigo || erroDataMulta ? "none" : "block",
+                }}
               >
-                <svg
+                {/* <svg
                   className="me-1 -ms-1 w-5 h-5"
                   fill="currentColor"
                   viewBox="0 0 20 20"
@@ -245,7 +373,7 @@ export function ModalCriarMulta({ isOpen, onRequestClose }) {
                     d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
                     clipRule="evenodd"
                   ></path>
-                </svg>
+                </svg> */}
                 Adicionar
               </button>
             </div>

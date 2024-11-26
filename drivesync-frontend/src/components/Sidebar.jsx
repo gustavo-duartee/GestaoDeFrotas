@@ -73,7 +73,7 @@ export function Sidebar() {
                 className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
               >
                 <CarFront />
-                <span className="flex-1 ms-3 whitespace-nowrap">Veículos</span>
+                <span className="flex-1 ms-3 whitespace-nowrap">Ônibus</span>
               </Link>
             </li>
             <li>
@@ -114,9 +114,7 @@ export function Sidebar() {
                 className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
               >
                 <UserRoundPlus />
-                <span className="flex-1 ms-3 whitespace-nowrap">
-                  Funcionários
-                </span>
+                <span className="flex-1 ms-3 whitespace-nowrap">Acessos</span>
               </Link>
             </li>
 

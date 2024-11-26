@@ -11,6 +11,9 @@ export function ModalCriarEmpresa({ isOpen, onRequestClose }) {
   const [telefone, setTelefone] = useState("");
   const [data_cadastro, setData_cadastro] = useState("");
 
+  const [erroCNPJ, setErroCNPJ] = useState("");
+  const [erroEmail, setErroEmail] = useState("");
+
   const history = useNavigate();
 
   const token = localStorage.getItem("token");
@@ -44,6 +47,68 @@ export function ModalCriarEmpresa({ isOpen, onRequestClose }) {
       console.log(error);
     }
   }
+  function validarCNPJ(cnpj) {
+    // Remove caracteres não numéricos
+    cnpj = cnpj.replace(/[^\d]+/g, "");
+
+    // Verifica se o CNPJ tem 14 dígitos
+    if (cnpj.length !== 14) return false;
+
+    // Elimina CNPJs inválidos conhecidos
+    if (/^(\d)\1+$/.test(cnpj)) return false;
+
+    // Cálculo do primeiro dígito verificador
+    let tamanho = cnpj.length - 2;
+    let numeros = cnpj.substring(0, tamanho);
+    let digitos = cnpj.substring(tamanho);
+    let soma = 0;
+    let pos = tamanho - 7;
+
+    for (let i = tamanho; i >= 1; i--) {
+      soma += numeros.charAt(tamanho - i) * pos--;
+      if (pos < 2) pos = 9;
+    }
+
+    let resultado = soma % 11 < 2 ? 0 : 11 - (soma % 11);
+    if (resultado != digitos.charAt(0)) return false;
+
+    // Cálculo do segundo dígito verificador
+    tamanho = tamanho + 1;
+    numeros = cnpj.substring(0, tamanho);
+    soma = 0;
+    pos = tamanho - 7;
+
+    for (let i = tamanho; i >= 1; i--) {
+      soma += numeros.charAt(tamanho - i) * pos--;
+      if (pos < 2) pos = 9;
+    }
+
+    resultado = soma % 11 < 2 ? 0 : 11 - (soma % 11);
+    if (resultado != digitos.charAt(1)) return false;
+
+    return true;
+  }
+  function validarEmailComplexo(email) {
+    const regexEmailComplexo =
+      /^(?![_.-])[A-Za-z0-9._%+-]+(?<![_.-])@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}$/;
+    return regexEmailComplexo.test(email);
+  }
+
+  // const handleCNPJChange = (e) => {
+  //   const valor = e.target.value;
+  //   setCNPJ(valor);
+
+  //   if (valor.length === 14 || valor.length === 18) {
+  //     // Tamanho esperado para CNPJ com ou sem formatação
+  //     if (!validarCNPJ(valor)) {
+  //       setErroCNPJ("CNPJ inválido.");
+  //     } else {
+  //       setErroCNPJ("");
+  //     }
+  //   } else {
+  //     setErroCNPJ("O CNPJ deve ter 14 dígitos.");
+  //   }
+  // };
 
   return (
     <ReactModal
@@ -106,7 +171,7 @@ export function ModalCriarEmpresa({ isOpen, onRequestClose }) {
 
               <div className="col-span-2 mb-2">
                 <label
-                  htmlFor="CNPJ"
+                  htmlFor="cnpj"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
                   CNPJ
@@ -114,13 +179,30 @@ export function ModalCriarEmpresa({ isOpen, onRequestClose }) {
                 <div className="relative mt-1 rounded-md shadow-sm">
                   <input
                     type="text"
-                    onChange={(e) => setCNPJ(e.target.value)}
+                    onChange={(e) => {
+                      const valor = e.target.value;
+                      setCNPJ(valor);
+
+                      if (valor.length === 14 || valor.length === 18) {
+                        // Tamanho esperado para CNPJ com ou sem formatação
+                        if (!validarCNPJ(valor)) {
+                          setErroCNPJ("CNPJ inválido.");
+                        } else {
+                          setErroCNPJ("");
+                        }
+                      } else {
+                        setErroCNPJ("O CNPJ deve ter 14 dígitos.");
+                      }
+                    }}
                     name="cnpj"
                     id="cnpj"
                     className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     placeholder="Digite o CNPJ"
                   />
                 </div>
+                {erroCNPJ && (
+                  <p className="text-red-500 text-sm mt-1">{erroCNPJ}</p>
+                )}
               </div>
 
               <div className="col-span-2 mb-2">
@@ -150,13 +232,25 @@ export function ModalCriarEmpresa({ isOpen, onRequestClose }) {
                 <div className="relative mt-1 rounded-md shadow-sm">
                   <input
                     type="text"
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={(e) => {
+                      const valor = e.target.value;
+                      setEmail(valor);
+
+                      if (valor && !validarEmailComplexo(valor)) {
+                        setErroEmail("Email inválido. Verifique o formato.");
+                      } else {
+                        setErroEmail("");
+                      }
+                    }}
                     name="email"
                     id="email"
                     className="block w-full rounded-md border-0 py-1.5 pl-3 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     placeholder="Digite o email"
                   />
                 </div>
+                {erroEmail && (
+                  <p className="text-red-500 text-sm mt-1">{erroEmail}</p>
+                )}
               </div>
 
               <div className="col-span-2 mb-2">

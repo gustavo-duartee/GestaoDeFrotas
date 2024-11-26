@@ -4,6 +4,7 @@ using DriveSync.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,127 +12,18 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DriveSync.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241026205526_AjusteColunas")]
+    partial class AjusteColunas
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.8")
+                .HasAnnotation("ProductVersion", "8.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("DriveSync.Model.ApplicationUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Cargo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Telefone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.ToTable("AspNetUsers", (string)null);
-                });
-
-            modelBuilder.Entity("DriveSync.Model.Checklists", b =>
-                {
-                    b.Property<int?>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("id"));
-
-                    b.Property<bool?>("combustivel")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("equipamentos")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("estepe")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("extintor")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("freios")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("luzes")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("pneus")
-                        .HasColumnType("bit");
-
-                    b.HasKey("id");
-
-                    b.ToTable("Checklists");
-                });
 
             modelBuilder.Entity("DriveSync.Model.Empresa", b =>
                 {
@@ -336,115 +228,6 @@ namespace DriveSync.Migrations
                     b.ToTable("Veiculos");
                 });
 
-            modelBuilder.Entity("DriveSync.Model.Viagem", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
-
-                    b.Property<int?>("checklistId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("codigoFalhaEncerramento")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("codigoFalhaInicio")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("dataEncerramento")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("dataInicio")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("localizacaoEncerramento")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("localizacaoInicio")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("monitorCatalisadorEncerramento")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("monitorCatalisadorInicio")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("monitorSensor02Encerramento")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("monitorSensor02Inicio")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("motoristaId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double?>("nivelCombustivelEncerramento")
-                        .HasColumnType("float");
-
-                    b.Property<double?>("nivelCombustivelInicio")
-                        .HasColumnType("float");
-
-                    b.Property<string>("observacoesEncerramento")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("observacoesInicio")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("status")
-                        .HasColumnType("int");
-
-                    b.Property<bool?>("statusControleEmissaoEncerramento")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("statusControleEmissaoInicio")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("statusMonitoresEmissaoEncerramento")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("statusMonitoresEmissaoInicio")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("statusTransmissaoEncerramento")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("statusTransmissaoInicio")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double?>("temperaturaSensor02Encerramento")
-                        .HasColumnType("float");
-
-                    b.Property<double?>("temperaturaSensor02Inicio")
-                        .HasColumnType("float");
-
-                    b.Property<double?>("temperaturaTransmissaoEncerramento")
-                        .HasColumnType("float");
-
-                    b.Property<double?>("temperaturaTransmissaoInicio")
-                        .HasColumnType("float");
-
-                    b.Property<int?>("veiculoId")
-                        .IsRequired()
-                        .HasColumnType("int");
-
-                    b.Property<double?>("voltagemBateriaEncerramento")
-                        .HasColumnType("float");
-
-                    b.Property<double?>("voltagemBateriaInicio")
-                        .HasColumnType("float");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("checklistId");
-
-                    b.HasIndex("veiculoId");
-
-                    b.ToTable("Viagens");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -495,6 +278,71 @@ namespace DriveSync.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetRoleClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -587,23 +435,6 @@ namespace DriveSync.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("DriveSync.Model.Viagem", b =>
-                {
-                    b.HasOne("DriveSync.Model.Checklists", "checklist")
-                        .WithMany()
-                        .HasForeignKey("checklistId");
-
-                    b.HasOne("DriveSync.Model.Veiculo", "veiculo")
-                        .WithMany()
-                        .HasForeignKey("veiculoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("checklist");
-
-                    b.Navigation("veiculo");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -615,7 +446,7 @@ namespace DriveSync.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("DriveSync.Model.ApplicationUser", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -624,7 +455,7 @@ namespace DriveSync.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("DriveSync.Model.ApplicationUser", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -639,7 +470,7 @@ namespace DriveSync.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DriveSync.Model.ApplicationUser", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -648,7 +479,7 @@ namespace DriveSync.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("DriveSync.Model.ApplicationUser", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
