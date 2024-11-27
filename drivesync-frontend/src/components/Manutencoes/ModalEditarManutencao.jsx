@@ -295,7 +295,7 @@ export function ModalEditarManutencao({
                       .filter((veiculo) => veiculo.id !== veiculoId)
                       .map((veiculo) => (
                         <option key={veiculo.id} value={veiculo.id}>
-                          {veiculo.marca} {veiculo.modelo}
+                          {veiculo.marca} - {veiculo.modelo}, {veiculo.placa}
                         </option>
                       ))}
                   </select>
