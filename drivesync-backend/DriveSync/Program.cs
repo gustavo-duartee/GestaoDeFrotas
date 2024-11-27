@@ -108,13 +108,10 @@ builder.Services.AddSwaggerGen(c =>
 
 
 var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Your API V1");
+});
 
 app.MapHub<ViagensHub>("/viagensHub");
 
@@ -126,7 +123,7 @@ app.UseCors("DefaultPolicy");
 
 app.UseAuthentication();
 app.UseAuthorization();
-
+app.UseSwagger();
 app.MapControllers();
 
 app.Run();
