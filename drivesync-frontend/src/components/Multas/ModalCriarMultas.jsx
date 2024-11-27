@@ -165,7 +165,7 @@ export function ModalCriarMulta({ isOpen, onRequestClose }) {
                           veiculo.modelo
                         }
                       >
-                        {veiculo.marca} {veiculo.modelo}
+                        {veiculo.marca} - {veiculo.modelo}, {veiculo.placa}
                       </option>
                     ))}
                   </select>

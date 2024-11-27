@@ -213,7 +213,7 @@ export function Manutencoes() {
                                     veiculo.id === manutencao.veiculoId
                                 );
                                 return veiculo
-                                  ? `${veiculo.marca} ${veiculo.modelo}`
+                                  ? `${veiculo.marca} - ${veiculo.modelo}, ${veiculo.placa}`
                                   : "Veículo não encontrado";
                               })()}
                             </td>
@@ -279,7 +279,7 @@ export function Manutencoes() {
                                       veiculo.id === manutencao.veiculoId
                                   );
                                   return veiculo
-                                    ? `${veiculo.marca} ${veiculo.modelo}`
+                                    ? `${veiculo.marca} - ${veiculo.modelo}, ${veiculo.placa}`
                                     : "Veículo não encontrado";
                                 })()}
                               </td>

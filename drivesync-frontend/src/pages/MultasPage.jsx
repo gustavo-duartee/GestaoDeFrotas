@@ -173,11 +173,11 @@ export function Multas() {
                   {/* Cabeçalho da tabela */}
                   <thead className="text-xs text-gray-700 uppercase bg-gray-50 border">
                     <tr>
-                      <th scope="col" className="px-6 py-3">
+                      {/* <th scope="col" className="px-6 py-3">
                         ID da Viagem
-                      </th>
+                      </th> */}
                       <th scope="col" className="px-6 py-3">
-                        Codigo
+                        Código da Multa
                       </th>
                       <th scope="col" className="px-6 py-3">
                         Data da Multa
@@ -204,13 +204,13 @@ export function Multas() {
                     {searchInput.length > 1
                       ? filtro.map((multa) => (
                           <tr key={multa.id} className="bg-white border-b">
-                            <td className="px-6 py-4">{multa.idviagem}</td>
+                            {/* <td className="px-6 py-4">{multa.idviagem}</td> */}
                             <td className="px-6 py-4">{multa.codigo}</td>
                             <td className="px-6 py-4">
                               {formatDate(multa.dtmulta)}
                             </td>
                             <td className="px-6 py-4">{multa.tpinfracao}</td>
-                            <td className="px-6 py-4">{multa.valor}</td>
+                            <td className="px-6 py-4">R$ {multa.valor}</td>
                             {/* <td className="px-6 py-4">{multa.ptscarteira}</td> */}
                             <td className="px-6 py-4">{multa.descricao}</td>
                             <td>
@@ -219,7 +219,7 @@ export function Multas() {
                                   (veiculo) => veiculo.id === multa.veiculoid
                                 );
                                 return veiculo
-                                  ? `${veiculo.marca} ${veiculo.modelo}`
+                                  ? `${veiculo.marca} - ${veiculo.modelo}, ${veiculo.placa}`
                                   : "Veículo não encontrado";
                               })()}
                             </td>
@@ -245,13 +245,13 @@ export function Multas() {
                         ))
                       : multas.map((multa) => (
                           <tr key={multa.id} className="bg-white border-b">
-                            <td className="px-6 py-4">{multa.idviagem}</td>
+                            {/* <td className="px-6 py-4">{multa.idviagem}</td> */}
                             <td className="px-6 py-4">{multa.codigo}</td>
                             <td className="px-6 py-4">
                               {formatDate(multa.dtmulta)}
                             </td>
                             <td className="px-6 py-4">{multa.tpinfracao}</td>
-                            <td className="px-6 py-4">{multa.valor}</td>
+                            <td className="px-6 py-4">R$ {multa.valor}</td>
                             {/* <td className="px-6 py-4">{multa.ptscarteira}</td> */}
                             <td className="px-6 py-4">{multa.descricao}</td>
                             <td>
@@ -260,7 +260,7 @@ export function Multas() {
                                   (veiculo) => veiculo.id === multa.veiculoid
                                 );
                                 return veiculo
-                                  ? `${veiculo.marca} ${veiculo.modelo}`
+                                  ? `${veiculo.marca} - ${veiculo.modelo}, ${veiculo.placa}`
                                   : "Veículo não encontrado";
                               })()}
                             </td>
