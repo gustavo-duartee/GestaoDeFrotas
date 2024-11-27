@@ -77,6 +77,7 @@ namespace DriveSync.Controllers
         }
 
         [HttpPost]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult> Create(Veiculo veiculo)
         {
             try
@@ -92,6 +93,7 @@ namespace DriveSync.Controllers
         }
 
         [HttpPut("{id:int}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult> Edit(int id, [FromBody] Veiculo veiculo)
         {
             try
@@ -111,6 +113,7 @@ namespace DriveSync.Controllers
         }
 
         [HttpDelete("{id:int}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult> Delete(int id)
         {
             try

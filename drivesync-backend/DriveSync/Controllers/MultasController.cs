@@ -9,7 +9,7 @@ namespace DriveSync.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class MultasController : ControllerBase
     {
         private readonly ILogger<MultasController> _logger;
@@ -69,6 +69,7 @@ namespace DriveSync.Controllers
             }
         }
         [HttpPost]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult> Create (Multa multa)
         {
             try
@@ -82,6 +83,7 @@ namespace DriveSync.Controllers
             }
         }
         [HttpPut("{id:int}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult> Edit(int id, [FromBody] Multa multa)
         {
             try
@@ -99,6 +101,7 @@ namespace DriveSync.Controllers
             }
         }
         [HttpDelete("{id:int}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult> Delete (int id)
         {
             try
