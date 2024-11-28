@@ -27,7 +27,8 @@ export default function LoginPage() {
             history('/home');
 
         } catch (error) {
-            alert("O login falhou " + error)
+            //alert("O login falhou " + error)
+            alert("Senha ou Email incorretos!")
         }
 
         console.log(email, senha);

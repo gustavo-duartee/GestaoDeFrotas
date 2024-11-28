@@ -10,6 +10,8 @@ export function RegisterPage() {
     const [cargo, setCargo] = useState('');
     const [confirmaSenha, setConfirmaSenha] = useState('');
 
+    const [erroSenha, setErroSenha] = useState("");
+
     async function register(event) {
         event.preventDefault();
 
@@ -34,8 +36,27 @@ export function RegisterPage() {
         } catch (error) {
             console.error(error);
             alert("O registro falhou: " + (error.response?.data?.message || error.message));
+            //alert("O registro falhou, pois a senha deve conter 1 caracter especial + ");
         }
     }
+
+    const validarSenha = (senha) => {
+        const senhaLimpa = senha.trim();
+        const regexMaiuscula = /[A-Z]/;
+        const regexNumero = /[0-9]/;
+        const regexEspecial = /[^a-zA-Z0-9]/;
+      
+        // Verifica se a senha tem mais de 8 caracteres
+        const tamanhoValido = senhaLimpa.length > 8;
+      
+        return (
+          tamanhoValido &&
+          regexMaiuscula.test(senhaLimpa) &&
+          regexNumero.test(senhaLimpa) &&
+          regexEspecial.test(senhaLimpa)
+        );
+      };
+      
 
     function clearFields() {
         setEmail('');
@@ -112,12 +133,28 @@ export function RegisterPage() {
                             <input
                                 id="senha"
                                 value={senha}
-                                onChange={e => setSenha(e.target.value)}
+                                //setSenha
+                                onChange={(e)=> {
+                                    const senhaInput = e.target.value;
+                                    setSenha(senhaInput);
+
+                                if (!validarSenha(senhaInput)) {
+                                    setErroSenha(
+                                      "Senha inválida. A senha deve ter mais de 8 dígitos, conter pelo menos uma letra maiúscula, um número e um caractere especial."
+                                    );
+                                  } else {
+                                    setErroSenha("");
+                                  }
+                                }}
                                 name="senha"
                                 type="password"
                                 required
                                 className="block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                
                             />
+                            {erroSenha && (
+  <p className="text-red-500 text-sm">{erroSenha}</p>
+)}
                             <label htmlFor="confirmaSenha" className="block text-sm font-medium text-gray-900">Confirmar Senha</label>
                             <input
                                 id="confirmaSenha"
@@ -131,7 +168,7 @@ export function RegisterPage() {
                         </div>
     
                         {/* Permissões */}
-                        <div className="space-y-4">
+                        {/* <div className="space-y-4">
                             <div className="flex items-start">
                                 <input id="driver-checkbox" type="checkbox" className="w-5 h-5 text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-2 focus:ring-blue-500" />
                                 <div className="ml-2">
@@ -146,7 +183,7 @@ export function RegisterPage() {
                                     <p className="text-sm text-gray-400">Permissão para acessar a plataforma DriveSync, realizar registros e consultas, exceto acessos de outros usuários.</p>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
     
                         {/* Botões */}
                         <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mt-6">
@@ -160,7 +197,13 @@ export function RegisterPage() {
                             <button
                                 type="submit"
                                 className="w-full sm:w-auto bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600"
-                            >
+                                style={{
+                                    display:
+                                      erroSenha
+                                        ? "none"
+                                        : "block",
+                                  }}
+                            >                                
                                 Registrar Usuário
                             </button>
                         </div>
