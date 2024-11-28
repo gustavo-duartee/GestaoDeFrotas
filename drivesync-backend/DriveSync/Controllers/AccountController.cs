@@ -134,5 +134,32 @@ namespace DriveSync.Controllers
                 user.Cargo,
             });
         }
+        [HttpDelete("Delete/{userId}")]
+        public async Task<ActionResult> DeleteUser(string userId)
+        {
+            // Verifica se o usuário existe
+            var user = await _authentication.GetUserByIdAsync(userId);
+
+            if (user == null)
+            {
+                return NotFound(new { Message = "Usuário não encontrado." });
+            }
+
+            // Chama o método DeleteUser para deletar o usuário
+            var result = await _authentication.DeleteUser(userId); // Chama o método DeleteUser
+
+            if (result)
+            {
+                return Ok(new { Message = "Usuário deletado com sucesso." });
+            }
+            else
+            {
+                return BadRequest(new { Message = "Erro ao deletar o usuário." });
+            }
+        }
+
+
+
+
     }
 }

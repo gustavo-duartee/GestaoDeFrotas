@@ -9,7 +9,9 @@ export function Viagens() {
   const [selectedViagem, setSelectedViagem] = useState(null);
 
   const [getVeiculo, setVeiculos] = useState([]);
-  const [getUsuario, setUsuarios] = useState([]);
+
+  const [usuario, setUsuario] = useState(null); // Estado para armazenar o usuário
+  const [error, setError] = useState(null); 
 
   const token = localStorage.getItem("token");
 
@@ -19,17 +21,24 @@ export function Viagens() {
     },
   };
 
-  useEffect(() => {
-    api
-      .get("api/Account", authorization)
-      .then((response) => {
-        setUsuarios(response.data);
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error("Erro ao obter usuário: ", error);
-      });
-  }, []);
+useEffect(() => {
+  if (!selectedViagem?.motoristaId) {
+    console.warn("motoristaId não está disponível.");
+    return;
+  }
+
+ //Busca o motorista
+  api
+    .get(`/api/Account/GetUser/${selectedViagem.motoristaId}`, authorization)
+    .then((response) => {
+      setUsuario(response.data); 
+    })
+    .catch((error) => {
+      console.error("Erro ao obter usuário:", error);
+      setError("Erro ao obter os dados do usuário.");
+    });
+}, [selectedViagem?.motoristaId]); 
+
 
   useEffect(() => {
     api
@@ -153,14 +162,9 @@ export function Viagens() {
                 <h4 className="font-medium text-lg text-gray-700">
                   {/* Motorista {selectedViagem.motoristaId} */}
                   Motorista:{" "}
-                  {(() => {
-                    const usuario = getUsuario.find(
-                      (usuario) => usuario.Id === selectedViagem.motoristaId
-                    );
-                    return usuario
-                      ? `${usuario.UserName} ${usuario.Nome}`
-                      : "Usuário não encontrado";
-                  })()}
+                  {usuario && usuario.nome
+                        ? usuario.nome 
+                       : "Carregando..."}
                 </h4>
               </p>
               {/* <p className="text-lg">
@@ -224,7 +228,7 @@ export function Viagens() {
                     <div className="flex items-center justify-between">
                       <p className="text-gray-600">Quilometragem Inicial:</p>
                       <p className="text-gray-600">
-                        {selectedViagem.QuilometragemInicial} km
+                        {selectedViagem.quilometragemInicio} km
                       </p>
                     </div>
                   </div>
@@ -239,7 +243,9 @@ export function Viagens() {
                     <div className="flex items-center justify-between">
                       <p className="text-gray-600">Motorista:</p>
                       <p className="text-gray-600">
-                        {selectedViagem.motoristaId}
+                      {usuario && usuario.nome
+                        ? usuario.nome 
+                       : "Carregando..."}
                       </p>
                     </div>
 
@@ -259,9 +265,7 @@ export function Viagens() {
 
                     <div className="flex items-center justify-between">
                       <p className="text-gray-600">Nível de Combustível:</p>
-                      <p className="text-gray-600">
-                        {selectedViagem.nivelCombustivelInicio}% -{" "}
-                        {selectedViagem.nivelCombustivelEncerramento}%
+                      <p className="text-gray-600"> Inicio da viagem {selectedViagem.nivelCombustivelInicio}% -{" "} Fim {selectedViagem.nivelCombustivelEncerramento}%
                       </p>
                     </div>
 

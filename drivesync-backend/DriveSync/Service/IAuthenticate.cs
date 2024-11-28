@@ -15,5 +15,7 @@ namespace DriveSync.Service
         Task<List<ApplicationUser>> GetAllUsersAsync();
 
         Task<ApplicationUser> GetUserByEmailAsync(string email);
+        Task<bool> DeleteUser(string userId);
     }
+
 }

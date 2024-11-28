@@ -66,6 +66,21 @@ namespace DriveSync.Service
             var user = await _userManager.FindByEmailAsync(email);
             return user;
         }
+        public async Task<bool> DeleteUser(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                return false; // Retorna false caso o usuário não seja encontrado
+            }
+
+            var result = await _userManager.DeleteAsync(user); // Exclui o usuário
+
+            return result.Succeeded; // Retorna true se a exclusão foi bem-sucedida, caso contrário, false
+
+        }
+
 
     }
 }

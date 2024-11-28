@@ -3,6 +3,7 @@ import axios from "axios";
 
 const api = axios.create({
   baseURL: "https://drivesync-hnbjhkf4d0gabjej.brazilsouth-01.azurewebsites.net/", // ou a URL da sua API
+  //baseURL: "https://localhost:44344/", // ou a URL da sua API
 });
 
 // api.js
