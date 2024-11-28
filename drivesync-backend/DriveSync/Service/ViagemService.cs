@@ -62,8 +62,7 @@ namespace DriveSync.Service
                 codigoFalhaInicio = viagem.codigoFalhaInicio,
                 statusMonitoresEmissaoInicio = viagem.statusMonitoresEmissaoInicio,
                 voltagemBateriaInicio = viagem.voltagemBateriaInicio,
-                observacoesInicio = viagem.observacoesInicio,
-                quilometragemInicio = viagem.quilometragemInicio
+                observacoesInicio = viagem.observacoesInicio
             };
 
             _context.Viagens.Add(novaViagem);
@@ -114,7 +113,6 @@ namespace DriveSync.Service
             viagemExistente.codigoFalhaEncerramento = viagemEncerramento.codigoFalhaEncerramento;
             viagemExistente.statusMonitoresEmissaoEncerramento = viagemEncerramento.statusMonitoresEmissaoEncerramento;
             viagemExistente.voltagemBateriaEncerramento = viagemEncerramento.voltagemBateriaEncerramento;
-            viagemExistente.quilometragemEncerramento = viagemEncerramento.quilometragemEncerramento;
 
             // Atualizar o status da viagem para "Encerrada" (StatusViagem.Encerrada é um enum)
             viagemExistente.status = StatusViagem.encerrada; // Atribuindo o valor da enum para Status
