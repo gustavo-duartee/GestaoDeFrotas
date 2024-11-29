@@ -1,17 +1,17 @@
 {
   "expo": {
-    "name": "drivesync-mobile",
-    "slug": "drivesync-mobile",
+    "name": "drive-sync",
+    "slug": "drive-sync",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "dark",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "cover",
-      "backgroundColor": "#202024"
-    },
+    "userInterfaceStyle": "light",
     "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
     "ios": {
       "supportsTablet": true
     },
@@ -20,13 +20,18 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#202024"
       },
-      "package": "con.danielperalba.drivesync"
+      "package": "com.anonymous.drivesync"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
       "expo-font"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "2ff2f19b-5781-4a84-a06b-61672b6cbd12"
+      }
+    }
   }
 }
