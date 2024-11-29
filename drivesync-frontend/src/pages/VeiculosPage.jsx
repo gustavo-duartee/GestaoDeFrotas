@@ -103,7 +103,7 @@ useEffect(() => {
   };
 
   return (
-    <div>
+    <div className="min-h-screen flex flex-col bg-gray-100">
       <Sidebar />
       <div style={{ flex: 1, marginTop: "4rem", marginLeft: "16rem" }}>
         <div
