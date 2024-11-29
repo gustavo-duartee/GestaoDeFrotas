@@ -363,3 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 drivesync-backend/DriveSync/appsettings.json
 drivesync-backend/DriveSync/appsettings.json
+/drivesync-mobile/.expo/web/cache

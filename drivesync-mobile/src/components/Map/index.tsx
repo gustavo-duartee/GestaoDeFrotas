@@ -1,7 +1,7 @@
 // MapScreen.js
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
+import MapView, { Marker, PROVIDER_GOOGLE }from 'react-native-maps'; 
 
 export default function MapScreen({ location }) {
   if (!location) return null;
@@ -9,6 +9,7 @@ export default function MapScreen({ location }) {
   return (
     <View style={styles.mapContainer}>
       <MapView
+        provider={PROVIDER_GOOGLE}
         style={styles.map}
         region={{
           latitude: location.coords.latitude,

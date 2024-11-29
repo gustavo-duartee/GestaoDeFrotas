@@ -16,6 +16,11 @@
       "supportsTablet": true
     },
     "android": {
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyA15ACdtVsOFL0Pxik9tiwnFy7S834sQ6w"
+        }
+      },
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#202024"
@@ -32,6 +37,10 @@
       "eas": {
         "projectId": "2ff2f19b-5781-4a84-a06b-61672b6cbd12"
       }
-    }
+    },
+    "permissions": [
+      "ACCESS_FINE_LOCATION",
+      "ACCESS_COARSE_LOCATION"
+    ]
   }
 }
